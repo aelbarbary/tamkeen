@@ -1,0 +1,14 @@
+{% if youth_list %}
+    <ul>
+    {% for youth in youth_list %}
+        <li><a href="/members/{{ youth.id }}/">{{ youth.name }}</a>
+        -     {{ import_request.age }}
+        <a href="/members/{{ youth.id }}/update"> edit </a>
+        </li>
+
+    {% endfor %}
+    </ul>
+    <a href="{% url 'members:new' %} ">New member</a>
+{% else %}
+    <p>No youth are available.</p>
+{% endif %}
