@@ -1,14 +1,30 @@
-{% if youth_list %}
-    <ul>
-    {% for youth in youth_list %}
-        <li><a href="/members/{{ youth.id }}/">{{ youth.name }}</a>
-        -     {{ import_request.age }}
-        <a href="/members/{{ youth.id }}/update"> edit </a>
-        </li>
+{% load static %}
 
-    {% endfor %}
+<link rel="stylesheet" href="{% static "css/article-lists/article-list-basic.css" %}">
+
+{% if youth_list %}
+    <ul class="article-list-basic">
+        {% for youth in youth_list %}
+        <li>
+            <a href="#">
+                <img alt="Industrial Mech" />
+            </a>
+            <div>
+                <h2><a href="#">{{ youth.name }}</a></h2>
+                <p>{{ youth.description }}</p>
+                <a href="#" class="read-more">Read more &rarr;</a>
+            </div>
+        </li>
+        {% endfor %}
     </ul>
-    <a href="{% url 'members:new' %} ">New member</a>
+    <!-- <a href="{% url 'members:index' %} ">New member</a> -->
 {% else %}
     <p>No youth are available.</p>
 {% endif %}
+
+
+
+
+</body>
+
+</html>
