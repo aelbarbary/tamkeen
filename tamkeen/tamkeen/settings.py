@@ -62,7 +62,9 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -123,7 +125,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = 'pic_folder/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "media"),
     '/var/www/static/',
 ]
