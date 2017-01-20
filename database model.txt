@@ -1,0 +1,34 @@
+youth:
+    id
+    name
+    date of birth
+    gender
+    email
+    phone
+    guardian email
+    guardian phone
+    address
+    interests
+    skills
+    rank
+
+youth_notes:
+    id
+    datetime
+    note
+
+events:
+    id
+    name
+    description
+    datetime
+    address
+
+volunteers:
+    id
+    name
+    phone
+    email
+    address
+    skills
+    interests

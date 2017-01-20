@@ -6,6 +6,7 @@ from . import views
 app_name = 'members'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    url(r'^event/', views.event, name='event'),
+    url(r'^allevents/', views.all_events, name='all_events'),
+    url(r'^member/', views.all_members, name='all_members'),
+]
