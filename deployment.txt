@@ -13,6 +13,7 @@ pip3 install Pillow
 git clone https://github.com/aelbarbary/tamkeen.git
 cd tamkeen
 
+---------------------------------------------
 sudo dockerd # to start docker demon
 incase demon not starting
 ps axf | grep docker | grep -v grep | awk '{print "kill -9 " $1}' | sudo sh
@@ -22,6 +23,7 @@ run: docker run -i -t image# /bin/bash
 docker run -p 127.0.0.1:80:8080 ubuntu /bin/bash
 
 get bash: docker exec -it <containerIdOrName> bash
+-------------------------------------------------
 
 apt-get update
 apt-get install nano
@@ -30,6 +32,8 @@ change db settings
 
 python manage.py make migrations
 python manage.py migrate
-python manege.py runserver
+python manege.py runserver 0.0.0.0:8080
 
-pytho
+cd /var/www/static
+chgrp -R www-data pic_folder/
+chmod -R g+w pic_folder/

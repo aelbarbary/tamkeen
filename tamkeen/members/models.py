@@ -13,7 +13,7 @@ class Youth(models.Model):
     interests = models.CharField(max_length=1000)
     skills = models.CharField(max_length=1000)
     rank = models.IntegerField()
-    image = models.ImageField(upload_to = "members/static/pic_folder/youth", default = 'pic_folder/no-img.jpg')
+    image = models.ImageField(upload_to = "youth", default = 'pic_folder/no-img.jpg')
 
     def __str__(self):
         return 'Name: ' + self.name
@@ -32,11 +32,11 @@ class Volunteer(models.Model):
     address = models.CharField(max_length=100)
     interests = models.CharField(max_length=1000)
     skills = models.CharField(max_length=1000)
-    image = models.ImageField(upload_to = "pic_folder/volunteer", default = 'pic_folder/no-img.jpg')
+    image = models.ImageField(upload_to = "volunteer", default = 'pic_folder/no-img.jpg')
 
 class Event(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     date_time = models.DateTimeField()
     address = models.CharField(max_length=100)
-    image = models.ImageField(upload_to = "members/static/pic_folder/event", default = 'pic_folder/no-img.jpg')
+    image = models.ImageField(upload_to = "event", default = 'pic_folder/no-img.jpg')
