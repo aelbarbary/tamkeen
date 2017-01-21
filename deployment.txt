@@ -34,6 +34,4 @@ python manage.py make migrations
 python manage.py migrate
 python manege.py runserver 0.0.0.0:8080
 
-cd /var/www/static
-chgrp -R www-data pic_folder/
-chmod -R g+w pic_folder/
+cd /var/www/media
