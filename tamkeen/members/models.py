@@ -18,6 +18,26 @@ class Youth(models.Model):
     def __str__(self):
         return 'Name: ' + self.name
 
+    def save(self):
+
+        if not self.id and not self.photo:
+            return
+
+        super(Youth, self).save()
+
+        image = Image.open(self.image)
+        (width, height) = image.size
+
+        "Max width and height 800"
+        if (200 / width < 200 / height):
+            factor = 200 / height
+        else:
+            factor = 200 / width
+
+        size = ( width / factor, height / factor)
+        image = image.resize(size, Image.ANTIALIAS)
+        image.save(self.image.path)
+
 class Note(models.Model):
     youth_id = models.IntegerField()
     note = models.CharField(max_length=1000)
