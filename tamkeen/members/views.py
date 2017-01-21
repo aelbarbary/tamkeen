@@ -5,13 +5,16 @@ from django.urls import reverse
 from django.conf import settings
 
 def index(request):
-    youth_list = Youth.objects.order_by('rank')[:10]
+    return render(request, 'index.html', {})
 
-    for youth in youth_list:
-        youth.imageurl = youth.image.url[7:]
-
-    context = {'youth_list': youth_list}
-    return render(request, 'index.html', context)
+# def index(request):
+#     youth_list = Youth.objects.order_by('rank')[:10]
+#
+#     for youth in youth_list:
+#         youth.imageurl = youth.image.url[7:]
+#
+#     context = {'youth_list': youth_list}
+#     return render(request, 'index.html', context)
 
 def all_members(request):
     youth_list = Youth.objects.order_by('rank')
