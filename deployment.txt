@@ -1,0 +1,35 @@
+create ec2
+login
+sudo apt-get update
+sudo apt-get install nano
+sudo apt-get install git
+sudo apt-get install docker
+sudo apt-get install python3-setuptools
+sudo easy_install3 pip
+
+pip3 install psycopg2
+pip3 install Pillow
+
+git clone https://github.com/aelbarbary/tamkeen.git
+cd tamkeen
+
+sudo dockerd # to start docker demon
+incase demon not starting
+ps axf | grep docker | grep -v grep | awk '{print "kill -9 " $1}' | sudo sh
+
+build: docker build .
+run: docker run -i -t image# /bin/bash
+docker run -p 127.0.0.1:80:8080 ubuntu /bin/bash
+
+get bash: docker exec -it <containerIdOrName> bash
+
+apt-get update
+apt-get install nano
+nano settings.db
+change db settings
+
+python manage.py make migrations
+python manage.py migrate
+python manege.py runserver
+
+pytho

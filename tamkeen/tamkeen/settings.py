@@ -90,8 +90,8 @@ DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.postgresql',
          'NAME': 'tamkeen',
-         'HOST': 'localhost',
-         'USER': 'adminuser',
+         'HOST': 'tamkeeeen.cwlnx6y8j0vs.us-west-2.rds.amazonaws.com:5432',
+         'USER': 'postgres',
          'PASSWORD': 'passw0rd'
      }
  }
