@@ -1,3 +1,3 @@
 clear
-cd /tamkeen/tamkeen
-python3 manage.py runserver  0.0.0.0:80
+cd tamkeen/
+python3 manage.py runserver 0.0.0.0:80
