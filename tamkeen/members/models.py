@@ -20,7 +20,7 @@ class Youth(models.Model):
 
     def save(self):
 
-        if not self.id and not self.photo:
+        if not self.id and not self.image:
             return
 
         super(Youth, self).save()
