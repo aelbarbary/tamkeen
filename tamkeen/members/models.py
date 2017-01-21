@@ -35,7 +35,7 @@ class Youth(models.Model):
         else:
             factor = 200 / width
 
-        size = ( width / factor, height / factor)
+        size = ( int(width / factor), int(height / factor))
         image = image.resize(size, Image.ANTIALIAS)
         image.save(self.image.path)
 
