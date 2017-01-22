@@ -108,14 +108,14 @@
                       </div>
                   </li>
                   {% endfor %}
-
-                  <a href="{% url 'members:all_members' %} ">Show All</a>
               </ul>
 
               {% else %}
                   <p>No youth are available.</p>
               {% endif %}
-
+            <div class="article-list-basic">
+              <a href="{% url 'members:all_members' %} ">Show All</a>
+            </div>
         </div>
       </div>
     </section>
