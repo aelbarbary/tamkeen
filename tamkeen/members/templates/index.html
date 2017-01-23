@@ -18,7 +18,7 @@
 
     <!-- Theme CSS -->
     <link href="{% static "css/freelancer.min.css" %}"  rel="stylesheet">
-    <link rel="stylesheet" href="{% static "css/article-lists/article-list-basic.css" %}">
+    <link rel="stylesheet" href="{% static "css/product-lists/product-list-vertical.css" %}">
     <!-- Custom Fonts -->
     <link href="{% static "vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -94,24 +94,34 @@
                 </div>
             </div>
             <div class="row">
-              {% if youth_list %}
-              <ul class="article-list-basic">
-                  {% for youth in youth_list %}
-                  <li>
-                      <a href="#">
-                          <img src="/{{youth.image.url}}"/>
-                      </a>
-                      <div>
-                          <h2><a href="#">{{ youth.name }}</a></h2>
-                          <p>{{ youth.date_of_birth }}</p>
-                          <a href="#" class="read-more">Read more &rarr;</a>
-                      </div>
-                  </li>
-                  {% endfor %}
+              {% if event_list %}
+              <ul class="product-list-vertical">
+                {% for event in event_list %}
+                <li>
+
+                  <a href="#" class="product-photo">
+                      <img src="/{{event.image.url}}" height="160" alt="{{ event.name }}" />
+                  </a>
+
+                  <div class="product-details">
+                      <a href="#" class="product-compare"></a>
+
+                      <h2><a href="#">{{ event.name }}</a></h2>
+
+                      <p>{{ event.date_time }}</p>
+
+                      <p class="product-description">sdfgsdfgsdgfsdgdsgsdgsdgsdgdsgdsgsdf</p>
+
+                      <button onclick="location.href='{{ event.registeration_link }}';">Register Now!</button>
+                      <p class="product-price">${{ event.price }}</p>
+                  </div>
+
+                </li>
+                {% endfor %}
               </ul>
 
               {% else %}
-                  <p>No youth are available.</p>
+                  <p>No coming events are available.</p>
               {% endif %}
         </div>
       </div>

@@ -40,4 +40,6 @@ class Event(models.Model):
     description = models.CharField(max_length=1000)
     date_time = models.DateTimeField()
     address = models.CharField(max_length=100)
+    price = models.IntegerField()
+    registeration_link = models.CharField(max_length=500)
     image = models.ImageField(upload_to = "event", default = 'pic_folder/no-img.jpg')
