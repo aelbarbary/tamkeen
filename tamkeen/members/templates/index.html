@@ -112,7 +112,7 @@
 
                       <p class="product-description">{{ event.description}}</p>
 
-                      <button onclick="location.href='{{ event.registeration_link }}';">Register Now!</button>
+                      <button onclick="window.open('{{ event.registeration_link }}', '_blank') ;">Register Now!</button>
                       <p class="product-price">${{ event.price }}</p>
                   </div>
 
