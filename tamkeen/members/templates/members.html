@@ -1,6 +1,3 @@
-{% load static %}
-
-<link rel="stylesheet" href="{% static "css/article-lists/article-list-basic.css" %}">
 
 <h2><a href="#">Top 10 Tamkeen Members</a></h2>
 {% if youth_list %}
@@ -18,7 +15,6 @@
         </li>
         {% endfor %}
     </ul>
-     <a href="{% url 'members:all_members' %} ">Show All</a>
 {% else %}
     <p>No youth are available.</p>
 {% endif %}

@@ -22,7 +22,7 @@ def index(request):
 def all_members(request):
     youth_list = Youth.objects.order_by('rank')
     context = {'youth_list': youth_list}
-    return render(request, 'all_members.html', context)
+    return render(request, 'members.html', context)
 
 def event(request):
     event_list = Event.objects.order_by('name')[:100]
