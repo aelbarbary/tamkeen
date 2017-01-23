@@ -100,7 +100,7 @@
                 <li>
 
                   <a href="#" class="product-photo">
-                      <img src="/{{event.image.url}}" height="160" alt="{{ event.name }}" />
+                      <img src="/{{event.image.url}}" width="200" alt="{{ event.name }}" />
                   </a>
 
                   <div class="product-details">
@@ -108,9 +108,9 @@
 
                       <h2><a href="#">{{ event.name }}</a></h2>
 
-                      <p>{{ event.date_time }}</p>
+                      <label>{{ event.date_time }}</label>
 
-                      <p class="product-description">sdfgsdfgsdgfsdgdsgsdgsdgsdgdsgdsgsdf</p>
+                      <p class="product-description">{{ event.description}}</p>
 
                       <button onclick="location.href='{{ event.registeration_link }}';">Register Now!</button>
                       <p class="product-price">${{ event.price }}</p>
