@@ -3,9 +3,10 @@ from django.http import HttpResponseRedirect, HttpResponse
 from .models import Youth, Event
 from django.urls import reverse
 from django.conf import settings
+import datetime
 
 def index(request):
-    event_list = Event.objects.order_by('date_time')[:5]
+    event_list = Event.objects.filter(date_time__gte=datetime.date.today()).order_by('date_time')[:5]
     context = {'event_list': event_list}
     return render(request, 'index.html', context)
 
