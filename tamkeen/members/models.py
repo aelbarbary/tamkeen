@@ -43,3 +43,6 @@ class Event(models.Model):
     price = models.IntegerField()
     registeration_link = models.CharField(max_length=500)
     image = models.ImageField(upload_to = "event", default = 'pic_folder/no-img.jpg')
+
+    def __str__(self):
+        return 'Name: ' + self.name
