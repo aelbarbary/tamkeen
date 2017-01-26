@@ -13,7 +13,7 @@ class Youth(models.Model):
     guardian_phone = models.CharField(max_length=10)
     interests = models.CharField(max_length=1000)
     skills = models.CharField(max_length=1000)
-    rank = models.IntegerField()
+    rank = models.IntegerField(default=1)
     image = models.ImageField(upload_to = "youth", default = 'pic_folder/no-img.jpg')
 
     def __str__(self):

@@ -6,7 +6,5 @@ from . import views
 app_name = 'members'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^event/', views.event, name='event'),
-    url(r'^allevents/', views.all_events, name='all_events'),
-    url(r'^member/', views.all_members, name='all_members'),
+    url(r'^join/', views.new_member, name='join'),
 ]

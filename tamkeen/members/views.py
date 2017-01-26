@@ -4,38 +4,28 @@ from .models import Youth, Event
 from django.urls import reverse
 from django.conf import settings
 import datetime
+from .forms import NewMemberForm
 
 def index(request):
     event_list = Event.objects.filter(date_time__gte=datetime.date.today()).order_by('date_time')[:5]
     context = {'event_list': event_list}
     return render(request, 'index.html', context)
 
-# def index(request):
-#     youth_list = Youth.objects.order_by('rank')[:10]
-#
-#     for youth in youth_list:
-#         youth.imageurl = youth.image.url[7:]
-#
-#     context = {'youth_list': youth_list}
-#     return render(request, 'index.html', context)
+def new_member(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = NewMemberForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            new_youth = form.save()
+            print(new_youth)
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/thanks/')
 
-def all_members(request):
-    youth_list = Youth.objects.order_by('rank')
-    context = {'youth_list': youth_list}
-    return render(request, 'members.html', context)
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = NewMemberForm()
 
-def event(request):
-    event_list = Event.objects.order_by('name')[:100]
-    for event in event_list:
-        event.imageurl = event.image.url[7:]
-
-    context = {'event_list': event_list}
-    return render(request, 'event.html', context)
-
-def all_events(request):
-    event_list = Event.objects.order_by('date_time')[:100]
-    for event in event_list:
-        event.imageurl = event.image.url[7:]
-
-    context = {'event_list': event_list}
-    return render(request, 'all_events.html', context)
+    return render(request, 'join.html', {'form': form})
