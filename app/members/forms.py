@@ -8,7 +8,7 @@ class NewMemberForm(ModelForm):
          model = Youth
          fields = ['name', 'date_of_birth', 'phone', 'email']
          widgets = {
-            'phone' : NumberInput()
+            'phone' : NumberInput(),
             'date_of_birth': SelectDateWidget(years=range(1970, datetime.date.today().year+10)),
             'email': EmailInput()
         }
