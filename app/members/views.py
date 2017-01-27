@@ -13,14 +13,13 @@ def index(request):
 
 def new_member(request):
     if request.method == 'POST':
+        print(request.FILES)
         # create a form instance and populate it with data from the request:
-        form = NewMemberForm(request.POST)
-        youth = Youth (request.POST)
-        print(youth)
+        form = NewMemberForm(request.POST, request.FILES)
+
         # check whether it's valid:
         if form.is_valid():
-            new_youth = form.save()
-            print(new_youth.image)
+            form.save()
             return HttpResponseRedirect('/thanks/')
 
     else:
