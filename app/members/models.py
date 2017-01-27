@@ -5,7 +5,7 @@ from PIL import Image
 class Youth(models.Model):
     name = models.CharField(max_length=200)
     date_of_birth = models.DateField(null=True)
-    gender = models.CharField(max_length=1)
+    gender = models.CharField(max_length=1, choices=(('M', 'Male',), ('F', 'Female',)))
     email = models.CharField(max_length=200)
     phone = models.CharField(max_length=10)
     address = models.CharField(max_length=100, null=True)

@@ -7,4 +7,5 @@ app_name = 'members'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^join/', views.new_member, name='join'),
+    url(r'^thanks/', views.thanks, name='thanks'),
 ]

@@ -15,17 +15,18 @@ def new_member(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = NewMemberForm(request.POST)
+        youth = Youth (request.POST)
+        print(youth)
         # check whether it's valid:
         if form.is_valid():
             new_youth = form.save()
-            print(new_youth)
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
+            print(new_youth.image)
             return HttpResponseRedirect('/thanks/')
 
-    # if a GET (or any other method) we'll create a blank form
     else:
         form = NewMemberForm()
 
     return render(request, 'join.html', {'form': form})
+
+def thanks(request):
+    return render(request, 'thanks.html', {})
