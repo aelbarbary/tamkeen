@@ -35,3 +35,10 @@ python manage.py migrate
 python manege.py runserver 0.0.0.0:8080
 
 cd /var/www/media
+
+
+run on start-up
+---------------
+sudo nano /etc/rc.local
+
+python3 /home/ubuntu/tamkeen/tamkeen/manage.py runserver 0.0.0.0:8080

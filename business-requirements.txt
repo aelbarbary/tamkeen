@@ -1,0 +1,15 @@
+- can add images to an Event
+- can view event history
+- can view image galleries for events
+- can view top youth members
+- can view all youth members
+- can add/edit/view coming events
+- can see events history
+- Can send feedback anynomousely
+- Admin Can create quizes for Youth
+- Youth can login with user name and password
+- user can answer quiz
+- Admin can create albums
+- Youth can upload pics to existing albums
+- Youth can post articles / posts
+- Admin can send notes to youth members (it can be private or public)
