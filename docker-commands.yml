@@ -1,0 +1,14 @@
+# Delete all containers
+docker rm $(docker ps -a -q)
+# Delete all images
+docker rmi $(docker images -q)
+# List all docker images
+docker images
+# Build a docker image
+docker build .
+# run a docker-compose
+docker-compose up
+# run a docker image
+docker run -it {image} -p {server_port}:{docker_port}
+# fix nano issue on docker containers
+export TERM=xterm
