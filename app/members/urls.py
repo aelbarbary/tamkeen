@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^join/', views.new_member, name='join'),
     url(r'^thanks/', views.thanks, name='thanks'),
+    url(r'^(?P<event_id>[0-9]+)/gallery/$', views.gallery, name='gallery'),
 ]

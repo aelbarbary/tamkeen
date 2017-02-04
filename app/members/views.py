@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import Youth, Event
+from .models import Youth, Event, EventImages
 from django.urls import reverse
 from django.conf import settings
 import datetime
@@ -8,7 +8,11 @@ from .forms import NewMemberForm
 
 def index(request):
     event_list = Event.objects.filter(date_time__gte=datetime.date.today()).order_by('date_time')[:5]
-    context = {'event_list': event_list}
+    gallery_list = Event.objects.all()[:10]
+    for gal in gallery_list:
+        event_date = gal.date_time.replace(tzinfo=None)
+        gal.since = (datetime.datetime.utcnow() - event_date).days
+    context = {'event_list': event_list,  'gallery_list': gallery_list}
     return render(request, 'index.html', context)
 
 def new_member(request):
@@ -29,3 +33,8 @@ def new_member(request):
 
 def thanks(request):
     return render(request, 'thanks.html', {})
+
+def gallery(request, event_id):
+    event_images = EventImages.objects.filter(event = event_id)
+    context = {'event_images': event_images}
+    return render(request, 'gallery.html', context)

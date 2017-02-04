@@ -190,6 +190,10 @@ section.success {
   background: #18BC9C;
   color: white;
 }
+section.gallery {
+  background: #ecfcec;
+  color: black;
+}
 @media (max-width: 767px) {
   section {
     padding: 75px 0;
@@ -198,6 +202,7 @@ section.success {
     padding-top: 75px;
   }
 }
+
 #portfolio .portfolio-item {
   margin: 0 0 15px;
   right: 0;
