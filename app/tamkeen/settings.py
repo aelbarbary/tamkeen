@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'tamkeen.wsgi.application'
 #          'PASSWORD': 'passw0rd'
 #      }
 #  }
-#
+
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.postgresql',
