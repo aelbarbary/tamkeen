@@ -1,4 +1,0 @@
-https://docs.djangoproject.com/en/1.10/howto/windows/
-
-pip3 install psycopg2
-pip3 install Pillow
