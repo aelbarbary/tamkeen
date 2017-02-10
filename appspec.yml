@@ -7,19 +7,3 @@ permissions:
   - object: /srv/app
     owner: ubuntu
     group: ubuntu
-hooks:
-  BeforeInstall:
-    - location: clean_instance.sh
-      timeout: 6000
-      runas: root
-  AfterInstall:
-    - location: install_os_dependencies.sh
-      timeout: 6000
-      runas: root
-    - location: install_python_dependencies.sh
-      timeout: 6000
-      runas: ubuntu
-  ApplicationStart:
-    - location: start_application.sh
-      timeout: 6000
-      runas: root
