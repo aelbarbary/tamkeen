@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <!-- Header -->
-    <header>
+    <header style="background: url('{% static 'images/bg.jpg' %}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -34,7 +34,7 @@
                 <li>
 
                   <a href="#" class="product-photo">
-                      <img src="/{{event.flyer.url}}" width="200" alt="{{ event.name }}" />
+                      <img src="{{event.flyer.url}}" width="200" alt="{{ event.name }}" />
                   </a>
 
                   <div class="product-details">
@@ -74,7 +74,7 @@
               <ul class="image-list-basic">
                 {% for gallery in gallery_list %}
                 <li>
-                    <a href="#" style="background-image: url('/{{gallery.image.url}}');"></a>
+                    <a href="#" style="background-image: url('{{gallery.image.url}}');"></a>
 
                     <div class="image-details">
                         <h3>{{ gallery.name }}</h3>
