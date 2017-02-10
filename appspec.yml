@@ -10,6 +10,7 @@ permissions:
   - object: /home/ubuntu/www/tamkeen/scripts
     pattern: "*.sh"
     mode: 777
+    type: file
 hooks:
   BeforeInstall:
     - location: scripts/clean_instance.sh
@@ -25,8 +26,8 @@ hooks:
   ApplicationStart:
     - location: scripts/start_application.sh
       timeout: 6000
-      runas: root
+      runas: ubuntu
   ApplicationStop:
     - location: scripts/stop_application.sh
       timeout: 6000
-      runas: root
+      runas: ubuntu
