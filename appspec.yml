@@ -7,10 +7,6 @@ permissions:
   - object: /home/ubuntu/www
     pattern: "**"
     mode: 777
-  - object: /home/ubuntu/www/tamkeen/scripts
-    pattern: "*.sh"
-    mode: 777
-    type: file
 hooks:
   BeforeInstall:
     - location: scripts/clean_instance.sh
