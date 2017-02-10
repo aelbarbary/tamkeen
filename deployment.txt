@@ -42,3 +42,12 @@ run on start-up
 sudo nano /etc/rc.local
 
 python3 /home/ubuntu/tamkeen/tamkeen/manage.py runserver 0.0.0.0:8080
+
+
+continous deployment
+
+https://www.swapps.io/blog/setting-a-testingdeployment-pipeline-for-your-django-app-using-codeship-and-aws-codedeploy/
+
+wget https://aws-codedeploy-us-west-2.s3.amazonaws.com/latest/install
+
+code deploy role ar=  arn:aws:iam::623470192157:role/CodeDeployServiceRole
