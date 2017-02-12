@@ -8,12 +8,15 @@ from .forms import NewMemberForm
 
 def index(request):
     event_list = Event.objects.filter(date_time__gte=datetime.date.today()).order_by('date_time')[:5]
-    gallery_list = Event.objects.all()[:10]
+
+    gallery_list = Event.objects.filter(date_time__lt=datetime.date.today()).order_by('date_time')[:5]
     for gal in gallery_list:
-        event_image = EventImages.objects.filter(event = gal.id)[:1]
-        gal.image = event_image[0].image
+        event_image = EventImages.objects.filter(event = gal.id)
+        print(len(event_image))
+        gal.image = gal.flyer if len(event_image) == 0 else event_image[0].image
         event_date = gal.date_time.replace(tzinfo=None)
         gal.since = (datetime.datetime.utcnow() - event_date).days
+
     context = {'event_list': event_list,  'gallery_list': gallery_list}
     return render(request, 'index.html', context)
 

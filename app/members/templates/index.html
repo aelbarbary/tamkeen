@@ -33,14 +33,14 @@
                 {% for event in event_list %}
                 <li>
 
-                  <a href="#" class="product-photo">
+                  <a href="{{event.registeration_link}}" class="product-photo">
                       <img src="{{event.flyer.url}}" width="200" alt="{{ event.name }}" />
                   </a>
 
                   <div class="product-details">
-                      <a href="#" class="product-compare"></a>
+                      <a href="{{event.registeration_link}}" class="product-compare"></a>
 
-                      <h2><a href="#">{{ event.name }}</a></h2>
+                      <h2><a href="{{event.registeration_link}}">{{ event.name }}</a></h2>
 
                       <label>{{ event.date_time }}</label>
 
