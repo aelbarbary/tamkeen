@@ -5,10 +5,11 @@ from django.urls import reverse
 from django.conf import settings
 import datetime
 from .forms import NewMemberForm
+import logging
 
 def index(request):
-    event_list = Event.objects.filter(date_time__gte=datetime.date.today()).order_by('date_time')[:5]
 
+    event_list = Event.objects.filter(date_time__gte=datetime.date.today()).order_by('date_time')[:5]
     gallery_list = Event.objects.filter(date_time__lt=datetime.date.today()).order_by('date_time')[:5]
     for gal in gallery_list:
         event_image = EventImages.objects.filter(event = gal.id)

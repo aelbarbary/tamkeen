@@ -12,6 +12,35 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+ADMINS =(('admin','abdelrahman.elbarbary@gmail.com'),)
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+SERVER_EMAIL = 'xyz@gmail.com'
+EMAIL_HOST_USER = 'tamkeen.website@gmail.com'
+EMAIL_HOST_PASSWORD = 'P@ssw0rd2017'
+EMAIL_PORT = 587
+SEND_BROKEN_LINK_EMAILS = True
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'filters': []
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        }
+    }
+}
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
