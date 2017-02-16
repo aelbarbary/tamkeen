@@ -508,3 +508,21 @@ fieldset[disabled] .btn-success.active {
   opacity: 0;
   display: none;
 }
+
+.effect {
+    width: 0px;
+    height: 0px;
+    border-radius: 50%;
+    background-image: url('{% static 'images/logo.png' %}');
+    padding: 166px;
+    opacity: 1;
+    transition: 1s;
+}
+
+.effect:hover {
+  opacity: 1;
+  border-radius: 50%;
+  padding-right: 200px;
+  transform: rotate(360deg);
+  background-image: url('{% static 'images/tamkeengroup.png' %}');
+}
