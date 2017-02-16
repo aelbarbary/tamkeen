@@ -36,12 +36,21 @@
     <![endif]-->
     <style>
       .effect {
+          width: 0px;
+          height: 0px;
           border-radius: 50%;
-        transition: 0.3s;
+          background-image: url('{% static 'images/logo.png' %}');
+          padding: 166px;
+          opacity: 1;
+          transition: 1s;
       }
 
       .effect:hover {
-        transform: scale(1.1);
+        opacity: 1;
+        border-radius: 50%;
+        padding-right: 200px;
+        transform: rotate(360deg);
+        background-image: url('{% static 'images/tamkeengroup4.png' %}');
       }
 
     </style>
@@ -103,10 +112,7 @@
                         <h3>Around the Web</h3>
                         <ul class="list-inline">
                             <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
+                                <a href="https://www.facebook.com/tamkeenyouth/" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
                             </li>
                             <li>
                                 <a href="https://www.youtube.com/channel/UCLUKG-xZKRTI8YI2nmOAi7g" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-youtube"></i></a>
