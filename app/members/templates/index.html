@@ -75,15 +75,11 @@
               <ul class="image-list-basic">
                 {% for gallery in gallery_list %}
                 <li>
-                    <a href="#" style="background-image: url('{{gallery.image.url}}');"></a>
+                    <a href="{% url 'members:gallery' gallery.id %}" style="background-image: url('{{gallery.image.url}}');"></a>
 
                     <div class="image-details">
                         <h3>{{ gallery.name }}</h3>
                         <p> {{gallery.since}} days ago</p>
-                    </div>
-
-                    <div class="image-buttons">
-                        <a href="{% url 'members:gallery' gallery.id %}" class="add-to-collection"><i class="fa fa-folder"></i></a>
                     </div>
                 </li>
                 {% endfor %}

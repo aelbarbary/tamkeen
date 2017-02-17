@@ -14,14 +14,10 @@
 <ul class="image-list-basic">
   {% for image in event_images %}
   <li>
-      <a href="#" style="background-image: url('{{image.image.url}}');"></a>
+      <a href="{{image.image.url}}" style="background-image: url('{{image.image.url}}');"></a>
 
       <div class="image-details">
           <h3>{{ image.description }}</h3>
-      </div>
-
-      <div class="image-buttons">
-          <a href="{{image.image.url}}" class="add-to-collection"><i class="fa fa-expand"></i></a>
       </div>
   </li>
   {% endfor %}
