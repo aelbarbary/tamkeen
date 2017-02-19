@@ -28,3 +28,9 @@ class NewMemberForm(ModelForm):
             'interests': Textarea(attrs={'class' : 'form-group'}),
             'image': FileInput(attrs={'class' : 'form-group'})
         }
+
+class EventForm(forms.ModelForm):
+    BoyGirl_CHOICES = ((0, 'Boy'), (1, 'Girl'))
+    gender = forms.TypedChoiceField(
+                     choices=BoyGirl_CHOICES, widget=forms.RadioSelect, coerce=int, initial='Boy',
+                )

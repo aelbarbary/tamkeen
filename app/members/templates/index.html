@@ -32,7 +32,7 @@
               {% if event_list %}
               <ul class="product-list-vertical">
                 {% for event in event_list %}
-                <li>
+                <li style="background:{% if event.gender %}#ffbff7{% else %}#c3e2fb{% endif %}">
 
                   <a href="{{event.registeration_link}}" class="product-photo">
                       <img src="{{event.flyer.url}}" width="200" alt="{{ event.name }}" />

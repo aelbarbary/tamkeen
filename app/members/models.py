@@ -28,7 +28,7 @@ class Event(models.Model):
     price = models.IntegerField()
     registeration_link = models.CharField(max_length=500)
     flyer = models.ImageField(upload_to = "event", default = 'no-img.jpg')
-
+    gender = models.BooleanField('Gender:')
     def __str__(self):
         return 'Name: ' + self.name
 

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Header>
+        <Profile xmlns="http://avatax.avalara.com/services">
+            <Name>AvaTaxForWorkday</Name>
+            <Client>AvaTaxForWorkday</Client>
+            <Adapter>Workday||1.5b</Adapter>
+            <Machine>Cloud</Machine>
+        </Profile>
+       <Security soap:mustUnderstand="1" soap:actor="http://schemas.xmlsoap.org/soap/actor/next" xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <UsernameToken>
+            <Username>Abdel1</Username>
+            <Password>P@ssw0rd</Password>
+            </UsernameToken>
+        </Security>
+    </soap:Header>
+    <soap:Body>
+        <GetTax xmlns="http://avatax.avalara.com/services">
+            <GetTaxRequest>
+                <CompanyCode>abdel</CompanyCode>
+                <DocType>SalesInvoice</DocType>
+
+                <DocDate>2017-02-10</DocDate>
+                <CustomerCode>ABC4335</CustomerCode>
+                <OriginCode>1</OriginCode>
+                <DestinationCode>0</DestinationCode>
+                <Addresses>
+                    <BaseAddress>
+                        <AddressCode>0</AddressCode>
+                        <Line1></Line1>
+                        <Line2/>
+                        <City>Niagara Falls</City>
+                        <Region>ON</Region>
+                        <PostalCode>L2G 3V9</PostalCode>
+                        <Country>CA</Country>
+                        <TaxRegionId>0</TaxRegionId>
+                    </BaseAddress>
+                   <BaseAddress>
+                        <AddressCode>1</AddressCode>
+                        <Line1>2415 Old Saint Augustine Rd Apt 421</Line1>
+                        <Line2/>
+                        <City>Tallahassee</City>
+                        <Region>FL</Region>
+                        <PostalCode>32301</PostalCode>
+                        <Country>US</Country>
+                        <TaxRegionId>0</TaxRegionId>
+                    </BaseAddress>
+
+                </Addresses>
+                <Lines>
+                    <Line>
+                        <OriginCode>1</OriginCode>
+                        <DestinationCode>0</DestinationCode>
+                        <No>1</No>
+                        <Qty>2</Qty>
+                        <Amount>2000</Amount>
+                        <Description>xyz</Description>
+                        <ItemCode>1</ItemCode>
+                        <ParameterBagItems>
+                            <ParameterBagItem>
+                                <Name>AvaTax.LandedCost.HTSCode</Name>
+                                <Value>6404119990</Value>
+                            </ParameterBagItem>
+                        </ParameterBagItems>
+                        <TaxCode>P0000000</TaxCode>
+                    </Line>
+                    <Line>
+                        <No>2</No>
+                        <TaxCode>FR010000</TaxCode>
+                        <Qty>1</Qty>
+                        <Amount>19</Amount>
+                    </Line>
+                    <Line>
+                        <No>3</No>
+                        <TaxCode>FR070100</TaxCode>
+                        <Qty>1</Qty>
+                        <Amount>1</Amount>
+                    </Line>
+                </Lines>
+                <DetailLevel>Tax</DetailLevel>
+                <HashCode>0</HashCode>
+                <Commit>false</Commit>
+                <ServiceMode>Automatic</ServiceMode>
+                <ExchangeRate>1</ExchangeRate>
+                <ParameterBagItems>
+                            <ParameterBagItem>
+                                <Name>AvaTax.LandedCost.Incoterms</Name>
+                                <Value>DDP</Value>
+                            </ParameterBagItem>
+                            <ParameterBagItem>
+                                <Name>AvaTax.LandedCost.ShippingMode</Name>
+                                <Value>air</Value>
+                            </ParameterBagItem>
+                            <ParameterBagItem>
+                                <Name>AvaTax.LandedCost.Express</Name>
+                                <Value>true</Value>
+                            </ParameterBagItem>
+                </ParameterBagItems>
+            </GetTaxRequest>
+        </GetTax>
+    </soap:Body>
+</soap:Envelope>

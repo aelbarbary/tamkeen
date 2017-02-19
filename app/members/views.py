@@ -18,7 +18,8 @@ def index(request):
         event_date = gal.date_time.replace(tzinfo=None)
         gal.since = (datetime.datetime.utcnow() - event_date).days
 
-    context = {'event_list': event_list,  'gallery_list': gallery_list}
+    context = {'event_list': event_list,
+                'gallery_list': gallery_list}
     return render(request, 'index.html', context)
 
 def new_member(request):
