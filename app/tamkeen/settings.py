@@ -178,12 +178,19 @@ AWS_ACCESS_KEY_ID = 'AKIAIM2TQEEEU34R5HMQ'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
-STATICFILES_DIRS = ['../app/static']
+STATIC_URL = '/static/'
 
-STATIC_URL =  "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+STATICFILES_DIRS = [
+     os.path.join(BASE_DIR, "static"),
+     '/var/www/static/',
+ ]
+
+#STATICFILES_DIRS = ['../app/static']
+
+#STATIC_URL =  "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, 'media')
 
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+#STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 AWS_HEADERS = {  # see http://developer.yahoo.com/performance/rules.html#expires

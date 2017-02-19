@@ -31,8 +31,6 @@
     display: block;
 
     text-align: center;
-    box-shadow : 0 0 20px 8px #f3f3f3 inset;
-
     width: 215px;
     height: 200px;
     margin-right: 25px;
@@ -158,4 +156,3 @@
     }
 
 }
-
