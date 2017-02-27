@@ -36,3 +36,17 @@ class EventImages(models.Model):
     image = models.ImageField(upload_to = "event", default = 'no-img.jpg')
     description = models.CharField(max_length=1000)
     event = models.ForeignKey(Event, related_name='images')
+
+class Question(models.Model):
+    text = models.CharField(max_length=2000)
+    date_time = models.DateTimeField()
+    closed = models.BooleanField('closed:')
+    def __str__(self):
+        return 'Name: ' + self.text
+
+class QuestionAnswer(models.Model):
+    answer = models.CharField(max_length=2000)
+    name = models.CharField(max_length=2000)
+    date_time = models.DateTimeField()
+    score = models.IntegerField(default=0)
+    question = models.ForeignKey(Question, related_name='answers')

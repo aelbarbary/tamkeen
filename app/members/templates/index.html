@@ -62,33 +62,46 @@
       </div>
     </section>
 
-    <section id="portfolio" class="gallery">
+    <section id="question" style="background-color:rgb(212, 245, 255)">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2>Gallery</h2>
+                    <h2>Question of the week</h2>
                     <hr class="star-primary">
                 </div>
             </div>
             <div class="row">
-              {% if gallery_list %}
-              <ul class="image-list-basic">
-                {% for gallery in gallery_list %}
-                <li>
-                    <a href="{% url 'members:gallery' gallery.id %}" style="background-image: url('{{gallery.image.url}}');"></a>
+              {% if question %}
+              <form action="/" method="post" enctype="multipart/form-data" style="border:1px; border-color:black;">
+                {% csrf_token %}
+                <ul class="form-style-1">
+                    <li>
+                      <label>Question: </label>
+                      <textarea disabled name="field5" id="field5" class="field-long field-textarea">{{ question.0.text }}</textarea>
+                    </li>
+                    <li>
+                        <label>Name <span class="required">*</span></label>
+                        <input type="text" name="name" class="field-long" />
+                    </li>
 
-                    <div class="image-details">
-                        <h3>{{ gallery.name }}</h3>
-                        <p> {{gallery.since}} days ago</p>
-                    </div>
-                </li>
-                {% endfor %}
-              </ul>
+                    <li>
+                        <label>Your Answer <span class="required">*</span></label>
+                        <textarea name="answer" id="answer" class="field-long field-textarea"></textarea>
+                        <input type="text" name="question-id" class="field-long" value="{{ question.0.id }}" style="display:none;" />
+                    </li>
+                    <li>
+                        <input type="submit" value="Submit" />
 
-              {% else %}
-                  <p>No galleries are available.</p>
-              {% endif %}
+                    </li>
+                </ul>
+              </form>
+              <div style="text-align:center;">
+                {% else %}
+                    <p>No Questions are available.</p>
 
+                {% endif %}
+                <input style="background:red; color:white;" type="button" value="Results" onclick="window.location='questionsHistory';" />
+              </div>
             </div>
         </div>
     </section>

@@ -56,12 +56,10 @@
 }
 
 .product-list-basic .product-compare{
-    float:right;
 
     color: #808080;
     text-decoration: none;
 
-    margin-top: -16px;
 }
 
 /* Rating */
@@ -156,4 +154,3 @@
         max-width: 225px;
     }
 }
-

@@ -1,0 +1,40 @@
+{% load static %}
+<link rel="stylesheet" href="{% static "css/product-lists/product-list-basic.css" %}">
+<link href="{% static "vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+
+{% if questions %}
+<ul class="product-list-basic">
+        {% for question in questions%}
+          <li>
+              <p href="#" class="product-compare">{{question.date_time}}</p>
+              <div class="product-photo">
+                  <!-- <img src="" height="130" alt="iPhone 6" /> -->
+                  <h1>{{question.name}}</h1>
+                  <p href="#" class="product-compare">Total points: {{question.totalPoints}}</p>
+
+              </div>
+
+              <p class="product-description"><strong><font style="color: red">Q: </font> {{question.text}}</strong></p>
+
+              <p class="product-description"><font style="color: red">A: </font> {{question.answer}}</p>
+
+              <div class="product-rating">
+                  <div>
+                          <span class="product-stars" style="width: 90px" >
+                              {% for i in scoreRange %}
+                                <i class="fa fa-star"></i>
+                              {% endfor%}
+                          </span>
+                  </div>
+              </div>
+          </li>
+        {% endfor %}
+        </ul>
+
+        {% else %}
+            <p style="text-align: center; color: red;">No scores found</p>
+        {% endif %}
+
+
+
+    </ul>

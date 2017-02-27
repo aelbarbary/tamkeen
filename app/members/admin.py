@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Youth, Event, EventImages
+from .models import Youth, Event, EventImages, Question, QuestionAnswer
 from .forms import EventForm
 
 class EventImagesInline(admin.TabularInline):
@@ -8,13 +8,19 @@ class EventImagesInline(admin.TabularInline):
 
 class EventAdmin(admin.ModelAdmin):
     inlines = [EventImagesInline]
-
-class EventAdmin(admin.ModelAdmin):
     form = EventForm
     class Media:
         css = {
              'all': ('css/eventadmin.css',)
         }
 
+class QuestionAnswersInline(admin.TabularInline):
+        model = QuestionAnswer
+
+class QuestionAdmin(admin.ModelAdmin):
+    inlines = [QuestionAnswersInline]
+
+
 admin.site.register(Youth)
 admin.site.register(Event, EventAdmin)
+admin.site.register(Question, QuestionAdmin)
