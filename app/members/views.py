@@ -14,14 +14,11 @@ def index(request):
         name = request.POST['name']
         answer = request.POST['answer']
         id = request.POST['question-id']
-        print(name )
-        print(answer )
-        questionAnswer = QuestionAnswer (question_id = id, name = name, answer = answer, date_time = datetime.date.today() )
+        questionAnswer = QuestionAnswer (question_id = id, name = name, answer = answer, date_time = datetime.datetime.now() )
         questionAnswer.save()
         return HttpResponseRedirect('/thanks/')
 
     else:
-        print("not post")
         event_list = Event.objects.filter(date_time__gte=datetime.date.today()).order_by('date_time')[:5]
         gallery_list = Event.objects.filter(date_time__lt=datetime.date.today()).order_by('date_time')[:5]
         for gal in gallery_list:
