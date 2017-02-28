@@ -11,6 +11,7 @@
                   <!-- <img src="" height="130" alt="iPhone 6" /> -->
                   <h1>{{question.name}}</h1>
                   <p href="#" class="product-compare">Total points: {{question.totalPoints}}</p>
+                  <img width=100 src="{% static question.rankImage %}" alt="{{question.rank}}" title="{{question.rank}}"/>
 
               </div>
 
@@ -20,6 +21,7 @@
 
               <div class="product-rating">
                   <div>
+                          <span>Question Points:</span>
                           <span class="product-stars" style="width: 90px" >
                               {% for i in scoreRange %}
                                 <i class="fa fa-star"></i>
