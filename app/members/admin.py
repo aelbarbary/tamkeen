@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import Youth, Event, EventImages, Question, QuestionAnswer, Khatirah, KhatirahAnswer
-from .forms import EventForm
+from .models import Youth, Event, EventImages, Question, QuestionAnswer
+from .forms import EventForm, QuestionForm, QuestionAnswerForm
+
+admin.site.site_header = 'TAMKEEN admin'
 
 class EventImagesInline(admin.TabularInline):
         model = EventImages
@@ -16,19 +18,12 @@ class EventAdmin(admin.ModelAdmin):
 
 class QuestionAnswersInline(admin.TabularInline):
         model = QuestionAnswer
+        form = QuestionAnswerForm
 
 class QuestionAdmin(admin.ModelAdmin):
     inlines = [QuestionAnswersInline]
-
-
-class KhatirahAnswersInline(admin.TabularInline):
-        model = KhatirahAnswer
-
-class KhatirahAdmin(admin.ModelAdmin):
-    inlines = [KhatirahAnswersInline]
-
+    form = QuestionForm
 
 admin.site.register(Youth)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Question, QuestionAdmin)
-admin.site.register(Khatirah, KhatirahAdmin)

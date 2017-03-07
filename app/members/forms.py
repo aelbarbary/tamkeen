@@ -34,3 +34,9 @@ class EventForm(forms.ModelForm):
     gender = forms.TypedChoiceField(
                      choices=BoyGirl_CHOICES, widget=forms.RadioSelect, coerce=int, initial='Boy',
                 )
+
+class QuestionForm(forms.ModelForm):
+    text = forms.CharField(widget=forms.Textarea)
+
+class QuestionAnswerForm(forms.ModelForm):
+    answer = forms.CharField(widget=forms.Textarea)
