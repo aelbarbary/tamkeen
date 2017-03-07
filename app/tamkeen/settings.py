@@ -116,25 +116,25 @@ WSGI_APPLICATION = 'tamkeen.wsgi.application'
 #      }
 #  }
 
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'tamkeen',
-         'HOST': 'localhost',
-         'USER': 'postgres',
-         'PASSWORD': 'passw0rd'
-     }
- }
-
 # DATABASES = {
 #      'default': {
 #          'ENGINE': 'django.db.backends.postgresql',
 #          'NAME': 'tamkeen',
-#          'HOST': 'tamkeen.cwlnx6y8j0vs.us-west-2.rds.amazonaws.com',
+#          'HOST': 'localhost',
 #          'USER': 'postgres',
 #          'PASSWORD': 'passw0rd'
 #      }
 #  }
+
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': 'tamkeen',
+         'HOST': 'tamkeen.cwlnx6y8j0vs.us-west-2.rds.amazonaws.com',
+         'USER': 'postgres',
+         'PASSWORD': 'passw0rd'
+     }
+ }
 
 
 # Password validation
