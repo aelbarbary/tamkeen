@@ -74,10 +74,10 @@
               {% if question_list %}
                 {% for question in question_list %}
                   <div class="panel panel-default">
-                      <div >
-                        <p>
-                          <Strong>Question: </Strong><p>{{ question.text }}</p>
-                        </p>
+                      <div class="panel-heading question">
+                        <div>
+                          <Strong>Question: </Strong>{{ question.text }}
+                        </div>
                         <div>
                           <font style="font-size:10pt; color: gray">{{question.date_time}}</font>
                         </div>
@@ -98,10 +98,10 @@
                             </li>
                             <li>
                                 <div class="alert alert-success collapse" id="answer-success-{{question.id}}">
-                                    <strong>Success!</strong> Your answer was submitted successfully.
+                                  <strong>Success!</strong> Your answer was submitted successfully.
                                 </div>
-                                  <div class="alert alert-danger collapse" id="answer-error-{{question.id}}">
-                                    <strong>Error!</strong> Please contact the system adminitrator.
+                                <div class="alert alert-danger collapse" id="answer-error-{{question.id}}">
+                                  <strong>Error!</strong> Please contact the system adminitrator.
                                 </div>
                                 <button class="btn btn-primary" id="submitAnswer" onClick="answer_question( {{question.id}} )"> Submit </button>
                             </li>
