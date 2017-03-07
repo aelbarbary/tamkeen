@@ -53,7 +53,6 @@ def thanks(request):
 
 def questionsHistory(request):
     questions = Question.objects.exclude(closed=0).order_by('date_time')
-    print(questions.count())
     score =0
     for q in questions:
         answer = QuestionAnswer.objects.filter(question = q.id).order_by('-score')[:1]
@@ -81,5 +80,35 @@ def questionsHistory(request):
             q.rankImage = "images/ranks/pawn.png"
             q.rank = "Pawn. get 20 points to be a Knight"
 
-    context = {'questions': questions , 'scoreRange': range(score)  }
+    personList = QuestionAnswer.objects.values('name').annotate(score = Sum('score')).order_by('-score')
+    for person in personList:
+        rank =  getRank(person["score"])
+        person["rankImage"] = rank["rankImage"]
+        print(rank)
+        print(person)
+
+    context = {'questions': questions
+                , 'scoreRange': range(score),
+                'personList': personList}
     return render(request, 'questions-history.html', context)
+
+def getRank(score):
+    if score >= 320:
+        return
+        {   'rankImage': "images/ranks/king.png",
+            'rank': "King. you are the man!" }
+    elif score >= 160:
+        return { 'rankImage': "images/ranks/prime-minister.png",
+                'rank': "Prime Minister. Get 320 points to be the King!"}
+    elif score >= 80:
+        return {'rankImage' : "images/ranks/rock.png",
+                'rank' : "Rock. Get 160 points to be a Prime Minister"}
+    elif score >= 40:
+        return { 'rankImage': "images/ranks/bishop.png",
+                 'rank': "Bishop. you need to get to 80 points to be a Rock"}
+    elif score >=20:
+        return { 'rankImage': "images/ranks/knight.png",
+                'rank':  "Knight. You need to have 40 points to be a Bishop"}
+    else:
+        return { 'rankImage': "images/ranks/pawn.png",
+                'rank': "Pawn. get 20 points to be a Knight" }

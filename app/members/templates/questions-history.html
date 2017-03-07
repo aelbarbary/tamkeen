@@ -1,9 +1,11 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/product-lists/product-list-basic.css" %}">
 <link href="{% static "vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{% static "css/user-profiles-lists/user-profiles-list-small.css" %}">
+
 
 {% if questions %}
-<ul class="product-list-basic">
+  <ul class="product-list-basic">
         {% for question in questions%}
           <li>
               <p href="#" class="product-compare">{{question.date_time}}</p>
@@ -31,12 +33,25 @@
               </div>
           </li>
         {% endfor %}
-        </ul>
+  </ul>
 
-        {% else %}
-            <p style="text-align: center; color: red;">No scores found</p>
-        {% endif %}
+{% else %}
+    <p style="text-align: center; color: red;">No scores found</p>
+{% endif %}
 
+{% if personList %}
+<ul class="user-profiles-list-small">
+    {% for person in personList %}
+      <li>
+          <div class="user-avatar">
+                  <img src="{% static person.rankImage %}" width="48" alt="Rank of {{person.name}}" />
+          </div>
 
-
-    </ul>
+          <p class="user-name">
+              <span>{{ person.name }}</span>
+              <span>Total Points: {{person.score}} </span>
+          </p>
+      </li>
+    {% endfor %}
+</ul>
+{% endif %}
