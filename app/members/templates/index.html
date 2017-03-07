@@ -74,22 +74,17 @@
               {% if question_list %}
                 {% for question in question_list %}
                   <div class="panel panel-default">
-                      <div class="panel-heading question">
-                        <div>
-                          <Strong>Question: </Strong>{{ question.text }}
-                        </div>
+                      <div >
+                        <p>
+                          <Strong>Question: </Strong><p>{{ question.text }}</p>
+                        </p>
                         <div>
                           <font style="font-size:10pt; color: gray">{{question.date_time}}</font>
                         </div>
                           <font style="font-size:10pt; color:gray"> Number of Answers:</font> <span class="badge">{{question.answers_count}}</span>
                         </div>
                       <div class="panel-body">
-                          <div class="alert alert-success collapse" id="answer-success-{{question.id}}">
-                            <strong>Success!</strong> Your answer was submitted successfully.
-                        </div>
-                          <div class="alert alert-danger collapse" id="answer-error-{{question.id}}">
-                            <strong>Error!</strong> Please contact the system adminitrator.
-                        </div>
+
                           <ul class="form-style-1">
                             <li>
                                 <label>Name <span class="required">*</span></label>
@@ -102,6 +97,12 @@
                                 <input type="text" id="question-id" class="field-long" value="{{ question.id }}" style="display:none;" />
                             </li>
                             <li>
+                                <div class="alert alert-success collapse" id="answer-success-{{question.id}}">
+                                    <strong>Success!</strong> Your answer was submitted successfully.
+                                </div>
+                                  <div class="alert alert-danger collapse" id="answer-error-{{question.id}}">
+                                    <strong>Error!</strong> Please contact the system adminitrator.
+                                </div>
                                 <button class="btn btn-primary" id="submitAnswer" onClick="answer_question( {{question.id}} )"> Submit </button>
                             </li>
                         </ul>
