@@ -1,6 +1,6 @@
 .form-style-1 {
     margin:10px auto;
-    max-width: 400px;
+    max-width: 600px;
     padding: 20px 12px 10px 20px;
     font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
@@ -54,7 +54,7 @@ select{
     border: 1px solid #88D5E9;
 }
 .form-style-1 .field-divided{
-    width: 49%;
+    width: 70%;
 }
 
 .form-style-1 .field-long{
@@ -86,4 +86,8 @@ select{
 .results
 {
   background: red;
+}
+
+.question{
+  font-size: 15pt;
 }

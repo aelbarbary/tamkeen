@@ -50,3 +50,17 @@ class QuestionAnswer(models.Model):
     date_time = models.DateTimeField()
     score = models.IntegerField(default=0)
     question = models.ForeignKey(Question, related_name='answers')
+
+class Khatirah(models.Model):
+    text = models.CharField(max_length=2000)
+    image = models.ImageField(upload_to = "khatirah", default = 'no-img.jpg')
+    date_time = models.DateTimeField()
+    def __str__(self):
+        return 'Name: ' + self.text
+
+class KhatirahAnswer(models.Model):
+    answer = models.CharField(max_length=2000)
+    name = models.CharField(max_length=2000)
+    date_time = models.DateTimeField()
+    score = models.IntegerField(default=0)
+    khatirah = models.ForeignKey(Khatirah, related_name='khatirahAnswers')

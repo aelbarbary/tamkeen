@@ -71,38 +71,49 @@
                 </div>
             </div>
             <div class="row">
-              {% if question %}
-              <form action="/" method="post" enctype="multipart/form-data" style="border:1px; border-color:black;">
-                {% csrf_token %}
-                <ul class="form-style-1">
-                    <li>
-                      <label>Question: </label>
-                      <textarea disabled name="field5" id="field5" class="field-long field-textarea">{{ question.0.text }}</textarea>
-                    </li>
-                    <li>
-                        <label>Name <span class="required">*</span></label>
-                        <input type="text" name="name" class="field-long" />
-                    </li>
+              {% if question_list %}
+                {% for question in question_list %}
+                  <div class="panel panel-default">
+                      <div class="panel-heading question">
+                        <div>
+                          <Strong>Question: </Strong>{{ question.text }}
+                        </div>
+                        <div>
+                          <font style="font-size:10pt; color: gray">{{question.date_time}}</font>
+                        </div>
+                          <font style="font-size:10pt; color:gray"> Number of Answers:</font> <span class="badge">5</span>
+                        </div>
+                      <div class="panel-body">
+                          <div class="alert alert-success collapse" id="answer-success-{{question.id}}">
+                            <strong>Success!</strong> Your answer was submitted successfully.
+                        </div>
+                          <div class="alert alert-danger collapse" id="answer-error-{{question.id}}">
+                            <strong>Error!</strong> Please contact the system adminitrator.
+                        </div>
+                          <ul class="form-style-1">
+                            <li>
+                                <label>Name <span class="required">*</span></label>
+                                <input type="text" id="name-{{question.id}}" class="field-long" />
+                            </li>
 
-                    <li>
-                        <label>Your Answer <span class="required">*</span></label>
-                        <textarea name="answer" id="answer" class="field-long field-textarea"></textarea>
-                        <input type="text" name="question-id" class="field-long" value="{{ question.0.id }}" style="display:none;" />
-                    </li>
-                    <li>
-                        <input type="submit" value="Submit" />
-
-                    </li>
-                </ul>
-              </form>
+                            <li>
+                                <label>Your Answer <span class="required">*</span></label>
+                                <textarea name="answer" id="answer-{{question.id}}" class="field-long field-textarea" ></textarea>
+                                <input type="text" id="question-id" class="field-long" value="{{ question.id }}" style="display:none;" />
+                            </li>
+                            <li>
+                                <button class="btn btn-primary" id="submitAnswer-{{question.id}}" onClick="submitAnswer( {{question.id}} )"> Submit </button>
+                            </li>
+                        </ul>
+                      </div>
+                  </div>
+                {% endfor %}
               <div style="text-align:center;">
                 {% else %}
                     <p>No Questions are available.</p>
-
                 {% endif %}
-                <input style="background:red; color:white;" type="button" value="Results" onclick="window.location='questionsHistory';" />
+                <input class="btn btn-danger" type="button" value="Results" onclick="window.location='questionsHistory';" />
               </div>
-            </div>
         </div>
     </section>
 
