@@ -6,7 +6,8 @@ from django.conf import settings
 import datetime
 from .forms import NewMemberForm
 import logging
-from django.db.models import Max, Sum
+from django.db.models import Max, Sum, Count
+
 
 def answerQuestion(request):
     print("answring questions")
@@ -26,7 +27,7 @@ def index(request):
         event_date = gal.date_time.replace(tzinfo=None)
         gal.since = (datetime.datetime.utcnow() - event_date).days
 
-    question_list = Question.objects.exclude(closed=1).order_by('date_time')
+    question_list = Question.objects.exclude(closed=1).order_by('date_time').annotate(answers_count=Count('answers'))
 
     context = {'event_list': event_list,
                 'gallery_list': gallery_list,
