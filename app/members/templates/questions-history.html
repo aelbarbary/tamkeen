@@ -20,17 +20,6 @@
               <p class="product-description"><strong><font style="color: red">Q: </font> {{question.text}}</strong></p>
 
               <p class="product-description"><font style="color: red">A: </font> {{question.answer}}</p>
-
-              <div class="product-rating">
-                  <div>
-                          <span>Question Points:</span>
-                          <span class="product-stars" style="width: 90px" >
-                              {% for i in scoreRange %}
-                                <i class="fa fa-star"></i>
-                              {% endfor%}
-                          </span>
-                  </div>
-              </div>
           </li>
         {% endfor %}
   </ul>

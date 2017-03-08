@@ -61,34 +61,16 @@ def questionsHistory(request):
         q.totalPoints = QuestionAnswer.objects.filter(name = q.name).aggregate(Sum('score'))["score__sum"]
         score = answer[0].score
 
-        if score >= 320:
-            q.rankImage = "images/ranks/king.png"
-            q.rank = "King. you are the man!"
-        elif score >= 160:
-            q.rankImage = "images/ranks/prime-minister.png"
-            q.rank = "Prime Minister. Get 320 points to be the King!"
-        elif score >= 80:
-            q.rankImage = "images/ranks/rock.png"
-            q.rank = "Rock. Get 160 points to be a Prime Minister"
-        elif score >= 40:
-            q.rankImage = "images/ranks/bishop.png"
-            q.rank = "Bishop. you need to get to 80 points to be a Rock"
-        elif score >=20:
-            q.rankImage = "images/ranks/knight.png"
-            q.rank = "Knight. You need to have 40 points to be a Bishop"
-        else:
-            q.rankImage = "images/ranks/pawn.png"
-            q.rank = "Pawn. get 20 points to be a Knight"
+        rank =  getRank(score)
+        q.rankImage = rank["rankImage"]
+        q.rank = rank["rank"]
 
     personList = QuestionAnswer.objects.values('name').annotate(score = Sum('score')).order_by('-score')
     for person in personList:
         rank =  getRank(person["score"])
         person["rankImage"] = rank["rankImage"]
-        print(rank)
-        print(person)
 
-    context = {'questions': questions
-                , 'scoreRange': range(score),
+    context = {'questions': questions,
                 'personList': personList}
     return render(request, 'questions-history.html', context)
 
