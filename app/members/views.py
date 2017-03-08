@@ -7,8 +7,10 @@ import datetime
 from .forms import NewMemberForm
 import logging
 from django.db.models import Max, Sum, Count
+from django.views.decorators.csrf import csrf_exempt
 
 
+@csrf_exempt
 def answerQuestion(request):
     print("answring questions")
     name = request.POST.get('name')
