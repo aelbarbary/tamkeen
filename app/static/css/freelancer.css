@@ -185,8 +185,8 @@ section h2 {
   margin: 0;
   font-size: 3em;
 }
-section.success {
-  background: #18BC9C;
+section.mission {
+  background: #2C3E50;
   color: white;
 }
 section.gallery {
@@ -525,4 +525,8 @@ fieldset[disabled] .btn-success.active {
   padding-right: 200px;
   transform: rotate(360deg);
   background-image: url('{% static 'images/tamkeengroup.png' %}');
+}
+
+.thumbnail{
+  min-height: 450px;
 }
