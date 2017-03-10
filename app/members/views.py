@@ -73,7 +73,8 @@ def questionsHistory(request):
         person["rankImage"] = rank["rankImage"]
 
     context = {'questions': questions,
-                'personList': personList}
+                'personList': personList,
+                'scoreRange': range(score)}
     return render(request, 'questions-history.html', context)
 
 def getRank(score):

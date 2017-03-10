@@ -91,6 +91,10 @@ header .intro-text .skills {
   font-size: 1.25em;
   font-weight: 300;
 }
+
+header .intro-text .name{
+  text-shadow: 2px 2px #8f8f8f;
+}
 @media (min-width: 768px) {
   header .container {
     padding-top: 200px;
@@ -101,6 +105,8 @@ header .intro-text .skills {
   }
   header .intro-text .skills {
     font-size: 1.75em;
+    text-shadow: 1px 1px rgb(167, 167, 167);
+    color: green;
   }
 }
 .navbar-custom {
