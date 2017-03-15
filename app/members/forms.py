@@ -42,7 +42,7 @@ class QuestionForm(forms.ModelForm):
 class QuestionAnswerForm(forms.ModelForm):
     answer = forms.CharField(widget=forms.Textarea)
 
-class MyCustomUserForm(RegistrationForm):
+class RegisterForm(RegistrationForm):
     class Meta:
         model = Parent
         fields = '__all__'
