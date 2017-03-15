@@ -105,8 +105,8 @@ header .intro-text .name{
   }
   header .intro-text .skills {
     font-size: 1.75em;
-    text-shadow: 1px 1px rgb(167, 167, 167);
-    color: green;
+    text-shadow: 2px 2px #ffffff;
+    color: #335e41;
   }
 }
 .navbar-custom {
