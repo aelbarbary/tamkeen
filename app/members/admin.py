@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Youth, Event, EventImages, Question, QuestionAnswer
+from .models import Event, EventImages, Question, QuestionAnswer
 from .forms import EventForm, QuestionForm, QuestionAnswerForm
 
 admin.site.site_header = 'TAMKEEN admin'
@@ -24,6 +24,5 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [QuestionAnswersInline]
     form = QuestionForm
 
-admin.site.register(Youth)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Question, QuestionAdmin)

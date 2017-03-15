@@ -3,3 +3,4 @@ psycopg2
 Pillow
 django-storages
 boto
+django-registration

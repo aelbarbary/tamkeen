@@ -1,10 +1,9 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import Youth, Event, EventImages, Question, QuestionAnswer
+from .models import Event, EventImages, Question, QuestionAnswer
 from django.urls import reverse
 from django.conf import settings
 import datetime
-from .forms import NewMemberForm
 import logging
 from django.db.models import Max, Sum, Count
 from django.views.decorators.csrf import csrf_exempt
@@ -37,18 +36,18 @@ def index(request):
 
     return render(request, 'index.html', context)
 
-def join(request):
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = NewMemberForm(request.POST, request.FILES)
-        # check whether it's valid:
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/thanks/')
-    else:
-        form = NewMemberForm()
-
-    return render(request, 'join.html', {'form': form})
+# def join(request):
+#     if request.method == 'POST':
+#         # create a form instance and populate it with data from the request:
+#         form = NewMemberForm(request.POST, request.FILES)
+#         # check whether it's valid:
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect('/thanks/')
+#     else:
+#         form = NewMemberForm()
+#
+#     return render(request, 'join.html', {'form': form})
 
 def thanks(request):
     return render(request, 'thanks.html', {})

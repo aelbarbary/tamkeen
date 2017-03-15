@@ -115,7 +115,7 @@ WSGI_APPLICATION = 'tamkeen.wsgi.application'
 #          'PORT': 5432,
 #      }
 #  }
-# 
+#
 # DATABASES = {
 #      'default': {
 #          'ENGINE': 'django.db.backends.postgresql',
@@ -197,3 +197,5 @@ AWS_HEADERS = {  # see http://developer.yahoo.com/performance/rules.html#expires
         'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
         'Cache-Control': 'max-age=94608000',
     }
+
+REGISTRATION_OPEN = True
