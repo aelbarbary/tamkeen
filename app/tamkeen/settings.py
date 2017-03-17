@@ -156,9 +156,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.10/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -169,9 +166,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
 AWS_STORAGE_BUCKET_NAME = 'tamkeen'
 AWS_S3_HOST = "s3-us-west-2.amazonaws.com"
 AWS_ACCESS_KEY_ID = 'AKIAIM2TQEEEU34R5HMQ'
@@ -185,12 +179,8 @@ STATICFILES_DIRS = [
      '/var/www/static/',
  ]
 
-#STATICFILES_DIRS = ['../app/static']
-
-#STATIC_URL =  "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, 'media')
 
-#STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 AWS_HEADERS = {  # see http://developer.yahoo.com/performance/rules.html#expires

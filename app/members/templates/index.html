@@ -75,6 +75,11 @@
                 {% for question in question_list %}
                   <div class="panel panel-default">
                       <div class="panel-heading question">
+                        {% if question.image|length > 0 %}
+                        <div class="text-center">
+                          <img src="{{question.image.url}}"  alt="{{ question.text }}" />
+                        </div>
+                        {% endif %}
                         <div>
                           <Strong>Question: </Strong>{{ question.text }}
                         </div>

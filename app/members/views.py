@@ -11,7 +11,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def answerQuestion(request):
-    print("answring questions")
     name = request.POST.get('name')
     answer = request.POST.get('answer')
     id = request.POST.get('questionId')
@@ -29,7 +28,6 @@ def index(request):
         gal.since = (datetime.datetime.utcnow() - event_date).days
 
     question_list = Question.objects.exclude(closed=1).order_by('date_time').annotate(answers_count=Count('answers'))
-
     context = {'event_list': event_list,
                 'gallery_list': gallery_list,
                 'question_list': question_list}
