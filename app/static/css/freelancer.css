@@ -555,3 +555,12 @@ blockquote:before {
 blockquote p {
   display: inline;
 }
+
+.question-result{
+  min-height: 200px;
+}
+
+.btn-show-more{
+  margin-bottom: 10px;
+  width: 100%;
+}
