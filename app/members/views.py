@@ -80,7 +80,7 @@ def getRank(score):
         {   'rankImage': "images/ranks/king.png",
             'rank': "King. you are the man!" }
     elif score >= 160:
-        return { 'rankImage': "images/ranks/prime-minister.png",
+        return { 'rankImage': "images/ranks/second-in-command.png",
                 'rank': "Prime Minister. Get 320 points to be the King!"}
     elif score >= 80:
         return {'rankImage' : "images/ranks/rock.png",
