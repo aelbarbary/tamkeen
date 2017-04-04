@@ -17,7 +17,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 SERVER_EMAIL = 'xyz@gmail.com'
 EMAIL_HOST_USER = 'tamkeen.website@gmail.com'
-EMAIL_HOST_PASSWORD = 'P@ssw0rd2017'
+EMAIL_HOST_PASSWORD = 'P@ssw0rd'
 EMAIL_PORT = 587
 SEND_BROKEN_LINK_EMAILS = True
 
