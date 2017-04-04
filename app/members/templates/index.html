@@ -81,8 +81,15 @@
                         </div>
                         {% endif %}
                         <div>
-                          <Strong>Question: </Strong>{{ question.text }}
+                          <Strong>Question: </Strong> {{ question.text }}
                         </div>
+                        {% if question.link|length > 0 %}
+                        <p class="text-center">
+                          <a href="{{question.link}}">
+                              <img src="{% static "images/video.png" %}" width="200"/>
+                          </a>
+                        </p>
+                        {% endif %}
                         <div>
                           <font style="font-size:10pt; color: gray">{{question.date_time}}</font>
                         </div>

@@ -44,6 +44,7 @@ class Question(models.Model):
     text = models.CharField(max_length=2000)
     date_time = models.DateTimeField()
     image = models.ImageField(upload_to = "question", default = 'no-img.jpg')
+    link = models.CharField(max_length=2000)
     closed = models.BooleanField('closed:')
     def __str__(self):
         return 'Name: ' + self.text
