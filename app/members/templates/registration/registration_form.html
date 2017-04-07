@@ -1,11 +1,47 @@
-
+{% load static %}
 {% load i18n %}
 
+<head>
+    <title>Multiformset Demo</title>
+
+    <script src="{% static "vendor/jquery/jquery.js" %}"></script>
+    <script src="{% static "vendor/jquery/jquery.formset.js" %}"></script>
+    <script type="text/javascript">
+        $(function() {
+            $(".inline.{{ children_form.prefix }}").formset({
+                prefix: "{{ children_form.prefix }}",
+            })
+        })
+    </script>
+</head>
+
+
+
 {% block content %}
+<div class="form">
 <form method="post" action=".">
   {% csrf_token %}
   {{ form.as_p }}
-
+  <fieldset>
+                <legend>Children</legend>
+                {{ children_form.management_form }}
+                {{ children_form.non_form_errors }}
+                {% for form in children_form %}
+                    {{ form.id }}
+                    <div class="inline {{ children_form.prefix }}">
+                        {{ form.name.errors }}
+                        {{ form.name.label_tag }}
+                        {{ form.name }}
+                        {{ form.gender.errors }}
+                        {{ form.gender.label_tag }}
+                        {{ form.gender }}
+                        {{ form.date_of_borth.errors }}
+                        {{ form.date_of_borth.label_tag }}
+                        {{ form.date_of_borth }}
+                    </div>
+                {% endfor %}
+  </fieldset>
   <input type="submit" value="{% trans 'Submit' %}" />
 </form>
+</div>
 {% endblock %}

@@ -1,34 +1,10 @@
 from django import forms
 from django.forms import ModelForm, SelectDateWidget, EmailInput,NumberInput,Select, Textarea, FileInput
-from .models import Parent, QuestionAnswer
+from .models import Parent, QuestionAnswer, Child
 import datetime
 from registration.forms import RegistrationForm
+from django.forms.models import inlineformset_factory
 
-# class NewMemberForm(ModelForm):
-#     class Meta:
-#          model = Youth
-#          fields = [ 'name',
-#                     'date_of_birth',
-#                     'gender',
-#                     'phone',
-#                     'email',
-#                     'address',
-#                     'guardian_phone' ,
-#                     'guardian_email',
-#                     'interests',
-#                     'skills',
-#                     'image'
-#                     ]
-#          widgets = {
-#             'date_of_birth': SelectDateWidget(years=range(1970, datetime.date.today().year+10),
-#                                     attrs={'class' : 'form-group'} ),
-#             'gender': Select (attrs={'class' : 'form-group'}),
-#             'email': EmailInput(attrs={'class' : 'form-group'}),
-#             'guardian_email': EmailInput(attrs={'class' : 'form-group'}),
-#             'skills': Textarea(attrs={'class' : 'form-group'}),
-#             'interests': Textarea(attrs={'class' : 'form-group'}),
-#             'image': FileInput(attrs={'class' : 'form-group'})
-#         }
 
 class EventForm(forms.ModelForm):
     BoyGirl_CHOICES = ((0, 'Boy'), (1, 'Girl'))
@@ -42,7 +18,14 @@ class QuestionForm(forms.ModelForm):
 class QuestionAnswerForm(forms.ModelForm):
     answer = forms.CharField(widget=forms.Textarea)
 
-class RegisterForm(RegistrationForm):
+MAX_CHILDREN = 5
+
+class ParentForm(RegistrationForm):
     class Meta:
         model = Parent
-        fields = '__all__'
+        exclude = ['password', 'last_login', 'is_superuser', 'user_permissions', 'groups','is_staff', 'date_joined', 'is_active']
+
+ChildrenFormSet = inlineformset_factory(Parent,
+    Child,
+    can_delete=False,
+    fields = '__all__')

@@ -1,12 +1,14 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import Event, EventImages, Question, QuestionAnswer
+from .models import Event, EventImages, Question, QuestionAnswer, Parent, Child
 from django.urls import reverse
 from django.conf import settings
 import datetime
 import logging
 from django.db.models import Max, Sum, Count
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import CreateView
+from .forms import ParentForm, ChildrenFormSet
 
 
 @csrf_exempt
@@ -94,3 +96,65 @@ def getRank(score):
     else:
         return { 'rankImage': "images/ranks/pawn.png",
                 'rank': "Pawn. get 20 points to be a Knight" }
+
+
+class ParentCreateView(CreateView):
+    template_name = 'registration/registration_form.html'
+    model = Parent
+    form_class = ParentForm
+    success_url = 'thanks/'
+
+    def get(self, request, *args, **kwargs):
+        """
+        Handles GET requests and instantiates blank versions of the form
+        and its inline formsets.
+        """
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        children_form = ChildrenFormSet()
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  children_form=children_form,
+                                  ))
+    def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests, instantiating a form instance and its inline
+        formsets with the passed POST variables and then checking them for
+        validity.
+        """
+        print(request)
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        children_form = ChildrenFormSet(self.request.POST)
+        if (form.is_valid() and children_form.is_valid() and
+            children_form.is_valid()):
+            print("valid")
+            return self.form_valid(form, children_form)
+        else:
+            print(children_form.errors)
+            return self.form_invalid(form, children_form)
+
+    def form_valid(self, form, children_form):
+        """
+        Called if all forms are valid. Creates a Recipe instance along with
+        associated Ingredients and Instructions and then redirects to a
+        success page.
+        """
+        self.object = form.save()
+        children_form.instance = self.object
+        children_form.save()
+        children_form.instance = self.object
+        children_form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, children_form):
+        """
+        Called if a form is invalid. Re-renders the context data with the
+        data-filled forms and errors.
+        """
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  children_form=children_form,
+                                  ))
