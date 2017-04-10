@@ -2,16 +2,27 @@
 {% load i18n %}
 
 <head>
-    <title>Multiformset Demo</title>
-
+    <title>Register</title>
+    <link href="{% static "css/register.css" %}"  rel="stylesheet">
+    <link href="{% static "css/jquery-ui-min.css" %}"  rel="stylesheet">
+    <link href="{% static "css/jquery-ui.theme.min.css" %}"  rel="stylesheet">
     <script src="{% static "vendor/jquery/jquery.js" %}"></script>
     <script src="{% static "vendor/jquery/jquery.formset.js" %}"></script>
+    <script src="{% static "vendor/jquery/jquery-ui.min.js" %}"></script>
     <script type="text/javascript">
         $(function() {
             $(".inline.{{ children_form.prefix }}").formset({
                 prefix: "{{ children_form.prefix }}",
             })
         })
+  $(function() {
+    $( ".datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "1900:2012",
+      // You can put more options here.
+    });
+  });
     </script>
 </head>
 
@@ -20,10 +31,12 @@
 {% block content %}
 <div class="form">
 <form method="post" action=".">
+  <h1>Sign Up</h1>
   {% csrf_token %}
+  <legend><span class="number">1</span>Your basic info</legend>
   {{ form.as_p }}
   <fieldset>
-                <legend>Children</legend>
+                <legend><span class="number">2</span>Your children info</legend>
                 {{ children_form.management_form }}
                 {{ children_form.non_form_errors }}
                 {% for form in children_form %}
@@ -35,13 +48,21 @@
                         {{ form.gender.errors }}
                         {{ form.gender.label_tag }}
                         {{ form.gender }}
-                        {{ form.date_of_borth.errors }}
-                        {{ form.date_of_borth.label_tag }}
-                        {{ form.date_of_borth }}
+                        {{ form.date_of_birth.errors }}
+                        {{ form.date_of_birth.label_tag }}
+                        {{ form.date_of_birth }}
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                        {{ form.phone.label_tag }}
+                        {{ form.phone }}
+                        {{ form.grade.label_tag }}
+                        {{ form.grade }}
+                        {{ form.ethnic.label_tag }}
+                        {{ form.ethnic }}
                     </div>
                 {% endfor %}
   </fieldset>
   <input type="submit" value="{% trans 'Submit' %}" />
 </form>
-</div>
+<div class="form">
 {% endblock %}

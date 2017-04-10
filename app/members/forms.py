@@ -28,4 +28,9 @@ class ParentForm(RegistrationForm):
 ChildrenFormSet = inlineformset_factory(Parent,
     Child,
     can_delete=False,
-    fields = '__all__')
+    fields = '__all__',
+    widgets={
+    'date_of_birth': forms.TextInput(attrs=
+                                {
+                                    'class':'datepicker'
+                                })})

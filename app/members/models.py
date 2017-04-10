@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class Parent(User):
     gender = models.CharField(max_length=1, choices=(('M', 'Male',), ('F', 'Female',)))
     phone = models.CharField(max_length=10)
+    other_phone = models.CharField(max_length=10)
     address = models.CharField(max_length=100, null=True)
     def __str__(self):
         return 'Name: ' + self.name
@@ -14,9 +15,13 @@ class Parent(User):
 class Child(models.Model):
     name = models.CharField(max_length=200)
     gender = models.CharField(max_length=1, choices=(('M', 'Male',), ('F', 'Female',)))
-    date_of_borth = models.DateTimeField()
+    email = models.CharField(max_length=10)
+    phone = models.CharField(max_length=10)
+    grade = models.CharField(max_length=50)
+    date_of_birth = models.DateTimeField()
     parent = models.ForeignKey(Parent, related_name='children')
-
+    ethnic = models.CharField(max_length=20, choices=(('AA', 'African American',), ('NA', 'Native American',),('AN', 'Alaska Native',),('A', 'Asian',),('CW', 'Caucasian/White',),('HL', 'Hispanic/latino',),('PI', 'Pacific Islander',),('O', 'Other',)))
+    
     def __str__(self):
         return 'Name: ' + self.name
 
