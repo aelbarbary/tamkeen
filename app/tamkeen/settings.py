@@ -16,8 +16,8 @@ ADMINS =(('admin','abdelrahman.elbarbary@gmail.com'),)
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 SERVER_EMAIL = 'xyz@gmail.com'
-EMAIL_HOST_USER = os.environ["TAMKEEN_EMAIL"]
-EMAIL_HOST_PASSWORD = os.environ["TAMKEEN_PASSWORD"]
+EMAIL_HOST_USER = 'tamkeen.website@gmail.com,'
+EMAIL_HOST_PASSWORD = 'P@ssw0rd2017'
 EMAIL_PORT = 587
 SEND_BROKEN_LINK_EMAILS = True
 
@@ -130,9 +130,9 @@ DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.postgresql',
          'NAME': 'tamkeen',
-         'HOST': os.environ["TAMKEEN_DB_HOST"],
-         'USER': os.environ["TAMKEEN_DB_USER"],
-         'PASSWORD': os.environ["TAMKEEN_DB_PASSWORD"]
+         'HOST': '35.167.215.137',
+         'USER': 'postgres',
+         'PASSWORD': 'passw0rd'
      }
  }
 
@@ -168,8 +168,8 @@ USE_TZ = True
 
 AWS_STORAGE_BUCKET_NAME = 'tamkeen'
 AWS_S3_HOST = "s3-us-west-2.amazonaws.com"
-AWS_ACCESS_KEY_ID = os.environ["TAMKEEN_S3_ACCESS_KEY"]
-AWS_SECRET_ACCESS_KEY = os.environ["TAMKEEN_S3_SECRET_KEY"]
+AWS_ACCESS_KEY_ID = 'AKIAIM2TQEEEU34R5HMQ'
+AWS_SECRET_ACCESS_KEY = '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'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 STATIC_URL = '/static/'

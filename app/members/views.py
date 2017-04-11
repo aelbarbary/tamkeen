@@ -44,7 +44,7 @@ def questionsHistory(request):
     questions = Question.objects.exclude(closed=0).order_by('date_time')
     score =0
     for q in questions:
-        answer = QuestionAnswer.objects.filter(question = q.id).order_by('-score')[:1]
+        answer = QuestionAnswer.objects.filter(question = q.id).order_by('-score', 'date_time')[:1]
         q.answer = answer[0].answer
         q.name = answer[0].name
         q.totalPoints = QuestionAnswer.objects.filter(name = q.name).aggregate(Sum('score'))["score__sum"]
