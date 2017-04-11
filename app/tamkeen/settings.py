@@ -130,7 +130,7 @@ DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.postgresql',
          'NAME': 'tamkeen',
-         'HOST': 'tamkeen.cwlnx6y8j0vs.us-west-2.rds.amazonaws.com',
+         'HOST': '35.167.215.137',
          'USER': 'postgres',
          'PASSWORD': 'passw0rd'
      }
