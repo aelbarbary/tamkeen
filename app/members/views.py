@@ -20,6 +20,7 @@ def answerQuestion(request):
     questionAnswer.save()
     return HttpResponse()
 
+
 def index(request):
     event_list = Event.objects.filter(date_time__gte=datetime.date.today()).order_by('date_time')[:5]
     gallery_list = Event.objects.filter(date_time__lt=datetime.date.today()).order_by('date_time')[:5]
@@ -35,19 +36,6 @@ def index(request):
                 'question_list': question_list}
 
     return render(request, 'index.html', context)
-
-# def join(request):
-#     if request.method == 'POST':
-#         # create a form instance and populate it with data from the request:
-#         form = NewMemberForm(request.POST, request.FILES)
-#         # check whether it's valid:
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/thanks/')
-#     else:
-#         form = NewMemberForm()
-#
-#     return render(request, 'join.html', {'form': form})
 
 def thanks(request):
     return render(request, 'thanks.html', {})
@@ -105,10 +93,6 @@ class ParentCreateView(CreateView):
     success_url = 'thanks/'
 
     def get(self, request, *args, **kwargs):
-        """
-        Handles GET requests and instantiates blank versions of the form
-        and its inline formsets.
-        """
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
@@ -118,11 +102,6 @@ class ParentCreateView(CreateView):
                                   children_form=children_form,
                                   ))
     def post(self, request, *args, **kwargs):
-        """
-        Handles POST requests, instantiating a form instance and its inline
-        formsets with the passed POST variables and then checking them for
-        validity.
-        """
         print(request)
         self.object = None
         form_class = self.get_form_class()
@@ -137,11 +116,6 @@ class ParentCreateView(CreateView):
             return self.form_invalid(form, children_form)
 
     def form_valid(self, form, children_form):
-        """
-        Called if all forms are valid. Creates a Recipe instance along with
-        associated Ingredients and Instructions and then redirects to a
-        success page.
-        """
         self.object = form.save()
         children_form.instance = self.object
         children_form.save()
@@ -150,10 +124,6 @@ class ParentCreateView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, children_form):
-        """
-        Called if a form is invalid. Re-renders the context data with the
-        data-filled forms and errors.
-        """
         return self.render_to_response(
             self.get_context_data(form=form,
                                   children_form=children_form,
