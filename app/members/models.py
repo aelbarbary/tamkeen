@@ -21,7 +21,7 @@ class Child(models.Model):
     date_of_birth = models.DateTimeField()
     parent = models.ForeignKey(Parent, related_name='children')
     ethnic = models.CharField(max_length=20, choices=(('AA', 'African American',), ('NA', 'Native American',),('AN', 'Alaska Native',),('A', 'Asian',),('CW', 'Caucasian/White',),('HL', 'Hispanic/latino',),('PI', 'Pacific Islander',),('O', 'Other',)))
-    
+
     def __str__(self):
         return 'Name: ' + self.name
 
@@ -46,7 +46,7 @@ class Question(models.Model):
     text = models.CharField(max_length=2000)
     date_time = models.DateTimeField()
     image = models.ImageField(upload_to = "question", default = 'no-img.jpg')
-    link = models.CharField(max_length=2000)
+    video_link = models.CharField(max_length=2000, blank=True)
     closed = models.BooleanField('closed:')
     def __str__(self):
         return 'Name: ' + self.text
