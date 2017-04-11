@@ -23,3 +23,7 @@ hooks:
     - location: scripts/start_application.sh
       timeout: 6000
       runas: ubuntu
+  ApplicationStop:
+    - location: scripts/stop_application.sh
+      timeout: 6000
+      runas: ubuntu
