@@ -50,8 +50,9 @@ select {
 
 .inline input,
 .inline select {
-  width: 100px;
+  width: 120px;
   margin: 0 auto;
+  font-size: 10pt;
 }
 
 .inline{

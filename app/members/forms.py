@@ -1,12 +1,15 @@
 from django import forms
 from django.forms import ModelForm, SelectDateWidget, EmailInput,NumberInput,Select, Textarea, FileInput
-from .models import Parent, QuestionAnswer, Child
+from .models import Parent, QuestionAnswer, Child, Event
 import datetime
 from registration.forms import RegistrationForm
 from django.forms.models import inlineformset_factory
 
 
 class EventForm(forms.ModelForm):
+    class Meta:
+            model = Event
+            fields = '__all__'
     BoyGirl_CHOICES = ((0, 'Boy'), (1, 'Girl'))
     gender = forms.TypedChoiceField(
                      choices=BoyGirl_CHOICES, widget=forms.RadioSelect, coerce=int, initial='Boy',

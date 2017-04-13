@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from PIL import Image
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 
 
 class Parent(User):
@@ -37,10 +38,10 @@ class Event(models.Model):
     def __str__(self):
         return 'Name: ' + self.name
 
-class EventImages(models.Model):
-    image = models.ImageField(upload_to = "event", default = 'no-img.jpg')
-    description = models.CharField(max_length=1000)
-    event = models.ForeignKey(Event, related_name='images')
+class EventRegistered(models.Model):
+    children = ArrayField(models.IntegerField(),size=6,)
+    parent = models.ForeignKey(Parent, related_name='parent')
+    event = models.ForeignKey(Event, related_name='Registered')
 
 class Question(models.Model):
     text = models.CharField(max_length=2000)

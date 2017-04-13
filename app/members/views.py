@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import Event, EventImages, Question, QuestionAnswer, Parent, Child
+from .models import Event, Question, QuestionAnswer, Parent, Child
 from django.urls import reverse
 from django.conf import settings
 import datetime
@@ -8,7 +8,7 @@ import logging
 from django.db.models import Max, Sum, Count
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
-from .forms import ParentForm, ChildrenFormSet
+from .forms import ParentForm, ChildrenFormSet, EventForm
 
 
 @csrf_exempt
@@ -20,22 +20,16 @@ def answerQuestion(request):
     questionAnswer.save()
     return HttpResponse()
 
-
 def index(request):
+    print (request.user)
     event_list = Event.objects.filter(date_time__gte=datetime.date.today()).order_by('date_time')[:5]
-    gallery_list = Event.objects.filter(date_time__lt=datetime.date.today()).order_by('date_time')[:5]
-    for gal in gallery_list:
-        event_image = EventImages.objects.filter(event = gal.id)
-        gal.image = gal.flyer if len(event_image) == 0 else event_image[0].image
-        event_date = gal.date_time.replace(tzinfo=None)
-        gal.since = (datetime.datetime.utcnow() - event_date).days
-
     question_list = Question.objects.exclude(closed=1).order_by('date_time').annotate(answers_count=Count('answers'))
     context = {'event_list': event_list,
-                'gallery_list': gallery_list,
-                'question_list': question_list}
+                'question_list': question_list,
+                'user_text': request.user if request.user.is_authenticated else 'login'}
 
     return render(request, 'index.html', context)
+
 
 def thanks(request):
     return render(request, 'thanks.html', {})
@@ -100,6 +94,47 @@ class ParentCreateView(CreateView):
         return self.render_to_response(
             self.get_context_data(form=form,
                                   children_form=children_form,
+                                  ))
+    def post(self, request, *args, **kwargs):
+        print(request)
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        children_form = ChildrenFormSet(self.request.POST)
+        if (form.is_valid() and children_form.is_valid() and
+            children_form.is_valid()):
+            print("valid")
+            return self.form_valid(form, children_form)
+        else:
+            print(children_form.errors)
+            return self.form_invalid(form, children_form)
+
+    def form_valid(self, form, children_form):
+        self.object = form.save()
+        children_form.instance = self.object
+        children_form.save()
+        children_form.instance = self.object
+        children_form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, children_form):
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  children_form=children_form,
+                                  ))
+
+class EventRegisterView(CreateView):
+    template_name = 'event/registration_form.html'
+    model = Event
+    fields = '__all__'
+    success_url = 'thanks/'
+
+    def get(self, request, event_id, *args, **kwargs):
+        event = Event.objects.filter(id = event_id)[0]
+        event_form = EventForm(instance=event)
+        self.object = None
+        return self.render_to_response(
+            self.get_context_data(event_form=event_form,
                                   ))
     def post(self, request, *args, **kwargs):
         print(request)
