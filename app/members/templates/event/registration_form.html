@@ -26,8 +26,6 @@
     </script>
 </head>
 
-
-
 {% block content %}
 <div class="form">
 <form method="post" action=".">
@@ -35,7 +33,25 @@
   {% csrf_token %}
   <legend><span class="number">1</span>Event info</legend>
   {{ event_form.as_p }}
-
+  <fieldset>
+                <legend><span class="number">2</span>Dependents info</legend>
+                {{ children_form.management_form }}
+                {{ children_form.non_form_errors }}
+                {% for form in children_form %}
+                    {{ form.id }}
+                    <div class="inline {{ children_form.prefix }}">
+                        {{ form.name.errors }}
+                        {{ form.name.label_tag }}
+                        {{ form.name }}
+                        {{ form.gender.errors }}
+                        {{ form.gender.label_tag }}
+                        {{ form.gender }}
+                        {{ form.date_of_birth.errors }}
+                        {{ form.date_of_birth.label_tag }}
+                        {{ form.date_of_birth }}
+                    </div>
+                {% endfor %}
+  </fieldset>
   <input type="submit" value="{% trans 'Submit' %}" />
 </form>
 <div class="form">

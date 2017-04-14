@@ -10,8 +10,6 @@ class Parent(User):
     phone = models.CharField(max_length=10)
     other_phone = models.CharField(max_length=10)
     address = models.CharField(max_length=100, null=True)
-    def __str__(self):
-        return 'Name: ' + self.name
 
 class Child(models.Model):
     name = models.CharField(max_length=200)

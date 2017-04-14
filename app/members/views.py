@@ -30,7 +30,6 @@ def index(request):
 
     return render(request, 'index.html', context)
 
-
 def thanks(request):
     return render(request, 'thanks.html', {})
 
@@ -131,10 +130,16 @@ class EventRegisterView(CreateView):
 
     def get(self, request, event_id, *args, **kwargs):
         event = Event.objects.filter(id = event_id)[0]
+        print(request.user.id)
+        print(request.user.parent.id)
+        children = Child.objects.filter(parent = request.user.parent.id).all()
+        print(children)
         event_form = EventForm(instance=event)
+        children_form = ChildrenFormSet(instance=request.user.parent)
         self.object = None
         return self.render_to_response(
             self.get_context_data(event_form=event_form,
+                                  children_form = children_form
                                   ))
     def post(self, request, *args, **kwargs):
         print(request)
