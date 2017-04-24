@@ -4,7 +4,6 @@ from .forms import EventForm, QuestionForm, QuestionAnswerForm
 
 admin.site.site_header = 'TAMKEEN admin'
 
-
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
     class Media:
