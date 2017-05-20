@@ -191,6 +191,13 @@ section h2 {
   margin: 0;
   font-size: 3em;
 }
+
+@media (max-width: 413px) {
+  section h2 {
+    font-size: 2em;
+  }
+}
+
 section.mission {
   background: #2C3E50;
   color: white;
@@ -566,5 +573,12 @@ blockquote p {
 }
 
 .register{
-  font-size: 20pt
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-size: 20pt;
+  width: 300px;
+}
+.register:last-child {
+  margin-bottom: -30px;
 }
