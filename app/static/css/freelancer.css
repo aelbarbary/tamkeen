@@ -668,3 +668,32 @@ section#mailingList p {
   -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
 }
+
+.btn-custom {
+  color: #fff;
+  background-color: #c412d4;
+  border-color: #c412d4;
+}
+.btn-custom:hover,
+.btn-custom:focus,
+.btn-custom:active,
+.btn-custom.active {
+  color: #fff;
+  background-color: #ae10bc;
+  border-color: #990ea5;
+}
+.btn-custom.disabled:hover,
+.btn-custom.disabled:focus,
+.btn-custom.disabled:active,
+.btn-custom.disabled.active,
+.btn-custom[disabled]:hover,
+.btn-custom[disabled]:focus,
+.btn-custom[disabled]:active,
+.btn-custom[disabled].active,
+fieldset[disabled] .btn-custom:hover,
+fieldset[disabled] .btn-custom:focus,
+fieldset[disabled] .btn-custom:active,
+fieldset[disabled] .btn-custom.active {
+  background-color: #c412d4;
+  border-color: #c412d4;
+}
