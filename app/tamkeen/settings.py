@@ -67,7 +67,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'members',
-    'storages'
+    'storages',
+    'sslserver',
 ]
 
 MIDDLEWARE = [
@@ -172,16 +173,20 @@ AWS_ACCESS_KEY_ID = os.environ['TAMKEEN_S3_ACCESS_KEY']
 AWS_SECRET_ACCESS_KEY = os.environ['TAMKEEN_S3_SECRET_KEY']
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-     os.path.join(BASE_DIR, "static"),
-     '/var/www/static/',
- ]
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+MEDIA_URL = '/media/'
 
-MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, 'media')
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+# STATICFILES_DIRS = [
+#      os.path.join(BASE_DIR, "static"),
+#      '/var/www/static/',
+#  ]
+#
+# MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, 'media')
+#
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 AWS_HEADERS = {  # see http://developer.yahoo.com/performance/rules.html#expires
         'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
@@ -193,3 +198,6 @@ ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course
 REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
 LOGIN_REDIRECT_URL = '/'  # The page you want users to arrive at after they successful log in
 LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not logged in,
+# SECURE_SSL_REDIRECT=True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True

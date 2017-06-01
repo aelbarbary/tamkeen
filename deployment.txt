@@ -13,6 +13,8 @@ pip3 install Pillow
 git clone https://github.com/aelbarbary/tamkeen.git
 cd tamkeen
 
+pip install -r requirements.txt
+
 ---------------------------------------------
 sudo dockerd # to start docker demon
 incase demon not starting
@@ -51,3 +53,6 @@ https://www.swapps.io/blog/setting-a-testingdeployment-pipeline-for-your-django-
 wget https://aws-codedeploy-us-west-2.s3.amazonaws.com/latest/install
 
 code deploy role ar=  arn:aws:iam::623470192157:role/CodeDeployServiceRole
+
+AKIAISJNSUCGROPSNUTA
+0ClIOUKUa+dGVYvMG+/qrL4MEury9+TY/CI26u50
