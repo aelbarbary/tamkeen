@@ -8,6 +8,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -38,26 +39,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-      .effect {
-          width: 0px;
-          height: 0px;
-          border-radius: 50%;
-          background-image: url('{% static 'images/logo.png' %}');
-          padding: 166px;
-          opacity: 1;
-          transition: 1s;
-      }
-
-      .effect:hover {
-        opacity: 1;
-        border-radius: 50%;
-        padding-right: 200px;
-        transform: rotate(360deg);
-        background-image: url('{% static 'images/tamkeengroup.png' %}');
-      }
-
-    </style>
 
 </head>
 
@@ -115,15 +96,18 @@
                         <h3>Around the Web</h3>
                         <ul class="list-inline">
                             <li>
-                                <a href="https://www.facebook.com/tamkeenyouth/" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
+                                <a href="https://www.facebook.com/tamkeenyouth/" class="btn-social btn-outline hvr-pop"><i class="fa fa-fw fa-facebook"></i></a>
                             </li>
                             <li>
-                                <a href="https://www.youtube.com/channel/UCLUKG-xZKRTI8YI2nmOAi7g" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-youtube"></i></a>
+                                <a href="https://www.youtube.com/channel/UCLUKG-xZKRTI8YI2nmOAi7g" class="btn-social btn-outline hvr-pop" target="_blank"><i class="fa fa-fw fa-youtube"></i></a>
                             </li>
                             <li>
-                                <a href="https://www.instagram.com/tamkeenyouth" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-instagram"></i></a>
+                                <a href="https://www.instagram.com/tamkeenyouth" class="btn-social btn-outline hvr-pop" target="_blank"><i class="fa fa-fw fa-instagram"></i></a>
                             </li>
                         </ul>
+                        <div class="page-scroll">
+                            <a href="#page-top"><img style="width: 100px; margin: 0 auto;" class="img-responsive hvr-push" src="{% static "images/logo.png" %}" alt=""></a>
+                        </div>
                     </div>
                 </div>
             </div>
