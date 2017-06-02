@@ -44,7 +44,7 @@ LOGGING = {
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+print("BASE_DIR:" + BASE_DIR)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -173,17 +173,17 @@ AWS_ACCESS_KEY_ID = os.environ['TAMKEEN_S3_ACCESS_KEY']
 AWS_SECRET_ACCESS_KEY = os.environ['TAMKEEN_S3_SECRET_KEY']
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+# STATIC_ROOT = os.path.join(BASE_DIR, "/static")
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = '/media/'
 
-# STATICFILES_DIRS = [
-#      os.path.join(BASE_DIR, "static"),
-#      '/var/www/static/',
-#  ]
-#
+STATICFILES_DIRS = [
+     os.path.join(BASE_DIR, "static"),
+     '/var/www/static/',
+ ]
+
 # MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, 'media')
 #
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
