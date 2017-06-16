@@ -3,7 +3,13 @@
 {% block content %}
 
     <!-- Header -->
-    <header style="background: url('{% static 'images/bg1.jpg' %}')">
+    <header>
+      <div class="cycle-slideshow bg"  data-cycle-speed=1500>
+        <img src="{% static 'images/bg1.jpg' %}">
+        <img src="{% static 'images/bg.jpg' %}">
+        <img src="{% static 'images/bg5.jpg' %}">
+        <img src="{% static 'images/bg2.jpg' %}">
+      </div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -45,20 +51,16 @@
 
 
 
-    <section id="events" class="hidden">
+    <section id="events" class="events">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2>Ramadan Questions Competition</h2>
+                    <h2>Tamkeen Events</h2>
                     <hr class="star-primary">
                 </div>
             </div>
-            <div class="container">
-              <p>Inshallah once Romadan begins their will be a question every day.
-                At the end of the month, the person who answers the most questions correctly will win a <b class="text-success">PRIZE!</b></p>
 
-            </div>
-            <!-- <div class="row">
+            <div class="row">
               {% if event_list %}
               <ul class="product-list-vertical">
                 {% for event in event_list %}
@@ -157,7 +159,7 @@
                 {% endif %}
                 <input class="btn btn-danger" type="button" value="Results" onclick="window.location='questionsHistory';" />
               </div>
-        </div> -->
+        </div>
     </section>
 
     <!-- Mission -->

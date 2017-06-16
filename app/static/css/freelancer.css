@@ -58,7 +58,7 @@ hr.star-light:after {
   color: white;
 }
 hr.star-primary {
-  border-color: #2C3E50;
+  border-color: #18BC9C;
 }
 hr.star-primary:after {
   background-color: white;
@@ -67,11 +67,18 @@ hr.star-primary:after {
 .img-centered {
   margin: 0 auto;
 }
-header {
+.cycle-slideshow {
+  position: absolute;
+  z-index: -1;
+}
+
+header .bg img{
   text-align: center;
   background-size: cover;
-  color: white;
+  display: block;
+  width: 100vw;
   height: 100vh;
+  object-fit: cover;
 }
 header .container {
   padding-top: 100px;
@@ -80,10 +87,12 @@ header .container {
 header img {
   display: block;
   margin: 0 auto 20px;
-  width: 220px;
+  width: 190px;
 }
 header .intro-text {
-  font-size: 12px;
+  font-size: 10px;
+  color: white;
+  text-align: center;
 }
 header .intro-text .name {
   display: block;
@@ -110,8 +119,8 @@ header .intro-text .name{
   }
   header .intro-text .skills {
     font-size: 1.75em;
-    text-shadow: 2px 2px #ffffff;
-    color: #335e41;
+    text-shadow: 1px 2px 1px #ffffff;
+    color: #18a01a;
   }
 }
 .navbar-custom {
@@ -191,7 +200,7 @@ header .intro-text .name{
   }
 }
 section {
-  padding: 50px 0;
+  padding: 25px 0;
 }
 section h2 {
   margin: 0;
@@ -202,6 +211,11 @@ section h2 {
   section h2 {
     font-size: 2em;
   }
+}
+
+section.events {
+  background: #2C3E50;
+  color: white;
 }
 
 section.mission {
@@ -723,5 +737,5 @@ fieldset[disabled] .btn-custom.active {
   text-transform: uppercase;
 }
 .dropdown-button:hover {
-  color: #1d826e;
+  color:  #1d826e;
 }
