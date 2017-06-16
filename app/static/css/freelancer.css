@@ -148,7 +148,7 @@ header .intro-text .name{
 .navbar-custom .navbar-nav li a:active {
   color: white;
 }
-.navbar-custom .navbar-nav li.active a {
+.navbar-custom .navbar-nav li.active {
   color: white;
   background: #18BC9C;
 }
@@ -218,6 +218,9 @@ section.gallery {
   }
   section.first {
     padding-top: 75px;
+  }
+  .dropdown-button {
+    padding-left: 16px;
   }
 }
 
@@ -704,4 +707,21 @@ fieldset[disabled] .btn-custom.active {
 }
 .navbar-nav>li>.dropdown-menu {
   background-color: #2c3e50;
+}
+.logo-header {
+  width: 40px;
+  padding: 0 5px 10px 0;
+}
+
+.dropdown-button {
+  background-color: transparent;
+  border:none;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+}
+.dropdown-button:hover {
+  color: #1d826e;
 }

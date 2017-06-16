@@ -7,7 +7,6 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -18,6 +17,9 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="{% static "/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!-- Theme CSS -->
     <link href="{% static "css/freelancer.css" %}"  rel="stylesheet">
@@ -52,7 +54,9 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="#page-top">Tamkeen</a>
+                <a class="navbar-brand" href="#page-top"><img class="logo-header" src="{% static "images/logo.png" %}" alt=""style="
+    display: inline-block;
+">Tamkeen</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -69,12 +73,12 @@
                         <a href="#question">Question Of the Week</a>
                     </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                  <li><a href="#">Our Mission</a></li>
-                                  <li><a href="#">Our Strategy</a></li>
-                                  <li><a href="#">Our Partners</a></li>
-                                  <li><a href="#">Our Organizational Structure</a></li>
+                            <button href="#" class="dropdown-toggle dropdown-button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></button>
+                            <ul class="dropdown-menu page-scroll" role="menu">
+                                  <li><a href="#mission">Our Mission</a></li>
+                                  <li><a href="#strategy">Our Strategy</a></li>
+                                  <li><a href="#partners">Our Partners</a></li>
+                                  <li><a href="#organization">Our Organizational Structure</a></li>
                             </ul>
                         </li>
                     <!-- <li class="page-scroll">
