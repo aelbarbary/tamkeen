@@ -71,6 +71,7 @@ header {
   text-align: center;
   background-size: cover;
   color: white;
+  height: 100vh;
 }
 header .container {
   padding-top: 100px;
@@ -79,7 +80,10 @@ header .container {
 header img {
   display: block;
   margin: 0 auto 20px;
-  width: 280px;
+  width: 220px;
+}
+header .intro-text {
+  font-size: 12px;
 }
 header .intro-text .name {
   display: block;
@@ -134,6 +138,7 @@ header .intro-text .name{
 }
 .navbar-custom .navbar-nav li a {
   color: white;
+  background-color: transparent;
 }
 .navbar-custom .navbar-nav li a:hover {
   color: #18BC9C;
@@ -696,4 +701,7 @@ fieldset[disabled] .btn-custom:active,
 fieldset[disabled] .btn-custom.active {
   background-color: #c412d4;
   border-color: #c412d4;
+}
+.navbar-nav>li>.dropdown-menu {
+  background-color: #2c3e50;
 }
