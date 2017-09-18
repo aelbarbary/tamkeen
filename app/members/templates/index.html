@@ -39,9 +39,30 @@
         <a href="https://groups.google.com/forum/#!forum/tamkeen-girls/join" class="btn btn-custom register hvr-pop" role="button" target="_blank">Tamkeen Girls</a>
       </div>
       <div class="col-md-4 text-center">
-        <a href="https://groups.google.com/forum/#!forum/tamkeen-parents/join" class="btn btn-success register hvr-pop" role="button" target="_blank">Tamkeen Parents</a>
+        <a href="https://groups.google.com/forum/#!forum/tamkeen-parents/join" class="btn btn-danger register hvr-pop" role="button" target="_blank">Tamkeen Parents</a>
       </div>
-
+    </div>
+    <h2 class="text-center">Social</h2>
+    <p class="text-center">Join Our Whatsapp Chat For The Latest Updates</p>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <a id="myBtn" class="btn btn-success register hvr-pop" role="button" target="_blank">Join Whatsapp</a>
+        <div id="myModal" class="modal">
+          <div id="contactForm" class="modal-content">
+            <span class="close">&times;</span>
+            <form action="{% static "php/contact1.php" %}" method="post">
+              <input placeholder="Name(First and Last)" type="text" name="Name" required />
+              <input placeholder="Phone" type="phone" name="Phone" required />
+              <select id="Gender" name="Gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              <input class="formBtn" type="submit" />
+              <input class="formBtn" type="reset" />
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
