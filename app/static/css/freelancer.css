@@ -768,9 +768,11 @@ fieldset[disabled] .btn-custom.active {
 /* The Close Button */
 .close {
     color: red;
-    float: right;
+    float: left;
+    margin: -4px;
     position: relative;
     top: -23px;
+    right: 8px;
     font-size: 28px;
     font-weight: bold;
 }
@@ -807,11 +809,12 @@ input, textarea, select {
   margin-left: 20px;
 }
 
-.formBtn {
+input.formBtn {
   margin-top: 20px;
-  width: 140px;
+  width: 120px;
   display: inline-block;
-
+  position: relative;
+  right: 25px;
   background: #c7c881;
   color: #fff;
   font-weight: 100;

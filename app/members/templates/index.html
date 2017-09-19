@@ -50,16 +50,30 @@
         <div id="myModal" class="modal">
           <div id="contactForm" class="modal-content">
             <span class="close">&times;</span>
-            <form action="https://script.google.com/macros/s/AKfycbyeTw7DPlHtUTTXtj2TGkfx8U35ZkN8WSaldhJtzVgnAwcLoCc/exec" method="post">
+            <form id="gform" action="https://script.google.com/macros/s/AKfycbyeTw7DPlHtUTTXtj2TGkfx8U35ZkN8WSaldhJtzVgnAwcLoCc/exec" method="post">
               <input placeholder="Name(First and Last)" type="text" name="Name" required />
               <input placeholder="Phone" type="phone" name="Phone" required />
               <select id="Gender" name="Gender" required>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
               </select>
+              <label for="email"><em>Your</em> Email Address:</label>
+              <input id="email" name="email" type="email" value=""
+              required placeholder="your.name@email.com"/>
+              <span id="email-invalid" style="display:none">
+                Must be a valid email address</span>
               <input class="formBtn" type="submit" />
               <input class="formBtn" type="reset" />
+
+
             </form>
+
+            <!-- Customise the Thankyou Message People See when they submit the form: -->
+<div style="display:none;" id="thankyou_message">
+  <h2><em>Thanks</em> for contacting us!
+    We will get back to you soon!</h2>
+</div>
+
           </div>
         </div>
 
