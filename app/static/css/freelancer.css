@@ -759,7 +759,7 @@ fieldset[disabled] .btn-custom.active {
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 10% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
@@ -784,8 +784,13 @@ fieldset[disabled] .btn-custom.active {
     cursor: pointer;
 }
 
-#contactForm {
+#gform h4 {
+  margin-top: 0;
+  position: relative;
+  right: 16px;
+}
 
+#contactForm {
   border: 6px solid #8a8d1e;
   padding: 2em;
   width: 400px;
@@ -820,5 +825,9 @@ input.formBtn {
   font-weight: 100;
   font-size: 1.2em;
   border: none;
+}
+
+#thankyou_message .logo {
+  width: 180px;
 }
 /*  Pop up Contact Form End*/
