@@ -52,7 +52,7 @@ class Question(models.Model):
 
 class QuestionAnswer(models.Model):
     answer = models.CharField(max_length=2000)
-    name = models.CharField(max_length=2000)
     date_time = models.DateTimeField()
     score = models.IntegerField(default=0)
     question = models.ForeignKey(Question, related_name='answers')
+    user = models.ForeignKey(User)

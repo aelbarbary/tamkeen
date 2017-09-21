@@ -50,7 +50,7 @@
         <div id="myModal" class="modal">
           <div id="contactForm" class="modal-content">
             <span class="close">&times;</span>
-            <form id="gform" action="https://script.google.com/macros/s/AKfycbyeTw7DPlHtUTTXtj2TGkfx8U35ZkN8WSaldhJtzVgnAwcLoCc/exec" method="post">
+            <form id="gform" action="whatsapp/subscribe/" method="post">
                <h4>Please Fill Out The Form</h4>
               <input placeholder="Name(First and Last)" type="text" name="Name" required />
               <input placeholder="Phone" type="phone" name="Phone" required />
@@ -87,10 +87,7 @@
 
 </section>
 
-
-
-
-    <section id="events" class="events">
+<section id="events" class="events">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -133,7 +130,7 @@
       </div>
     </section>
 
-    <section id="question" style="background-color:rgb(212, 245, 255)">
+    <!-- <section id="question" style="background-color:rgb(212, 245, 255)">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -166,30 +163,7 @@
                         </div>
                           <font style="font-size:10pt; color:gray"> Number of Answers:</font> <span class="badge">{{question.answers_count}}</span>
                         </div>
-                      <div class="panel-body">
-
-                          <ul class="form-style-1">
-                            <li>
-                                <label>Name <span class="required">*</span></label>
-                                <input type="text" id="name-{{question.id}}" class="field-long" />
-                            </li>
-
-                            <li>
-                                <label>Your Answer <span class="required">*</span></label>
-                                <textarea name="answer" id="answer-{{question.id}}" class="field-long field-textarea" ></textarea>
-                                <input type="text" id="question-id" class="field-long" value="{{ question.id }}" style="display:none;" />
-                            </li>
-                            <li>
-                                <div class="alert alert-success collapse" id="answer-success-{{question.id}}">
-                                  <strong>Success!</strong> Your answer was submitted successfully.
-                                </div>
-                                <div class="alert alert-danger collapse" id="answer-error-{{question.id}}">
-                                  <strong>Error!</strong> Please contact the system adminitrator.
-                                </div>
-                                <button class="btn btn-primary" id="submitAnswer" onClick="answer_question( {{question.id}} )"> Submit </button>
-                            </li>
-                        </ul>
-                      </div>
+                        <a href="/question/{{question.id}}" > Answer </a>
                   </div>
                 {% endfor %}
               <div style="text-align:center;">
@@ -199,7 +173,7 @@
                 <input class="btn btn-danger" type="button" value="Results" onclick="window.location='questionsHistory';" />
               </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Mission -->
     <section class="mission" id="mission">

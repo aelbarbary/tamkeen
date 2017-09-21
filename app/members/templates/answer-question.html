@@ -1,0 +1,52 @@
+{% load static %}
+<link rel="stylesheet" href="{% static "css/product-lists/product-list-basic.css" %}">
+<link href="{% static "vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{% static "css/user-profiles-lists/user-profiles-list-small.css" %}">
+<link href="{% static "/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+
+<!-- Theme CSS -->
+<link href="{% static "css/freelancer.css" %}"  rel="stylesheet">
+<link href="{% static "css/question.css" %}"  rel="stylesheet">
+
+<section style="padding:20px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Question</h2>
+
+                <hr class="star-primary">
+
+                <form action="." method="post">
+                    {% csrf_token %}
+                    <h2>{{question.text}}</h2>
+                    {{ answer_question_form.as_table }}
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% if personList %}
+<div class="row">
+<ul class="user-profiles-list-small">
+    {% for person in personList %}
+    <div class="col-sm-6 col-md-4">
+      <li>
+          <div class="user-avatar">
+                  <img src="{% static person.rankImage %}" width="48" alt="Rank of {{person.name}}" />
+          </div>
+
+          <p class="user-name">
+              <span>{{ person.name }}</span>
+              <span>Total Points: {{person.score}} </span>
+          </p>
+      </li>
+    </div>
+    {% endfor %}
+</ul>
+</div>
+{% endif %}
+<script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
+<script src="{% static "vendor/bootstrap/js/bootstrap.min.js" %}"></script>

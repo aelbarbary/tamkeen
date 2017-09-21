@@ -18,8 +18,20 @@ class EventForm(forms.ModelForm):
 class QuestionForm(forms.ModelForm):
     text = forms.CharField(widget=forms.Textarea)
 
-class QuestionAnswerForm(forms.ModelForm):
-    answer = forms.CharField(widget=forms.Textarea)
+class AnswerQuestionForm(forms.ModelForm):
+
+    class Meta:
+        model = QuestionAnswer
+        fields = ["answer", "date_time", "score"]
+        widgets = {
+            'answer': forms.Textarea(),
+            'score': forms.HiddenInput()
+        }
+    # def __init__(self, *args, **kwargs):
+    #       super().__init__(*args, **kwargs)
+        #   self.fields['question'].label = self.instance.id
+        #   self.fields['image'].label = "Icon"
+        #   self.fields['description'].label = "How to get there?"
 
 MAX_CHILDREN = 5
 

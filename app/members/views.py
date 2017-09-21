@@ -8,17 +8,60 @@ import logging
 from django.db.models import Max, Sum, Count
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
-from .forms import ParentForm, ChildrenFormSet, EventForm
+from .forms import ParentForm, ChildrenFormSet, EventForm, AnswerQuestionForm
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+import threading
+
+# @csrf_exempt
+# def answerQuestion(request):
+#     name = request.POST.get('name')
+#     answer = request.POST.get('answer')
+#     id = request.POST.get('questionId')
+#     questionAnswer = QuestionAnswer (question_id = id, name = name, answer = answer, date_time = datetime.datetime.now() )
+#     questionAnswer.save()
+#     return HttpResponse()
 
 
-@csrf_exempt
-def answerQuestion(request):
-    name = request.POST.get('name')
-    answer = request.POST.get('answer')
-    id = request.POST.get('questionId')
-    questionAnswer = QuestionAnswer (question_id = id, name = name, answer = answer, date_time = datetime.datetime.now() )
-    questionAnswer.save()
-    return HttpResponse()
+class AnswerQuestionView(CreateView):
+    template_name = 'answer-question.html'
+    model = QuestionAnswer
+    fields = '__all__'
+    success_url = '/'
+
+    def get(self, request, question_id, *args, **kwargs):
+        question = Question.objects.filter(id = question_id)[0]
+        print(request.user.id)
+        print(self)
+        answer_question_form = AnswerQuestionForm(instance=question)
+        self.object = None
+        return self.render_to_response(
+            self.get_context_data( question = question,
+                                   answer_question_form=answer_question_form
+                                  ))
+    def post(self, request, question_id, *args, **kwargs):
+        print(request)
+        self.object = None
+        form = AnswerQuestionForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.question_id = question_id
+            answer.user_id = request.user.id
+            answer.save()
+            print("valid")
+            return self.form_valid(form)
+        else:
+            print("invalid")
+            print(form.errors)
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, ):
+        return self.render_to_response(
+                self.get_context_data(form=form))
 
 def index(request):
     print (request.user)
@@ -168,3 +211,30 @@ class EventRegisterView(CreateView):
             self.get_context_data(form=form,
                                   children_form=children_form,
                                   ))
+
+@csrf_exempt
+def whatsapp_subscribe(request):
+    name = request.POST.get('Name')
+    phone = request.POST.get('Phone')
+    gender = request.POST.get('Gender')
+    email = request.POST.get('email')
+    body = 'Name: %s - Phone: %s - Gender: %s - Email: %s' % (name, phone, gender, email)
+
+    t1 = threading.Thread(target=send_email_to_admins(
+        'New Whatsapp Subscriber Request',
+        body,
+        'tamkeen.website@gmail.com',
+        ['abdelrahman.elbarbary@gmail.com']
+        ))
+    t1.start()
+
+    return HttpResponse()
+
+def send_email_to_admins(subject, body, from_email, to_email):
+    send_mail(
+        subject,
+        body,
+        from_email,
+        to_email,
+        fail_silently=False,
+    )
