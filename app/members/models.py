@@ -55,4 +55,4 @@ class QuestionAnswer(models.Model):
     date_time = models.DateTimeField()
     score = models.IntegerField(default=0)
     question = models.ForeignKey(Question, related_name='answers')
-    user = models.ForeignKey(User)
+    # user = models.ForeignKey(User)
