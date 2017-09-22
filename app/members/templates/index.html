@@ -42,7 +42,7 @@
         <a href="https://groups.google.com/forum/#!forum/tamkeen-parents/join" class="btn btn-danger register hvr-pop" role="button" target="_blank">Tamkeen Parents</a>
       </div>
     </div>
-    <h2 class="text-center">Social2</h2>
+    <h2 class="text-center">Social</h2>
     <p class="text-center">Join Our Whatsapp Chat For The Latest Updates</p>
     <div class="row">
       <div class="col-md-12 text-center">
@@ -50,7 +50,7 @@
         <div id="myModal" class="modal">
           <div id="contactForm" class="modal-content">
             <span class="close">&times;</span>
-            <form id="gform" action="{% static "PHP/contact1.php" %}" method="post">
+            <form id="gform" action="https://formspree.io/tamkeen.moderator@gmail.com" method="post">
                <h4>Please Fill Out The Form</h4>
               <input placeholder="Name(First and Last)" type="text" name="Name" required />
               <input placeholder="Phone" type="phone" name="Phone" required />
@@ -60,10 +60,11 @@
               </select>
 
               <label for="email"><em>Your</em> Email Address:</label>
-              <input id="email" name="email" type="email" value=""
+              <input id="email" name="Email" type="email" value=""
               required placeholder="your.name@email.com"/>
               <span id="email-invalid" style="display:none">
                 Must be a valid email address</span>
+              <input type="hidden" name="_subject" value="New Whatsapp Request!" />
               <input class="formBtn" type="submit" />
               <input class="formBtn" type="reset" />
 
