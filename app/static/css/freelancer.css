@@ -580,7 +580,7 @@ blockquote p {
 .register{
   text-align: center;
   font-size: 20pt;
-  width: 300px;
+  /*width: 100px;*/
   margin-bottom: 30px;
 }
 
