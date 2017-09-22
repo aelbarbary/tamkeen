@@ -220,14 +220,12 @@ def whatsapp_subscribe(request):
     email = request.POST.get('email')
     body = 'Name: %s - Phone: %s - Gender: %s - Email: %s' % (name, phone, gender, email)
 
-    t1 = threading.Thread(target=send_email_to_admins(
+    send_email_to_admins(
         'New Whatsapp Subscriber Request',
         body,
         'tamkeen.website@gmail.com',
         ['abdelrahman.elbarbary@gmail.com']
-        ))
-    t1.start()
-
+        )
     return HttpResponse()
 
 def send_email_to_admins(subject, body, from_email, to_email):
