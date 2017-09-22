@@ -77,7 +77,7 @@ function handleFormSubmit(event) {  // handles form submit withtout any jquery
         document.getElementById('thankyou_message').style.display = 'block';
         setTimeout(function(){
         window.location.reload(1);
-      }, 3000);
+      }, 2500);
         return;
     };
     // url encode form data for sending as post data
