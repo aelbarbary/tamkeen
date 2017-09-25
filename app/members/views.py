@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import Event, Question, QuestionAnswer, Parent, Child
+from .models import Question, QuestionAnswer
 from django.urls import reverse
 from django.conf import settings
 import datetime
@@ -8,7 +8,7 @@ import logging
 from django.db.models import Max, Sum, Count
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
-from .forms import ParentForm, ChildrenFormSet, EventForm, AnswerQuestionForm
+from .forms import AnswerQuestionForm
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import threading
@@ -65,10 +65,8 @@ class AnswerQuestionView(CreateView):
 
 def index(request):
     print (request.user)
-    event_list = Event.objects.filter(date_time__gte=datetime.date.today()).order_by('date_time')[:5]
     question_list = Question.objects.exclude(closed=1).order_by('date_time').annotate(answers_count=Count('answers'))
-    context = {'event_list': event_list,
-                'question_list': question_list,
+    context = { 'question_list': question_list,
                 'user_text': request.user if request.user.is_authenticated else 'login'}
 
     return render(request, 'index.html', context)
@@ -120,119 +118,3 @@ def getRank(score):
     else:
         return { 'rankImage': "images/ranks/pawn.png",
                 'rank': "Pawn. get 20 points to be a Knight" }
-
-
-class ParentCreateView(CreateView):
-    template_name = 'registration/registration_form.html'
-    model = Parent
-    form_class = ParentForm
-    success_url = 'thanks/'
-
-    def get(self, request, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        children_form = ChildrenFormSet()
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  children_form=children_form,
-                                  ))
-    def post(self, request, *args, **kwargs):
-        print(request)
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        children_form = ChildrenFormSet(self.request.POST)
-        if (form.is_valid() and children_form.is_valid() and
-            children_form.is_valid()):
-            print("valid")
-            return self.form_valid(form, children_form)
-        else:
-            print(children_form.errors)
-            return self.form_invalid(form, children_form)
-
-    def form_valid(self, form, children_form):
-        self.object = form.save()
-        children_form.instance = self.object
-        children_form.save()
-        children_form.instance = self.object
-        children_form.save()
-        return HttpResponseRedirect(self.get_success_url())
-
-    def form_invalid(self, form, children_form):
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  children_form=children_form,
-                                  ))
-
-class EventRegisterView(CreateView):
-    template_name = 'event/registration_form.html'
-    model = Event
-    fields = '__all__'
-    success_url = 'thanks/'
-
-    def get(self, request, event_id, *args, **kwargs):
-        event = Event.objects.filter(id = event_id)[0]
-        print(request.user.id)
-        print(request.user.parent.id)
-        children = Child.objects.filter(parent = request.user.parent.id).all()
-        print(children)
-        event_form = EventForm(instance=event)
-        children_form = ChildrenFormSet(instance=request.user.parent)
-        self.object = None
-        return self.render_to_response(
-            self.get_context_data(event_form=event_form,
-                                  children_form = children_form
-                                  ))
-    def post(self, request, *args, **kwargs):
-        print(request)
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        children_form = ChildrenFormSet(self.request.POST)
-        if (form.is_valid() and children_form.is_valid() and
-            children_form.is_valid()):
-            print("valid")
-            return self.form_valid(form, children_form)
-        else:
-            print(children_form.errors)
-            return self.form_invalid(form, children_form)
-
-    def form_valid(self, form, children_form):
-        self.object = form.save()
-        children_form.instance = self.object
-        children_form.save()
-        children_form.instance = self.object
-        children_form.save()
-        return HttpResponseRedirect(self.get_success_url())
-
-    def form_invalid(self, form, children_form):
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  children_form=children_form,
-                                  ))
-
-@csrf_exempt
-def whatsapp_subscribe(request):
-    name = request.POST.get('Name')
-    phone = request.POST.get('Phone')
-    gender = request.POST.get('Gender')
-    email = request.POST.get('email')
-    body = 'Name: %s - Phone: %s - Gender: %s - Email: %s' % (name, phone, gender, email)
-
-    send_email_to_admins(
-        'New Whatsapp Subscriber Request',
-        body,
-        'tamkeen.website@gmail.com',
-        ['abdelrahman.elbarbary@gmail.com']
-        )
-    return HttpResponse()
-
-def send_email_to_admins(subject, body, from_email, to_email):
-    send_mail(
-        subject,
-        body,
-        from_email,
-        to_email,
-        fail_silently=False,
-    )
