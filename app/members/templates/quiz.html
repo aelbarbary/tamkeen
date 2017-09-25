@@ -1,0 +1,73 @@
+{% load static %}
+<link rel="stylesheet" href="{% static "css/product-lists/product-list-basic.css" %}">
+<link href="{% static "vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{% static "css/user-profiles-lists/user-profiles-list-small.css" %}">
+<link href="{% static "/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+
+<!-- Theme CSS -->
+<link href="{% static "css/freelancer.css" %}"  rel="stylesheet">
+<link href="{% static "css/question.css" %}"  rel="stylesheet">
+
+<section style="padding:20px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Weekly Quiz</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<form action="." method="post">
+<section id="questions" style="background-color:rgb(212, 245, 255)">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h4>{{quiz.name}}</h4>
+                <input id="quiz-id" name="quiz-id" type="hidden" value={{quiz.id}}>
+            </div>
+        </div>
+
+          <div class="row">
+          {% if  questions %}
+            {% for question in questions %}
+              <div class="panel panel-default">
+                  <div class="panel-heading question">
+                    {% if question.image|length > 0 %}
+                    <div class="text-center">
+                      <img src="{{question.image.url}}"  alt="{{ question.text }}" />
+                    </div>
+                    {% endif %}
+                    <div>
+                      <Strong>Question: </Strong> {{ question.text }}
+                    </div>
+                    {% if question.link|length > 0 %}
+                    <p class="text-center">
+                      <a href="{{question.link}}">
+                          <img src="{% static "images/video.png" %}" width="200"/>
+                      </a>
+                    </p>
+                    {% endif %}
+                    <div>
+                      <font style="font-size:10pt; color: gray">{{question.date_time}}</font>
+                    </div>
+
+                    </div>
+                    <textarea name="answer-{{question.id}}" id="answer-{{question.id}}" class="field-long field-textarea" ></textarea>
+              </div>
+            {% endfor %}
+          <div style="text-align:center;">
+            {% else %}
+                <p>No Questions are available.</p>
+            {% endif %}
+            <input class="btn btn-danger" type="submit" value="Submit"  />
+          </div>
+
+    </div>
+</section>
+</form>
+
+<script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
+<script src="{% static "vendor/bootstrap/js/bootstrap.min.js" %}"></script>
