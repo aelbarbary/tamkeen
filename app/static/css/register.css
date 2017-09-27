@@ -130,3 +130,12 @@ label.light {
   }
 
 }
+
+.helptext{
+  visibility: hidden;
+  display: none;
+}
+
+.errorlist{
+  color: red
+}

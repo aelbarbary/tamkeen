@@ -10,22 +10,16 @@
     <script src="{% static "vendor/jquery/jquery.formset.js" %}"></script>
     <script src="{% static "vendor/jquery/jquery-ui.min.js" %}"></script>
     <script type="text/javascript">
-        $(function() {
-            $(".inline.{{ children_form.prefix }}").formset({
-                prefix: "{{ children_form.prefix }}",
-            })
-        })
-  $(function() {
-    $( ".datepicker" ).datepicker({
-      changeMonth: true,
-      changeYear: true,
-      yearRange: "1900:2012",
-      // You can put more options here.
-    });
-  });
+      $(function() {
+        $( ".datepicker" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          yearRange: "1900:2012",
+          // You can put more options here.
+        });
+      });
     </script>
 </head>
-
 
 
 {% block content %}
@@ -34,34 +28,7 @@
   <h1>Sign Up</h1>
   {% csrf_token %}
   <legend><span class="number">1</span>Your basic info</legend>
-  {{ form.as_p }}
-  <fieldset>
-                <legend><span class="number">2</span>Dependents info</legend>
-                {{ children_form.management_form }}
-                {{ children_form.non_form_errors }}
-                {% for form in children_form %}
-                    {{ form.id }}
-                    <div class="inline {{ children_form.prefix }}">
-                        {{ form.name.errors }}
-                        {{ form.name.label_tag }}
-                        {{ form.name }}
-                        {{ form.gender.errors }}
-                        {{ form.gender.label_tag }}
-                        {{ form.gender }}
-                        {{ form.date_of_birth.errors }}
-                        {{ form.date_of_birth.label_tag }}
-                        {{ form.date_of_birth }}
-                        {{ form.email.label_tag }}
-                        {{ form.email }}
-                        {{ form.phone.label_tag }}
-                        {{ form.phone }}
-                        {{ form.grade.label_tag }}
-                        {{ form.grade }}
-                        {{ form.ethnic.label_tag }}
-                        {{ form.ethnic }}
-                    </div>
-                {% endfor %}
-  </fieldset>
+  {{ form.as_table }}
   <input type="submit" value="{% trans 'Submit' %}" />
 </form>
 <div class="form">
