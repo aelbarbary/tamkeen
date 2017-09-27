@@ -20,8 +20,8 @@ class AnswerForm(forms.ModelForm):
         model = Answer
         exclude = []
         widgets = {
-            'answer': forms.Textarea(),
-            'score': forms.HiddenInput()
+            'answer': forms.Textarea()
+
         }
 
 MAX_CHILDREN = 5
