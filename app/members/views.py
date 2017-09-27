@@ -73,9 +73,11 @@ def index(request):
 @csrf_exempt
 @login_required
 def quiz(request):
+    user_id = request.user.id
+
     if request.method == 'POST':
 
-        user_id = request.user.id
+
         print(user_id)
         answers = request.POST.get('answer-11')
         quiz_id = request.POST.get('quiz-id')
@@ -95,9 +97,9 @@ def quiz(request):
         print("quizs %s" % quizs)
         if quizs:
             last_quiz = quizs[0]
-            questions = last_quiz.questions.all()
+            questions = last_quiz.questions.all().order_by("id")
 
-            answers = Answer.objects.filter(question_id__in=questions)
+            answers = Answer.objects.filter(question_id__in=questions).filter(user_id = user_id )
             if answers:
                     print(answers)
                     return render(request, 'quiz-thanks.html')
