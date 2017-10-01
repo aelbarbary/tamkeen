@@ -41,7 +41,7 @@
                     </div>
                     {% endif %}
                     <div>
-                      <Strong>Question: </Strong> {{ question.text }}
+                     <Strong>Question: </Strong> {{ question.text|linebreaks }} 
                     </div>
                     {% if question.link|length > 0 %}
                     <p class="text-center">
