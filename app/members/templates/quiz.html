@@ -12,8 +12,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2>Weekly Quiz</h2>
-                <hr class="star-primary">
+
+                <img src="{% static "/images/quiz.png" %}"/>
             </div>
         </div>
 
@@ -41,7 +41,7 @@
                     </div>
                     {% endif %}
                     <div>
-                     <Strong>Question: </Strong> {{ question.text|linebreaks }} 
+                     <Strong>Question: </Strong> {{ question.text|linebreaks }}
                     </div>
                     {% if question.link|length > 0 %}
                     <p class="text-center">
