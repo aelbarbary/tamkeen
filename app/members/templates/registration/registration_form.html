@@ -27,7 +27,6 @@
 <form method="post" action=".">
   <h1>Sign Up</h1>
   {% csrf_token %}
-  <legend><span class="number">1</span>Your basic info</legend>
   {{ form.as_table }}
   <input type="submit" value="{% trans 'Submit' %}" />
 </form>
