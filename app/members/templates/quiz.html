@@ -12,8 +12,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2>Weekly Quiz</h2>
-                <hr class="star-primary">
+
+                <img src="{% static "/images/quiz.png" %}"/>
             </div>
         </div>
 
@@ -41,7 +41,7 @@
                     </div>
                     {% endif %}
                     <div>
-                      <Strong>Question: </Strong> {{ question.text }}
+                     <Strong>Question: </Strong> {{ question.text|linebreaks }}
                     </div>
                     {% if question.link|length > 0 %}
                     <p class="text-center">
@@ -55,7 +55,7 @@
                     </div>
 
                     </div>
-                    <textarea name="answer-{{question.id}}" id="answer-{{question.id}}" class="field-long field-textarea" ></textarea>
+                    <textarea name="answer-{{question.id}}" id="answer-{{question.id}}" class="field-long field-textarea" style="width:100%" ></textarea>
               </div>
             {% endfor %}
           <div style="text-align:center;">
