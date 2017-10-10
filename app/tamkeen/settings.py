@@ -20,12 +20,10 @@ EMAIL_HOST_USER = os.environ['TAMKEEN_EMAIL']
 EMAIL_HOST_PASSWORD = os.environ['TAMKEEN_PASSWORD']
 EMAIL_PORT = 587
 SEND_BROKEN_LINK_EMAILS = True
-CORS_ORIGIN_WHITELIST = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 
-CORS_ORIGIN_WHITELIST = (
-    'http://tamkeen.us'
-)
+
 
 LOGGING = {
     'version': 1,
@@ -74,6 +72,7 @@ INSTALLED_APPS = [
     'members',
     'storages',
     'sslserver',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -84,6 +83,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'tamkeen.urls'
