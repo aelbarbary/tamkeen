@@ -20,7 +20,12 @@ EMAIL_HOST_USER = os.environ['TAMKEEN_EMAIL']
 EMAIL_HOST_PASSWORD = os.environ['TAMKEEN_PASSWORD']
 EMAIL_PORT = 587
 SEND_BROKEN_LINK_EMAILS = True
+CORS_ORIGIN_WHITELIST = True
 
+
+CORS_ORIGIN_WHITELIST = (
+    'http://tamkeen.us'
+)
 
 LOGGING = {
     'version': 1,
