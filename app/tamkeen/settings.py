@@ -22,7 +22,7 @@ EMAIL_PORT = 587
 SEND_BROKEN_LINK_EMAILS = True
 CORS_ORIGIN_ALLOW_ALL = True
 
-
+AUTH_USER_MODEL = 'members.Profile'
 
 
 LOGGING = {
@@ -72,7 +72,6 @@ INSTALLED_APPS = [
     'members',
     'storages',
     'sslserver',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -82,8 +81,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'tamkeen.urls'

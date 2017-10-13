@@ -3,6 +3,10 @@ from django.conf import settings
 from PIL import Image
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Quiz(models.Model):
     name = models.CharField(max_length=2000)
@@ -16,9 +20,12 @@ class Question(models.Model):
     def __str__(self):
         return 'Name: ' + self.text
 
+class Profile(AbstractUser):
+    whats_app = models.CharField(max_length=20, blank=True)
+
 class Answer(models.Model):
     text = models.CharField(max_length=2000)
     date_time = models.DateTimeField()
     score = models.IntegerField(default=0)
     question = models.ForeignKey(Question, related_name='answers')
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(Profile)

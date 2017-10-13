@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import  *
-from .forms import QuestionForm, AnswerForm, QuizForm
+from .forms import QuestionForm, AnswerForm, QuizForm, ProfileForm
 
 admin.site.site_header = 'TAMKEEN admin'
 
@@ -25,6 +25,10 @@ class QuestionAdmin(admin.ModelAdmin):
 class AnswerAdmin(admin.ModelAdmin):
     form = AnswerForm
 
+class ProfileAdmin(admin.ModelAdmin):
+    form = ProfileForm
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Quiz, QuizAdmin)
+admin.site.register(Profile, ProfileAdmin)

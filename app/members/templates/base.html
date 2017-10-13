@@ -56,18 +56,32 @@
                         <a href="#page-top"></a>
                     </li>
 
+
                     <li class="page-scroll">
                         <a href="/quiz">Weekly Quiz</a>
                     </li>
-                        <li class="dropdown">
-                            <button href="#" class="dropdown-toggle dropdown-button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></button>
-                            <ul class="dropdown-menu page-scroll" role="menu">
-                                  <li><a href="#mission">Our Mission</a></li>
-                                  <li><a href="#strategy">Our Strategy</a></li>
-                                  <li><a href="#partners">Our Partners</a></li>
-                                  <li><a href="#organization">Our Organizational Structure</a></li>
-                            </ul>
-                        </li>
+                    <li class="dropdown">
+                        <button href="#" class="dropdown-toggle dropdown-button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></button>
+                        <ul class="dropdown-menu page-scroll" role="menu">
+                              <li><a href="#mission">Our Mission</a></li>
+                              <li><a href="#strategy">Our Strategy</a></li>
+                              <li><a href="#partners">Our Partners</a></li>
+                              <li><a href="#organization">Our Organizational Structure</a></li>
+                        </ul>
+                    </li>
+                    {% if not user.is_authenticated %}
+                      <li class="page-scroll">
+                          <a href="/accounts/login">Sign In</a>
+                      </li>
+                      <li class="page-scroll" style="background-color:red">
+                          <a href="/accounts/register">Register</a>
+                      </li>
+                    {% else %}
+                      <li class="page-scroll" style="background-color:green">
+                          <a> Welcome {{user.first_name}} </a>
+                      </li>
+                    {% endif %}
+
                     <!-- <li class="page-scroll">
                         <a href="#contact">Contact</a>
                     </li> -->
