@@ -26,6 +26,9 @@ class Profile(AbstractUser):
     whats_app = models.CharField(max_length=20, blank=True)
     dob = models.DateField(max_length=8)
 
+    def __str__(self):
+        return '%s %s' % (self.first_name, self.last_name)
+         
     @staticmethod
     def post_save(sender, created, **kwargs):
         if created:
