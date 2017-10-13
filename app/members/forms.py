@@ -5,6 +5,7 @@ import datetime
 from registration.forms import RegistrationForm
 from django.forms.models import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.admin.widgets import AdminDateWidget
 
 class QuestionForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput)
@@ -16,10 +17,13 @@ class QuizForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput({'size': '40'}))
 
 class CustomUserCreationForm(UserCreationForm):
-
+    dob = forms.DateField(widget=forms.TextInput(attrs=
+                                {
+                                    'class':'datepicker'
+                                }))
     class Meta(UserCreationForm.Meta):
         model = Profile
-        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'whats_app',)
+        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'whats_app', 'dob')
 
 class AnswerForm(forms.ModelForm):
     class Meta:
@@ -34,6 +38,6 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = []
-        
+
 
 MAX_CHILDREN = 5
