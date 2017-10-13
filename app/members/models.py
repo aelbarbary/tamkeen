@@ -27,9 +27,10 @@ class Profile(AbstractUser):
     dob = models.DateField(max_length=8)
 
     @staticmethod
-    def post_save(sender, **kwargs):
-        instance = kwargs.get('instance')
-        SendEmail(instance, sender).start()
+    def post_save(sender, created, **kwargs):
+        if created:
+            instance = kwargs.get('instance')
+            SendEmail(instance, sender).start()
 
 class SendEmail(threading.Thread):
     def __init__(self, instance, sender):
@@ -39,7 +40,7 @@ class SendEmail(threading.Thread):
 
     def run(self):
         try:
-            print("post save")
+
             message = "%s %s: %s" % (self.instance.first_name, self.instance.last_name, self.instance.whats_app)
             send_mail(
                 'New Member',
