@@ -27,17 +27,20 @@ class Profile(AbstractUser):
 
     @staticmethod
     def post_save(sender, **kwargs):
-        print("post save")
-        instance = kwargs.get('instance')
-        created = kwargs.get('created')
-        message = "%s %s: %s" % (instance.first_name, instance.last_name, instance.whats_app)
-        send_mail(
-            'New Member',
-            message,
-            'abdelrahman.elbarbary@gmail.com',
-            ['abdelrahman.elbarbary@gmail.com'],
-            fail_silently=False,
-        )
+        try:
+            print("post save")
+            instance = kwargs.get('instance')
+            created = kwargs.get('created')
+            message = "%s %s: %s" % (instance.first_name, instance.last_name, instance.whats_app)
+            send_mail(
+                'New Member',
+                message,
+                'abdelrahman.elbarbary@gmail.com',
+                ['abdelrahman.elbarbary@gmail.com'],
+                fail_silently=False,
+            )
+        except Exception as e:
+            print(e) 
 
 post_save.connect(Profile.post_save, sender=Profile)
 
