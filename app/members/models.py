@@ -26,6 +26,8 @@ class Profile(AbstractUser):
     whats_app = models.CharField(max_length=20, blank=True)
     dob = models.DateField(max_length=8)
     gender = models.CharField(max_length=1, default='M')
+    photo = models.ImageField(upload_to='profile_pics')
+    uw_waiver = models.ImageField(upload_to='waive_forms')
 
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
