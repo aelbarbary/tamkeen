@@ -15,39 +15,47 @@ $(document).ready(function() {
              success: function(data){
                data.forEach(function(entry) {
                  t.row.add( [
-                     "<img src='/media/" + entry["fields"]["photo"] + "' width=100px/>", 
+                     "<img src='/media/" + entry["fields"]["photo"] + "' width=100px/>",
                      entry["fields"]["first_name"],
                      entry["fields"]["last_name"],
                      entry["fields"]["email"],
                      entry["fields"]["whats_app"],
-                     entry["fields"]["gender"]
+                     entry["fields"]["gender"],
+                     _calculateAge(new Date(entry["fields"]["dob"]))
                  ] ).draw( false );
              }
          )}
        });
-
-  // Automatically add a first row of data
-  $('#addRow').click();
 } );
+
+function _calculateAge(birthday) { // birthday is a date
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
 </script>
 
 <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
+                <th>Pic</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>WhatsApp</th>
                 <th>Gender</th>
+                <th>Age</th>
             </tr>
         </thead>
         <tfoot>
             <tr>
+              <th>Pic</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
               <th>WhatsApp</th>
               <th>Gender</th>
+              <th>Age</th>
             </tr>
         </tfoot>
     </table>
