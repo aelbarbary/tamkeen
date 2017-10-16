@@ -14,15 +14,15 @@ $(document).ready(function() {
              url: "/rest/members",
              success: function(data){
                data.forEach(function(entry) {
-                 uw_waiver = "/media/" + entry["fields"]["uw_waiver"]
+                 uw_waiver = "/media/" + entry["uw_waiver"]
                  t.row.add( [
-                     "<img src='/media/" + entry["fields"]["photo"] + "' width=100px/>",
-                     entry["fields"]["first_name"],
-                     entry["fields"]["last_name"],
-                     entry["fields"]["email"],
-                     entry["fields"]["whats_app"],
-                     entry["fields"]["gender"],
-                     _calculateAge(new Date(entry["fields"]["dob"])),
+                     "<img src='/media/" + entry["photo"] + "' width=100px/>",
+                     entry["first_name"],
+                     entry["last_name"],
+                     entry["email"],
+                     entry["whats_app"],
+                     entry["gender"],
+                     entry["age"],
                      "<a href='" + uw_waiver + "'> <img src='" + uw_waiver + "' width=100px/>",
                  ] ).draw( false );
              }

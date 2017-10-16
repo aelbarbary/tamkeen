@@ -9,6 +9,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.mail import send_mail
 import threading
+from datetime import date
 
 class Quiz(models.Model):
     name = models.CharField(max_length=2000)
@@ -33,11 +34,28 @@ class Profile(AbstractUser):
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
 
+    @property
+    def json(self):
+        return {
+        'first_name': self.first_name,
+        'last_name': self.last_name,
+        'email': self.email,
+        'whats_app': self.whats_app,
+        'gender': self.gender,
+        'uw_waiver': self.uw_waiver.url,
+        'photo': self.photo.url,
+        'age': calculate_age(self.dob)
+        }
+
     @staticmethod
     def post_save(sender, created, **kwargs):
         if created:
             instance = kwargs.get('instance')
             SendEmail(instance, sender).start()
+
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
 class SendEmail(threading.Thread):
     def __init__(self, instance, sender):

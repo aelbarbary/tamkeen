@@ -13,6 +13,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import threading
 from django.core import serializers
+import json
+
 
 def index(request):
     print (request.user)
@@ -90,8 +92,12 @@ def questionsHistory(request):
 
 def members(request):
     members = Profile.objects.order_by('first_name', 'last_name')
-    data =  serializers.serialize('json', members)
+    # for m in members:
+    #     m.age = calculate_age(m.dob)
+    # data =  serializers.serialize('json', members)
+    data = json.dumps([member.json for member in members])
     return HttpResponse(data, content_type='application/json')
+
 
 def show_members(request):
     return render(request, 'view-members.html')
