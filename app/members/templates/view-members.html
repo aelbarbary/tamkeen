@@ -14,6 +14,7 @@ $(document).ready(function() {
              url: "/rest/members",
              success: function(data){
                data.forEach(function(entry) {
+                 uw_waiver = "/media/" + entry["fields"]["uw_waiver"]
                  t.row.add( [
                      "<img src='/media/" + entry["fields"]["photo"] + "' width=100px/>",
                      entry["fields"]["first_name"],
@@ -21,7 +22,8 @@ $(document).ready(function() {
                      entry["fields"]["email"],
                      entry["fields"]["whats_app"],
                      entry["fields"]["gender"],
-                     _calculateAge(new Date(entry["fields"]["dob"]))
+                     _calculateAge(new Date(entry["fields"]["dob"])),
+                     "<a href='" + uw_waiver + "'> <img src='" + uw_waiver + "' width=100px/>",
                  ] ).draw( false );
              }
          )}
@@ -45,6 +47,7 @@ function _calculateAge(birthday) { // birthday is a date
                 <th>WhatsApp</th>
                 <th>Gender</th>
                 <th>Age</th>
+                <th>UW Waiver</th>
             </tr>
         </thead>
         <tfoot>
@@ -56,6 +59,7 @@ function _calculateAge(birthday) { // birthday is a date
               <th>WhatsApp</th>
               <th>Gender</th>
               <th>Age</th>
+              <th>UW Waiver</th>
             </tr>
         </tfoot>
     </table>
