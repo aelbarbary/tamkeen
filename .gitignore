@@ -1,8 +1,6 @@
 *.sqlite3*
-avacompare/diffs/*
-avacompare/diff-result*
 *.csv
-result2017*
+/app/media
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
