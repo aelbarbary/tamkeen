@@ -15,15 +15,16 @@ $(document).ready(function() {
              success: function(data){
                data.forEach(function(entry) {
                  uw_waiver = entry["uw_waiver"]
+                 photo = entry["photo"]
                  t.row.add( [
-                     "<img src='" + entry["photo"] + "' width=100px/>",
+                     "<a href='" + photo + "' target='_blank'> <img src='" + photo + "' width=100px /> </a>",
                      entry["first_name"],
                      entry["last_name"],
                      entry["email"],
                      entry["whats_app"],
                      entry["gender"],
                      entry["age"],
-                     "<a href='" + uw_waiver + "'> <img src='" + uw_waiver + "' width=100px />",
+                     "<a href='" + uw_waiver + "' target='_blank'> <img src='" + uw_waiver + "' width=100px /> </a>",
                  ] ).draw( false );
              }
          )}
