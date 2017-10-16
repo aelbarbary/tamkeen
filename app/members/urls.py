@@ -19,6 +19,7 @@ urlpatterns = [
         ),
         name='registration_register',
     ),
+    url(r'^get-outta-here/', views.thanks, name='thanks'),
     url(r'^accounts/register/thanks/', views.thanks, name='thanks'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 

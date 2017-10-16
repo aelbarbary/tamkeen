@@ -12,8 +12,8 @@ from .forms import AnswerForm
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import threading
-from django.core import serializers
 import json
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 def index(request):
@@ -90,14 +90,12 @@ def questionsHistory(request):
                 'scoreRange': range(score)}
     return render(request, 'questions-history.html', context)
 
+@staff_member_required
 def members(request):
     members = Profile.objects.order_by('first_name', 'last_name')
-    # for m in members:
-    #     m.age = calculate_age(m.dob)
-    # data =  serializers.serialize('json', members)
     data = json.dumps([member.json for member in members])
     return HttpResponse(data, content_type='application/json')
 
-
+@staff_member_required
 def show_members(request):
     return render(request, 'view-members.html')
