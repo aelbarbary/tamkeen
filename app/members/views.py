@@ -12,6 +12,7 @@ from .forms import AnswerForm
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import threading
+from django.core import serializers
 
 def index(request):
     print (request.user)
@@ -86,3 +87,11 @@ def questionsHistory(request):
                 'personList': personList,
                 'scoreRange': range(score)}
     return render(request, 'questions-history.html', context)
+
+def members(request):
+    members = Profile.objects.order_by('first_name', 'last_name')
+    data =  serializers.serialize('json', members)
+    return HttpResponse(data, content_type='application/json')
+
+def show_members(request):
+    return render(request, 'view-members.html')

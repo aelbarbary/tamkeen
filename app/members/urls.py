@@ -11,10 +11,8 @@ app_name = 'members'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^quiz/$', views.quiz, name='quiz'),
-    # url(r'^questionsHistory/', views.questionsHistory, name='questionsHistory'),
-    # url(r'^question/(?P<question_id>[0-9]+)/$', login_required(AnswerQuestionView.as_view()), name='question'),
-    #
-    #
+    url(r'^rest/members/$', views.members, name='members'),
+    url(r'^members/$', views.show_members, name='show_members'),
     url(r'^accounts/register/$',
         RegistrationView.as_view(
             form_class=forms.CustomUserCreationForm

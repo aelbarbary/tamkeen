@@ -28,7 +28,8 @@ class Profile(AbstractUser):
     gender = models.CharField(max_length=1, default='M')
     photo = models.ImageField(upload_to='profile_pics', default = 'profile_pics/default.jpg' )
     uw_waiver = models.ImageField(upload_to='uw_waivers', default = 'uw_waivers/default.jpg')
-
+    skills = models.TextField(blank=True, null=True)
+    notes =  models.TextField(blank=True, null=True) 
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
 
