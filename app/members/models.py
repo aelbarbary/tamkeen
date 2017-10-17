@@ -85,3 +85,14 @@ class Answer(models.Model):
     score = models.IntegerField(default=0)
     question = models.ForeignKey(Question, related_name='answers')
     user = models.ForeignKey(Profile)
+
+class Book(models.Model):
+    name = models.CharField(max_length=200, blank=False)
+    cover_page = models.ImageField(upload_to='books', default = 'books/default.png' )
+    category = models.CharField(max_length=200, blank=True)
+    status = models.CharField(max_length=1, blank=False, default='A')
+
+class BookCheckoutRequest(models.Model):
+    user = models.ForeignKey(Profile, related_name='user')
+    book = models.ForeignKey(Book, related_name='book')
+    date_time = models.DateTimeField()
