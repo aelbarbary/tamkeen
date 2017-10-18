@@ -179,7 +179,7 @@ AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 # STATIC_ROOT = os.path.join(BASE_DIR, "/static")
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = '/www/tamkeen/'
+MEDIA_ROOT = '/www/tamkeen/media'
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
