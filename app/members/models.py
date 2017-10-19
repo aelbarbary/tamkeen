@@ -44,7 +44,8 @@ class Profile(AbstractUser):
         'gender': self.gender,
         'uw_waiver': self.uw_waiver.url,
         'photo': self.photo.url,
-        'age': calculate_age(self.dob)
+        'age': calculate_age(self.dob),
+        'skills': self.skills
         }
 
     @staticmethod
