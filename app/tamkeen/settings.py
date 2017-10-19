@@ -26,7 +26,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 AUTH_USER_MODEL = 'members.Profile'
 
 boto3_session = Session(aws_access_key_id=os.environ['ACCESS_KEY'],
-                        aws_secret_access_key=os.environ['SECRET_KEY'])
+                        aws_secret_access_key=os.environ['SECRET_KEY'],
+                        region_name='us-west-2')
 
 LOGGING = {
     'version': 1,

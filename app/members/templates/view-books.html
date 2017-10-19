@@ -55,22 +55,7 @@
                     <li class="page-scroll">
                         <a href="/">Home</a>
                     </li>
-
-                    {% if not user.is_authenticated %}
-                      <li class="page-scroll">
-                          <a href="/accounts/login">Sign In</a>
-                      </li>
-               
-                    {% else %}
-                      <li class="page-scroll" style="background-color:green">
-                          <a> Welcome {{user.first_name}} </a>
-                      </li>
-                    {% endif %}
-
-                    <!-- <li class="page-scroll">
-                        <a href="#contact">Contact</a>
-                    </li> -->
-                </ul>
+                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
