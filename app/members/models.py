@@ -31,6 +31,7 @@ class Profile(AbstractUser):
     uw_waiver = models.ImageField(upload_to='uw_waivers', default = 'uw_waivers/default.png')
     skills = models.TextField(blank=True, null=True)
     notes =  models.TextField(blank=True, null=True)
+    title = models.CharField(max_length=100, default='TAMKEENER')
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
 
@@ -45,7 +46,8 @@ class Profile(AbstractUser):
         'uw_waiver': self.uw_waiver.url,
         'photo': self.photo.url,
         'age': calculate_age(self.dob),
-        'skills': self.skills
+        'skills': self.skills,
+        'title': self.title
         }
 
     @staticmethod

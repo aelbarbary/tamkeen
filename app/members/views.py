@@ -124,3 +124,15 @@ def reserve_book(request, id):
         return HttpResponse("done")
     else:
         return HttpResponse()
+
+@login_required
+def profile(request):
+    profile = Profile.objects.get(pk=request.user.id)
+    if profile.skills:
+        skills = profile.skills.split(",")
+    else:
+        skills = []
+    answers_count = Answer.objects.filter(user_id=request.user.id).count()
+
+    context = { 'user': profile, 'skills': skills, 'answers_count': answers_count }
+    return render(request, 'profile.html', context )
