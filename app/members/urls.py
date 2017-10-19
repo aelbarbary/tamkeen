@@ -25,5 +25,4 @@ urlpatterns = [
     url(r'^rest/books/$', views.books, name='books'),
     url(r'^books/', views.show_books, name='show_books'),
     url(r'^profile/', views.profile, name='profile'),
-
 ]

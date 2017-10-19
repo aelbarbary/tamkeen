@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from boto3.session import Session
 
 ADMINS =(('admin','abdelrahman.elbarbary@gmail.com'),)
 EMAIL_USE_TLS = True
@@ -24,21 +25,47 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 AUTH_USER_MODEL = 'members.Profile'
 
+boto3_session = Session(aws_access_key_id=os.environ['ACCESS_KEY'],
+                        aws_secret_access_key=os.environ['SECRET_KEY'])
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+        'aws': {
+            # you can add specific format for aws here
+            'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
             'filters': []
-        }
+        },
+        'watchtower': {
+            'level': 'DEBUG',
+            'class': 'watchtower.CloudWatchLogHandler',
+                     'boto3_session': boto3_session,
+                     'log_group': 'tamkeen',
+                     'stream_name': 'index-visitors',
+            'formatter': 'aws',
+        },
     },
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
+            'propagate': False,
+        },
+        'django': {
+            'handlers': ['watchtower'],
+            'level': 'INFO',
             'propagate': False,
         }
     }

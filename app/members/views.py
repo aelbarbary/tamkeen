@@ -16,12 +16,17 @@ import json
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponseForbidden
 from django.db.models import Q
+import os
+import time
+import watchtower, logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("django")
 
 def index(request):
-    print (request.user)
-    # question_list = Question.objects.exclude(closed=1).order_by('date_time').annotate(answers_count=Count('answers'))
-    context = { 'user_text': request.user if request.user.is_authenticated else 'login'}
+    logger.info("user %s %s has logged" % (request.user.first_name, request.user.last_name))
 
+    context = { 'user_text': request.user if request.user.is_authenticated else 'login'}
     return render(request, 'index.html', context)
 
 @csrf_exempt
