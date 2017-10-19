@@ -5,4 +5,5 @@ django-storages
 boto
 django-registration
 django-sslserver
+boto3
 watchtower
