@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <link href ="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 <script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
 <script data-cfasync="false" type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js">
@@ -37,6 +38,7 @@ function _calculateAge(birthday) { // birthday is a date
     return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
 </script>
+
 
 <table id="example" class="display" cellspacing="0" width="100%">
         <thead>

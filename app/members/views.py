@@ -109,13 +109,14 @@ def books(request):
     data = json.dumps([book.json for book in books])
     return HttpResponse(data, content_type='application/json')
 
+@login_required
 def show_books(request):
     return render(request, 'view-books.html')
 
 @csrf_exempt
 def reserve_book(request, id):
     if request.method == "POST":
-        json_data = json.loads(request.body)
+        json_data = json.loads(request.body.decode('utf-8'))
         user_id = json_data["userId"]
         book_id = id
         request = BookReserve(user_id=user_id, book_id = book_id, date_time = datetime.datetime.now() )
