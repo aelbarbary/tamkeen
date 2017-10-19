@@ -88,11 +88,25 @@ class Answer(models.Model):
 
 class Book(models.Model):
     name = models.CharField(max_length=200, blank=False)
+    description = models.TextField(blank=True, null=True)
     cover_page = models.ImageField(upload_to='books', default = 'books/default.png' )
     category = models.CharField(max_length=200, blank=True)
-    status = models.CharField(max_length=1, blank=False, default='A')
+    status = models.CharField(max_length=2, blank=False, default='A')
+    number_of_pages = models.IntegerField(default=0)
 
-class BookCheckoutRequest(models.Model):
+    @property
+    def json(self):
+        return {
+        'id' : self.id,
+        'name': self.name,
+        'description': self.description,
+        'cover_page': self.cover_page.url,
+        'category': self.category,
+        'status': self.status,
+        'number_of_pages': self.number_of_pages
+        }
+
+class BookReserve(models.Model):
     user = models.ForeignKey(Profile, related_name='user')
-    book = models.ForeignKey(Book, related_name='book')
+    book = models.ForeignKey(Book, related_name='book_reserves')
     date_time = models.DateTimeField()

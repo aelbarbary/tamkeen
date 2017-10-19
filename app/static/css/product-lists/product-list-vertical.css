@@ -40,6 +40,7 @@
 .product-list-vertical .product-details{
     max-width: 275px;
     float: right;
+    width: 75%;
 }
 
 /* Product title */
@@ -120,6 +121,10 @@
     height: 32px;
 }
 
+.product-list-vertical .product-details button:disabled{
+  background-color: gray;
+  cursor: not-allowed
+}
 .product-list-vertical .product-details .product-price{
     float: right;
 
@@ -148,6 +153,7 @@
 
     .product-list-vertical .product-details{
         float: none;
+
     }
 
     .product-list-vertical .product-details .product-description{

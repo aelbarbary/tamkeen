@@ -1,0 +1,72 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static "css/product-lists/product-list-vertical.css" %}">
+<link href ="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
+<script data-cfasync="false" type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js">
+</script>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+
+<script >
+$(document).ready(function() {
+  var t = $('#list');
+
+  $.ajax({
+             type: "GET",
+             dataType: "json",
+             url: "/rest/books",
+             success: function(data){
+               var items = [];
+              //  data.forEach(function(entry) {
+              //    cover_page = entry["cover_page"]
+              //    items.push(entry);
+              //  });
+              $("#bookTemplate").tmpl(data).appendTo("#list");
+         }
+       });
+} );
+
+function reserveBook(book_id){
+    data = {
+        userId: {{ request.user.id }}
+    }
+    $.ajax({
+        type: "POST",
+        url: "/rest/books/" + book_id  + "/reserve/",
+        data: JSON.stringify(data),
+        success: function(result) {
+            alert('Book has been reserved. an Admin will contact you soon.');
+            $("#reserve"+book_id).prop("disabled",true);
+        },
+        error: function(xhr, status, error) {
+          var err = eval("(" + xhr.responseText + ")");
+          alert(err.Message);
+        }
+    });
+}
+
+
+</script>
+<script id="bookTemplate" type="text/x-jQuery-tmpl">
+<li>
+
+     <a href="#" class="product-photo">
+         <img src="${cover_page}" height="160" alt="iPhone 6" />
+     </a>
+
+     <div class="product-details">
+
+         <h2>${name}</h2>
+         <p ><h3 style="color:gray">(${category})</h3></p>
+
+         <p class="product-description">${description}</p>
+
+         <button id="reserve${id}" onclick="reserveBook(${id})">Reserve</button>
+         <p class="product-price"><span style="font-size:10">pages: </span> ${number_of_pages}</p>
+     </div>
+
+ </li>
+</script>
+
+<ul id="list" class="product-list-vertical">
+</ul>

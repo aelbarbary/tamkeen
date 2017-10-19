@@ -19,7 +19,11 @@ urlpatterns = [
         ),
         name='registration_register',
     ),
-    url(r'^get-outta-here/', views.thanks, name='thanks'),
     url(r'^accounts/register/thanks/', views.thanks, name='thanks'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'^rest/books/(?P<id>\d+)/reserve/$', views.reserve_book, name='reserve_book'),
+    url(r'^rest/books/$', views.books, name='books'),
+    url(r'^books/', views.show_books, name='show_books'),
+
+
 ]

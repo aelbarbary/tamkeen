@@ -14,7 +14,8 @@ from django.core.mail import send_mail
 import threading
 import json
 from django.contrib.admin.views.decorators import staff_member_required
-
+from django.http import HttpResponseForbidden
+from django.db.models import Q
 
 def index(request):
     print (request.user)
@@ -99,3 +100,26 @@ def members(request):
 @staff_member_required
 def show_members(request):
     return render(request, 'view-members.html')
+
+
+def books(request):
+    user = request.user.id
+    print(user)
+    books = Book.objects.exclude(book_reserves__user_id=user).order_by('name', 'status')
+    data = json.dumps([book.json for book in books])
+    return HttpResponse(data, content_type='application/json')
+
+def show_books(request):
+    return render(request, 'view-books.html')
+
+@csrf_exempt
+def reserve_book(request, id):
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+        user_id = json_data["userId"]
+        book_id = id
+        request = BookReserve(user_id=user_id, book_id = book_id, date_time = datetime.datetime.now() )
+        request.save()
+        return HttpResponse("done")
+    else:
+        return HttpResponse()

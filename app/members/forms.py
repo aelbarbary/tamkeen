@@ -39,5 +39,14 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         exclude = []
 
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        exclude = []
+
+class BookReserveForm(forms.ModelForm):
+    class Meta:
+        model = BookReserve
+        exclude = []
 
 MAX_CHILDREN = 5

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import  *
-from .forms import QuestionForm, AnswerForm, QuizForm, ProfileForm
+from .forms import *
 
 admin.site.site_header = 'TAMKEEN admin'
 
@@ -28,7 +28,17 @@ class AnswerAdmin(admin.ModelAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     form = ProfileForm
 
+class BookReserveInline(admin.TabularInline):
+        model = BookReserve
+        form = BookReserveForm
+        show_change_link = True
+
+class BookAdmin(admin.ModelAdmin):
+    inlines = [BookReserveInline]
+    form = BookForm
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Quiz, QuizAdmin)
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Book, BookAdmin)
