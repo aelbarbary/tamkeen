@@ -94,6 +94,9 @@ class Book(models.Model):
     status = models.CharField(max_length=2, blank=False, default='A')
     number_of_pages = models.IntegerField(default=0)
 
+    def __str__(self):
+         return '%s %s' % (self.name, self.description)
+
     @property
     def json(self):
         return {
