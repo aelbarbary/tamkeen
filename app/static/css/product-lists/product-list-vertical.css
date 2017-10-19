@@ -3,7 +3,7 @@
 .product-list-vertical{
     list-style:none;
     margin: 0 auto;
-    max-width: 600px;
+    max-width: 90%;
     padding: 0;
 }
 
@@ -19,7 +19,7 @@
     border-radius: 3px;
     box-shadow: 1px 3px 1px rgba(0, 0, 0, 0.08);
 
-    max-width:570px;
+    width: 100%;
     margin-bottom: 25px;
     padding: 25px;
 }
@@ -38,7 +38,7 @@
 }
 
 .product-list-vertical .product-details{
-    max-width: 275px;
+    /*max-width: 275px;*/
     float: right;
     width: 75%;
 }
