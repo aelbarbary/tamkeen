@@ -24,10 +24,22 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("django")
 
 def index(request):
-    logger.info("user %s %s has logged" % (request.user.first_name, request.user.last_name))
+    if request.user.is_authenticated:
+        name = "%s %s" % (request.user.first_name, request.user.last_name)
+    else:
+        name = get_client_ip(request)
+    logger.info("user %s has logged" % name)
 
     context = { 'user_text': request.user if request.user.is_authenticated else 'login'}
     return render(request, 'index.html', context)
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 @csrf_exempt
 @login_required
