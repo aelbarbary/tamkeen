@@ -52,7 +52,6 @@
                         <a href="#page-top"></a>
                     </li>
 
-
                     <li class="page-scroll">
                         <a href="/">Home</a>
                     </li>
@@ -61,9 +60,7 @@
                       <li class="page-scroll">
                           <a href="/accounts/login">Sign In</a>
                       </li>
-                      <!-- <li class="page-scroll" style="background-color:red">
-                          <a href="/accounts/register">Register</a>
-                      </li> -->
+               
                     {% else %}
                       <li class="page-scroll" style="background-color:green">
                           <a> Welcome {{user.first_name}} </a>
@@ -83,7 +80,7 @@
 <script id="bookTemplate" type="text/x-jQuery-tmpl">
     <li>
 
-     <a href="#" class="product-photo">
+     <a href="${cover_page}" class="product-photo">
          <img src="${cover_page}" height="160" alt="iPhone 6" />
      </a>
 
@@ -131,10 +128,6 @@ $(document).ready(function() {
              url: "/rest/books",
              success: function(data){
                var items = [];
-              //  data.forEach(function(entry) {
-              //    cover_page = entry["cover_page"]
-              //    items.push(entry);
-              //  });
               $("#bookTemplate").tmpl(data).appendTo("#list");
          }
        });
