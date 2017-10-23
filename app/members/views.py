@@ -26,9 +26,7 @@ logger = logging.getLogger("django")
 def index(request):
     if request.user.is_authenticated:
         name = "%s %s" % (request.user.first_name, request.user.last_name)
-    else:
-        name = get_client_ip(request)
-    logger.info("user %s has logged" % name)
+        logger.info("user %s has logged" % name)
 
     context = { 'user_text': request.user if request.user.is_authenticated else 'login'}
     return render(request, 'index.html', context)
