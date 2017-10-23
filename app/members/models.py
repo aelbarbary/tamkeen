@@ -96,12 +96,21 @@ class Book(models.Model):
     category = models.CharField(max_length=200, blank=True)
     status = models.CharField(max_length=2, blank=False, default='A')
     number_of_pages = models.IntegerField(default=0)
+    language = models.CharField(max_length=2, default="en")
+    book_file = models.FileField(upload_to="books")
+    page_num = models.IntegerField(default=0)
 
     def __str__(self):
          return '%s %s' % (self.name, self.description)
 
     @property
     def json(self):
+        if self.book_file:
+            book_url = self.book_file.url
+            book_url_display = "inline"
+        else:
+            book_url = "#"
+            book_url_display = "none"
         return {
         'id' : self.id,
         'name': self.name,
@@ -109,7 +118,11 @@ class Book(models.Model):
         'cover_page': self.cover_page.url,
         'category': self.category,
         'status': self.status,
-        'number_of_pages': self.number_of_pages
+        'number_of_pages': self.number_of_pages,
+        'language' : self.language,
+        'book_file': book_url,
+        'page_num': self.page_num,
+        'book_url_display': book_url_display
         }
 
 class BookReserve(models.Model):
