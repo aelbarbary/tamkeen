@@ -19,6 +19,11 @@ from django.db.models import Q
 import os
 import time
 import watchtower, logging
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("django")
@@ -151,3 +156,19 @@ def profile(request):
 
     context = { 'user': profile, 'skills': skills, 'answers_count': answers_count }
     return render(request, 'profile.html', context )
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return HttpResponseRedirect('/')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'registration/password_change_form.html', {
+        'form': form
+    })
