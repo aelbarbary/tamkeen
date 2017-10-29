@@ -129,7 +129,6 @@ def books(request):
     data = json.dumps([book.json for book in books])
     return HttpResponse(data, content_type='application/json')
 
-@login_required
 def show_books(request):
     return render(request, 'view-books.html')
 
