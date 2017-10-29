@@ -123,9 +123,7 @@ def show_members(request):
 
 
 def books(request):
-    user = request.user.id
-    print(user)
-    books = Book.objects.exclude(book_reserves__user_id=user).order_by('name', 'status')
+    books = Book.objects.order_by('name', 'status')
     data = json.dumps([book.json for book in books])
     return HttpResponse(data, content_type='application/json')
 
