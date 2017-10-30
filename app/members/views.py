@@ -131,6 +131,7 @@ def show_books(request):
     return render(request, 'view-books.html')
 
 @csrf_exempt
+@login_required
 def reserve_book(request, id):
     if request.method == "POST":
         json_data = json.loads(request.body.decode('utf-8'))

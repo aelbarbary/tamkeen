@@ -64,7 +64,9 @@
   </body>
 <script id="bookTemplate" type="text/x-jQuery-tmpl">
     <li>
-
+    <div class="alert alert-success hidden" role="alert" id="alert${id}">
+      <strong>Thank you {{ request.user.first_name }}</strong>. The library admin will contact you soon
+    </div>
      <a href="${cover_page}" class="product-photo">
          <img src="${cover_page}" height="160" alt="iPhone 6" />
      </a>
@@ -79,6 +81,7 @@
          <button id="reserve${id}" onclick="reserveBook(${id})">Reserve</button>
          <a href="${book_file}#page=${page_num}" style="display:${book_url_display}">read online</a>
          <p class="product-price"><span style="font-size:10">pages: </span> ${number_of_pages}</p>
+         <p style="color:gray; font-size:8pt; margin-top:5px;">You need to login if you want to borrow this book</p>
      </div>
 
      </li>
@@ -107,19 +110,23 @@
 <script >
 $(document).ready(function() {
   var t = $('#list');
-
   $.ajax({
              type: "GET",
              dataType: "json",
              url: "/rest/books",
              success: function(data){
                var items = [];
-              $("#bookTemplate").tmpl(data).appendTo("#list");
+               $("#bookTemplate").tmpl(data).appendTo("#list");
          }
        });
 } );
 
 function reserveBook(book_id){
+    if ("{{ request.user}}" == "AnonymousUser")
+    {
+       window.location.href ="/accounts/login?next=/books";
+    }
+
     data = {
         userId: {{ request.user.id }}
     }
@@ -128,8 +135,11 @@ function reserveBook(book_id){
         url: "/rest/books/" + book_id  + "/reserve/",
         data: JSON.stringify(data),
         success: function(result) {
-            alert('Book has been reserved. an Admin will contact you soon.');
-            $("#reserve"+book_id).prop("disabled",true);
+          $("#alert"+ book_id).removeClass("hidden");
+          $("#alert"+ book_id).fadeTo(2000, 500).slideUp(500, function(){
+              $("#alert"+ book_id).slideUp(500);
+           });
+          $("#reserve"+book_id).prop("disabled",true);
         },
         error: function(xhr, status, error) {
           var err = eval("(" + xhr.responseText + ")");
