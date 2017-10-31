@@ -7,7 +7,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from datetime import date
+from datetime import date, datetime, timedelta, time
+
 from .email import EmailSender
 
 class Quiz(models.Model):
@@ -37,6 +38,7 @@ class Profile(AbstractUser):
     @property
     def json(self):
         return {
+        'id' : self.id,
         'first_name': self.first_name,
         'last_name': self.last_name,
         'email': self.email,
@@ -48,6 +50,17 @@ class Profile(AbstractUser):
         'skills': self.skills,
         'title': self.title
         }
+
+    @property
+    def json_attendace(self):
+         return {
+         'id' : self.id,
+         'first_name': self.first_name,
+         'last_name': self.last_name,
+         'gender': self.gender,
+         'age': calculate_age(self.dob),
+         'attended_today': get_attendace(self.id)
+         }
 
     @staticmethod
     def post_save(sender, created, **kwargs):
@@ -61,6 +74,17 @@ class Profile(AbstractUser):
             message += "WhatsApp: %s" % instance.whats_app
 
             EmailSender(instance, subject, message, recepients).start()
+
+def get_attendace(user_id):
+    today = datetime.now().date()
+    tomorrow = today + timedelta(1)
+    today_start = datetime.combine(today, time())
+    today_end = datetime.combine(tomorrow, time())
+
+    attendace = Attendance.objects.filter(user_id=user_id, date_time__lte=today_end, date_time__gte=today_start)
+    if attendace:
+        return True
+    return False
 
 def calculate_age(born):
     today = date.today()
@@ -134,5 +158,6 @@ class BookReserve(models.Model):
             recepients = ['abdelrahman.elbarbary@gmail.com', 'alinour64@yahoo.com']
             EmailSender(instance, subject, message, recepients).start()
 
-post_save.connect(Profile.post_save, sender=Profile)
-post_save.connect(BookReserve.post_save, sender=BookReserve)
+class Attendance(models.Model):
+    user = models.ForeignKey(Profile, related_name='attendance_user')
+    date_time = models.DateTimeField()

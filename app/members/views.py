@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from .models import *
 from django.urls import reverse
 from django.conf import settings
-import datetime
+from datetime import date, datetime, timedelta, time
 import logging
 from django.db.models import Max, Sum, Count
 from django.views.decorators.csrf import csrf_exempt
@@ -17,7 +17,6 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponseForbidden
 from django.db.models import Q
 import os
-import time
 import watchtower, logging
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -56,7 +55,7 @@ def quiz(request):
         questions = quiz.questions.all()
         for q in questions:
             answer_text =  request.POST.get('answer-' + str(q.id))
-            answer = Answer(text=answer_text, date_time = datetime.datetime.now(), score = 0, question_id = q.id, user_id = user_id )
+            answer = Answer(text=answer_text, date_time = datetime.now(), score = 0, question_id = q.id, user_id = user_id )
             answer.save()
 
         return render(request, 'quiz-thanks.html')
@@ -130,7 +129,7 @@ def reserve_book(request, id):
         json_data = json.loads(request.body.decode('utf-8'))
         user_id = json_data["userId"]
         book_id = id
-        request = BookReserve(user_id=user_id, book_id = book_id, date_time = datetime.datetime.now() )
+        request = BookReserve(user_id=user_id, book_id = book_id, date_time = datetime.now() )
         request.save()
         return HttpResponse("done")
     else:
@@ -163,3 +162,35 @@ def change_password(request):
     return render(request, 'registration/password_change_form.html', {
         'form': form
     })
+
+@staff_member_required
+def rest_attendance_sheet(request):
+    members = Profile.objects.order_by('first_name', 'last_name')
+
+    data = json.dumps([member.json_attendace for member in members])
+    return HttpResponse(data, content_type='application/json')
+
+@staff_member_required
+def attendance_sheet(request):
+    return render(request, 'attendance-sheet.html')
+
+@csrf_exempt
+@login_required
+def record_attendacne(request):
+    if request.method == "POST":
+        json_data = json.loads(request.body.decode('utf-8'))
+        user_id = json_data["userId"]
+        checked = json_data["checked"]
+        print(checked)
+        if checked == True:
+            request = Attendance(user_id=user_id, date_time = datetime.now() )
+            request.save()
+        else:
+              today = datetime.now().date()
+              tomorrow = today + timedelta(1)
+              today_start = datetime.combine(today, time())
+              today_end = datetime.combine(tomorrow, time())
+              Attendance.objects.filter(user_id=user_id, date_time__lte=today_end, date_time__gte=today_start).delete()
+        return HttpResponse("done")
+    else:
+        return HttpResponse()
