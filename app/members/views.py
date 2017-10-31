@@ -50,10 +50,6 @@ def quiz(request):
     user_id = request.user.id
 
     if request.method == 'POST':
-
-
-        print(user_id)
-        answers = request.POST.get('answer-11')
         quiz_id = request.POST.get('quiz-id')
 
         quiz = Quiz.objects.get(pk=quiz_id)
@@ -65,10 +61,7 @@ def quiz(request):
 
         return render(request, 'quiz-thanks.html')
     else:
-
-        print (request.user)
         quizs = Quiz.objects.order_by('-id')[:1]
-        print("quizs %s" % quizs)
         if quizs:
             last_quiz = quizs[0]
             questions = last_quiz.questions.all().order_by("id")
@@ -121,9 +114,9 @@ def members(request):
 def show_members(request):
     return render(request, 'view-members.html')
 
-
 def books(request):
     books = Book.objects.order_by('name', 'status')
+
     data = json.dumps([book.json for book in books])
     return HttpResponse(data, content_type='application/json')
 

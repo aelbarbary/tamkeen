@@ -7,9 +7,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.core.mail import send_mail
-import threading
 from datetime import date
+from .email import EmailSender
 
 class Quiz(models.Model):
     name = models.CharField(max_length=2000)
@@ -54,33 +53,18 @@ class Profile(AbstractUser):
     def post_save(sender, created, **kwargs):
         if created:
             instance = kwargs.get('instance')
-            SendEmail(instance, sender).start()
+            subject = 'New Member'
+            recepients = ['abdelrahman.elbarbary@gmail.com']
+
+            message = "Tamkeener: %s %s\n" % (instance.first_name, instance.last_name)
+            message += "Email: %s\n" % instance.email
+            message += "WhatsApp: %s" % instance.whats_app
+
+            EmailSender(instance, subject, message, recepients).start()
 
 def calculate_age(born):
     today = date.today()
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-
-class SendEmail(threading.Thread):
-    def __init__(self, instance, sender):
-        threading.Thread.__init__(self)
-        self.instance = instance
-        self.sender = sender
-
-    def run(self):
-        try:
-
-            message = "%s %s: %s" % (self.instance.first_name, self.instance.last_name, self.instance.whats_app)
-            send_mail(
-                'New Member',
-                message,
-                'tamkeen.website@gmail.com',
-                ['abdelrahman.elbarbary@gmail.com', 'haythamlion@outlook.com'],
-                fail_silently=False,
-            )
-        except Exception as e:
-            print(e)
-
-post_save.connect(Profile.post_save, sender=Profile)
 
 class Answer(models.Model):
     text = models.CharField(max_length=2000)
@@ -97,7 +81,7 @@ class Book(models.Model):
     status = models.CharField(max_length=2, blank=False, default='A')
     number_of_pages = models.IntegerField(default=0)
     language = models.CharField(max_length=2, default="en")
-    book_file = models.FileField(upload_to="books")
+    book_file = models.FileField(upload_to="books", blank=True)
     page_num = models.IntegerField(default=0)
 
     def __str__(self):
@@ -129,3 +113,26 @@ class BookReserve(models.Model):
     user = models.ForeignKey(Profile, related_name='user')
     book = models.ForeignKey(Book, related_name='book_reserves')
     date_time = models.DateTimeField()
+
+    @staticmethod
+    def post_save(sender, created, **kwargs):
+        if created:
+            instance = kwargs.get('instance')
+            print(instance)
+            user = instance.user
+            book = instance.book
+
+            subject = 'New Borrow Request'
+
+            message = "Book Name: %s\n" % book.name
+            message += "Description: %s\n" % book.description
+            message += "Category: %s\n" % book.category
+            message += "Tamkeener: %s %s\n" % (user.first_name, user.last_name)
+            message += "Email: %s\n" % user.email
+            message += "WhatsApp: %s\n" % user.whats_app
+
+            recepients = ['abdelrahman.elbarbary@gmail.com', 'alinour64@yahoo.com']
+            EmailSender(instance, subject, message, recepients).start()
+
+post_save.connect(Profile.post_save, sender=Profile)
+post_save.connect(BookReserve.post_save, sender=BookReserve)
