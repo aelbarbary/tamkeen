@@ -58,7 +58,6 @@ class Profile(AbstractUser):
          'first_name': self.first_name,
          'last_name': self.last_name,
          'gender': self.gender,
-         'age': calculate_age(self.dob),
          'attended_today': get_attendace(self.id)
          }
 
