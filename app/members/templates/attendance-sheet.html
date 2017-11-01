@@ -21,6 +21,9 @@
 $(document).ready(function() {
   var t = $('#example').DataTable({
     paging: false,
+    "ajax":{
+      "url":  "/rest/members/attendance/",
+    },
   });
 
   $.ajax({
@@ -38,7 +41,6 @@ $(document).ready(function() {
                     checkbox += "checked";
                  }
                  checkbox += "></input>"
-
                  row = t.row.add( [
                      checkbox,
                      entry["first_name"],
@@ -72,8 +74,8 @@ function saveAttendance(user_id)
 
 </script>
 
-
 <table id="example" class="display" cellspacing="0" width="100%">
+
         <thead>
             <tr>
                 <th></th>
@@ -83,6 +85,7 @@ function saveAttendance(user_id)
                 <th>Age</th>
             </tr>
         </thead>
+
         <tfoot>
             <tr>
               <th></th>
