@@ -5,5 +5,22 @@
  */
 .attend {
  background-color: yellow !important;
+}
 
+#example thead th{
+  font-size: 30pt;
+}
+
+input[type=checkbox] {
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+}
+
+#example tbody td{
+  font-size: 30pt;
+}
+
+#example_wrapper{
+  padding: 10px;
 }
