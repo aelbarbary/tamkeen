@@ -245,7 +245,7 @@ class InquiryCreate(CreateView):
     success_url = '/'
     template_name = 'inquiry_form.html'
     model = Inquiry
-    fields = ['name','text']
+    fields = ['name', 'email', 'text']
     def form_valid(self, form):
         response = super(InquiryCreate, self).form_valid(form)
         instance = self.object
