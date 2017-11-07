@@ -37,8 +37,12 @@ class BookAdmin(admin.ModelAdmin):
     inlines = [BookReserveInline]
     form = BookForm
 
+class NewMemberRequestAdmin(admin.ModelAdmin):
+    model = NewMemberRequest
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Quiz, QuizAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Book, BookAdmin)
+admin.site.register(NewMemberRequest, NewMemberRequestAdmin)

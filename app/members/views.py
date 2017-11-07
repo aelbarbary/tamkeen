@@ -22,7 +22,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
-
+from .email import EmailSender
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("django")
@@ -194,3 +194,41 @@ def record_attendacne(request):
         return HttpResponse("done")
     else:
         return HttpResponse()
+
+class NewMemberRequest(CreateView):
+    success_url = '/'
+    template_name = 'newmemberrequest_form.html'
+    model = NewMemberRequest
+    fields = ['first_name','last_name', 'whats_app', 'email', 'gender']
+    def form_valid(self, form):
+        response = super(NewMemberRequest, self).form_valid(form)
+        instance = self.object
+
+        subject = 'New Member Request'
+        recepients = ['abdelrahman.elbarbary@gmail.com']
+
+        message = "Tamkeener: %s %s\n" % (instance.first_name, instance.last_name)
+        message += "Email: %s\n" % instance.email
+        message += "WhatsApp: %s" % instance.whats_app
+        EmailSender(instance, subject, message, recepients).start()
+        return response
+
+class InquiryCreate(CreateView):
+    success_url = '/'
+    template_name = 'inquiry_form.html'
+    model = Inquiry
+    fields = ['name','text']
+    def form_valid(self, form):
+        response = super(InquiryCreate, self).form_valid(form)
+        instance = self.object
+        print(instance)
+        subject = 'New Inquiry'
+        recepients = [ 'm.h.ali@hotmail.com']
+        name = "Anonymous"
+        if instance.name:
+            name = instance.name
+        message = "Name: %s\n" % (name)
+        message += "Inquiry: %s\n" % instance.text
+
+        EmailSender(instance, subject, message, recepients).start()
+        return redirect('/')

@@ -26,6 +26,19 @@
   box-sizing: border-box;
   font-size: 14px;
 }
+
+.form textarea {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 1px solid #ccc;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
 .form input[type=submit] {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;

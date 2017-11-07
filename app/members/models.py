@@ -160,3 +160,19 @@ class BookReserve(models.Model):
 class Attendance(models.Model):
     user = models.ForeignKey(Profile, related_name='attendance_user')
     date_time = models.DateTimeField()
+
+class NewMemberRequest(models.Model):
+    first_name =models.CharField(max_length=100)
+    last_name =models.CharField(max_length=100)
+    gender = models.CharField(max_length=1, default="M")
+    whats_app = models.CharField(max_length=20, blank=True)
+    email = models.CharField(max_length=100, blank=True)
+    def __str__(self):
+        return '%s %s' % (self.first_name, self.last_name)
+
+class Inquiry(models.Model):
+    name =models.CharField(max_length=200, blank=True)
+    text =models.TextField(verbose_name= 'Inquiry')
+
+    def __str__(self):
+        return '%s %s' % (self.name, self.text)
