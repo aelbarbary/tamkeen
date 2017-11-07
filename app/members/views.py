@@ -23,6 +23,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from .email import EmailSender
 from datetime import date, datetime, timedelta, time
+from pytz import timezone
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("django")
@@ -67,7 +68,7 @@ def quiz(request):
 
             answers = Answer.objects.filter(question_id__in=questions).filter(user_id = user_id )
             if answers:
-                    print(answers)
+
                     return render(request, 'quiz-thanks.html')
             else:
                 context = {'quiz': last_quiz, 'questions': questions }
@@ -165,37 +166,39 @@ def change_password(request):
 
 @staff_member_required
 def rest_attendance_sheet(request, date):
-    print(date)
+
     members = Profile.objects.order_by('first_name', 'last_name')
     result = []
     for m in members:
-        print(m.id)
         attendance =  get_attendace(m.id, date )
         result.append(json_attendance(m,attendance))
     data = json.dumps(result)
     return HttpResponse(data, content_type='application/json')
 
 def json_attendance(member, attendance):
+     is_attendant = False
+     date_time = "N/A"
+     if attendance:
+         is_attendant = True
+         date_time = attendance[0].date_time.astimezone(timezone('US/Pacific')).strftime('%H:%M:%S')
+
      return {
      'id' : member.id,
      'first_name': member.first_name,
      'last_name': member.last_name,
      'gender': member.gender,
-     'attendance': attendance
+     'attendance': is_attendant,
+     'datetime': date_time
      }
 
 def get_attendace(user_id, date):
     today = datetime.strptime(date,'%Y%m%d')
-    print(today)
     tomorrow = today + timedelta(1)
-    print(tomorrow)
     today_start = datetime.combine(today, time())
     today_end = datetime.combine(tomorrow, time())
 
     attendace = Attendance.objects.filter(user_id=user_id, date_time__lte=today_end, date_time__gte=today_start)
-    if attendace:
-        return True
-    return False
+    return attendace
 
 @staff_member_required
 def attendance_sheet(request):
@@ -205,19 +208,22 @@ def attendance_sheet(request):
 @login_required
 def record_attendacne(request):
     if request.method == "POST":
+        print("recording")
         json_data = json.loads(request.body.decode('utf-8'))
         user_id = json_data["userId"]
         checked = json_data["checked"]
-        print(checked)
+        date = json_data["date"]
+        print(date)
+        date = datetime.strptime(date,'%Y%m%d %H:%M:%S')
+        # print(date)
         if checked == True:
-            request = Attendance(user_id=user_id, date_time = datetime.now() )
+            request = Attendance(user_id=user_id, date_time = date )
             request.save()
         else:
-              today = datetime.now().date()
-              tomorrow = today + timedelta(1)
-              today_start = datetime.combine(today, time())
-              today_end = datetime.combine(tomorrow, time())
-              Attendance.objects.filter(user_id=user_id, date_time__lte=today_end, date_time__gte=today_start).delete()
+              datePlusOne = date + timedelta(1)
+              start = datetime.combine(date, time())
+              end = datetime.combine(datePlusOne, time())
+              Attendance.objects.filter(user_id=user_id, date_time__lte=end, date_time__gte=start).delete()
         return HttpResponse("done")
     else:
         return HttpResponse()
@@ -249,7 +255,7 @@ class InquiryCreate(CreateView):
     def form_valid(self, form):
         response = super(InquiryCreate, self).form_valid(form)
         instance = self.object
-        print(instance)
+
         subject = 'New Inquiry'
         recepients = [ 'm.h.ali@hotmail.com']
         name = "Anonymous"

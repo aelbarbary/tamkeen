@@ -53,7 +53,9 @@ function saveAttendance(user_id)
   checked = false
   if ($("#checkbox" + user_id).is(':checked'))
     checked = true
-  data = { userId: user_id, checked: checked }
+  date = $('#datetimepicker').data("DateTimePicker").date().format("YYYYMMDD hh:mm:ss");
+
+  data = { userId: user_id, checked: checked, date: date }
   $.ajax({
       type: "POST",
       url: "/rest/members/attendance/new",
@@ -62,7 +64,7 @@ function saveAttendance(user_id)
 
       },
       error: function(xhr, status, error) {
-        alert(error);
+        console.log(error);
       }
   });
 }
@@ -91,7 +93,7 @@ function getSheet(table, sheet_date)
                      entry["first_name"],
                      entry["last_name"],
                      entry["gender"],
-                     entry["age"],
+                     entry["datetime"],
                  ] ).draw( false );
              }
          )}
@@ -151,6 +153,7 @@ function getSheet(table, sheet_date)
                   <th>First Name</th>
                   <th>Last Name</th>
                   <th>Gender</th>
+                  <th>Time</th>
               </tr>
           </thead>
 
@@ -160,6 +163,7 @@ function getSheet(table, sheet_date)
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Gender</th>
+                <th>Time</th>
               </tr>
           </tfoot>
       </table>
