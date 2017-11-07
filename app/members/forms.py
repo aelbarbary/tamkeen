@@ -49,4 +49,11 @@ class BookReserveForm(forms.ModelForm):
         model = BookReserve
         exclude = []
 
+# class NewMemberRequestForm(forms.ModelForm):
+#     class Meta:
+#         model = NewMemberRequest
+#     CHOICES=[('Male','M'),
+#          ('Female','F')]
+#     gender = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
+
 MAX_CHILDREN = 5

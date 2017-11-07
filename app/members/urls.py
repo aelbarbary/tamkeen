@@ -25,13 +25,12 @@ urlpatterns = [
     url(r'^rest/books/(?P<id>\d+)/reserve/$', views.reserve_book, name='reserve_book'),
 
     url(r'^rest/books/$', views.books, name='books'),
-    url(r'^books/', views.show_books, name='show_books'),
-    url(r'^profile/', views.profile, name='profile'),
+    url(r'^books/$', views.show_books, name='show_books'),
+    url(r'^profile/$', views.profile, name='profile'),
     url(r'^password/change/$', views.change_password, name='change_password'),
 
     url(r'^rest/members/attendance/new$', views.record_attendacne, name='record_attendacne'),
-    url(r'^rest/members/attendance/$', views.rest_attendance_sheet, name='rest_attendance_sheet'),
+    url(r'^rest/members/attendance/(?P<date>\d+)/$', views.rest_attendance_sheet, name='rest_attendance_sheet'),
     url(r'^register/$', views.NewMemberRequest.as_view(), name='new_member_request'),
-    url(r'^inquiry/$', views.InquiryCreate.as_view(), name='new_inquiry'),
-
+    url(r'^inquiry/$', views.InquiryCreate.as_view(), name='new_inquiry')
 ]

@@ -3,12 +3,11 @@ from django.http import HttpResponseRedirect, HttpResponse
 from .models import *
 from django.urls import reverse
 from django.conf import settings
-from datetime import date, datetime, timedelta, time
 import logging
 from django.db.models import Max, Sum, Count
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
-from .forms import AnswerForm
+from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import threading
@@ -23,6 +22,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from .email import EmailSender
+from datetime import date, datetime, timedelta, time
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("django")
@@ -164,11 +164,38 @@ def change_password(request):
     })
 
 @staff_member_required
-def rest_attendance_sheet(request):
+def rest_attendance_sheet(request, date):
+    print(date)
     members = Profile.objects.order_by('first_name', 'last_name')
-
-    data = json.dumps([member.json_attendace for member in members])
+    result = []
+    for m in members:
+        print(m.id)
+        attendance =  get_attendace(m.id, date )
+        result.append(json_attendance(m,attendance))
+    data = json.dumps(result)
     return HttpResponse(data, content_type='application/json')
+
+def json_attendance(member, attendance):
+     return {
+     'id' : member.id,
+     'first_name': member.first_name,
+     'last_name': member.last_name,
+     'gender': member.gender,
+     'attendance': attendance
+     }
+
+def get_attendace(user_id, date):
+    today = datetime.strptime(date,'%Y%m%d')
+    print(today)
+    tomorrow = today + timedelta(1)
+    print(tomorrow)
+    today_start = datetime.combine(today, time())
+    today_end = datetime.combine(tomorrow, time())
+
+    attendace = Attendance.objects.filter(user_id=user_id, date_time__lte=today_end, date_time__gte=today_start)
+    if attendace:
+        return True
+    return False
 
 @staff_member_required
 def attendance_sheet(request):
@@ -200,6 +227,7 @@ class NewMemberRequest(CreateView):
     template_name = 'newmemberrequest_form.html'
     model = NewMemberRequest
     fields = ['first_name','last_name', 'whats_app', 'email', 'gender']
+    # form_class = NewMemberRequestForm
     def form_valid(self, form):
         response = super(NewMemberRequest, self).form_valid(form)
         instance = self.object

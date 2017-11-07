@@ -51,15 +51,6 @@ class Profile(AbstractUser):
         'title': self.title
         }
 
-    @property
-    def json_attendace(self):
-         return {
-         'id' : self.id,
-         'first_name': self.first_name,
-         'last_name': self.last_name,
-         'gender': self.gender,
-         'attended_today': get_attendace(self.id)
-         }
 
     @staticmethod
     def post_save(sender, created, **kwargs):
@@ -165,13 +156,14 @@ class NewMemberRequest(models.Model):
     first_name =models.CharField(max_length=100)
     last_name =models.CharField(max_length=100)
     gender = models.CharField(max_length=1, default="M")
-    whats_app = models.CharField(max_length=20, blank=True)
+    whats_app = models.CharField(max_length=20, blank=True, verbose_name= 'Phone Number')
     email = models.CharField(max_length=100, blank=True)
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
 
 class Inquiry(models.Model):
     name =models.CharField(max_length=200, blank=True)
+    email = models.CharField(max_length=200, blank=True)
     text =models.TextField(verbose_name= 'Inquiry')
 
     def __str__(self):

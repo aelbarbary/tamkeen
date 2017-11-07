@@ -6,7 +6,7 @@
 <script data-cfasync="false" type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <!-- Bootstrap Core CSS -->
 <link href="{% static "/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
-<link href="{% static "css/freelancer.css" %}"  rel="stylesheet">
+<link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
 
 <style>
   tr > th:nth-of-type(9),
@@ -21,38 +21,31 @@
 
 <script>
 $(document).ready(function() {
+  var today = moment().format('YYYYMMDD');
+
+  url = "/rest/members/attendance/" + today
   var t = $('#example').DataTable({
     paging: false,
-    "ajax":{
-      "url":  "/rest/members/attendance/",
-    },
+    ajax: ""
   });
 
-  $.ajax({
-             type: "GET",
-             dataType: "json",
-             url: "/rest/members/attendance/",
-             success: function(data){
-               data.forEach(function(entry) {
-                 uw_waiver = entry["uw_waiver"]
-                 photo = entry["photo"]
-                 attended_today = entry["attended_today"]
-                 checkbox = "<input id='checkbox" + entry["id"] + "'  type='checkbox' onclick='saveAttendance(" + entry["id"] + ");'"
-                 if (attended_today == true)
-                 {
-                    checkbox += "checked";
-                 }
-                 checkbox += "></input>"
-                 row = t.row.add( [
-                     checkbox,
-                     entry["first_name"],
-                     entry["last_name"],
-                     entry["gender"],
-                     entry["age"],
-                 ] ).draw( false );
-             }
-         )}
-       });
+  $('#datetimepicker').datetimepicker({
+    defaultDate: new Date()
+  });
+
+  getSheet(t, today);
+  $('#datetimepicker').on('dp.change', function(e){
+    getSheet(t, e.date.format("YYYYMMDD"));
+  })
+
+  $(function(){
+      setInterval(oneSecondFunction, 5000);
+    });
+
+    function oneSecondFunction() {
+      getSheet(t, $('#datetimepicker').data("DateTimePicker").date().format("YYYYMMDD"));
+  }
+
 } );
 
 function saveAttendance(user_id)
@@ -72,6 +65,37 @@ function saveAttendance(user_id)
         alert(error);
       }
   });
+}
+
+function getSheet(table, sheet_date)
+{
+  console.log(sheet_date);
+  table.clear();
+  $.ajax({
+             type: "GET",
+             dataType: "json",
+             url: "/rest/members/attendance/"+ sheet_date,
+             success: function(data){
+               data.forEach(function(entry) {
+                 uw_waiver = entry["uw_waiver"]
+                 photo = entry["photo"]
+                 attended_today = entry["attendance"]
+                 checkbox = "<input id='checkbox" + entry["id"] + "'  type='checkbox' onclick='saveAttendance(" + entry["id"] + ");'"
+                 if (attended_today == true)
+                 {
+                    checkbox += "checked";
+                 }
+                 checkbox += "></input>"
+                 row = table.row.add( [
+                     checkbox,
+                     entry["first_name"],
+                     entry["last_name"],
+                     entry["gender"],
+                     entry["age"],
+                 ] ).draw( false );
+             }
+         )}
+       });
 }
 
 </script>
@@ -105,9 +129,20 @@ function saveAttendance(user_id)
         </div>
         <!-- /.container-fluid -->
     </nav>
-    <div class="center text-center alert alert-info">
-      <h4 id="datetime" style="al"></h4>
+    <div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
+  </div>
   <table id="example" class="display" cellspacing="0" width="100%">
 
           <thead>
@@ -131,6 +166,11 @@ function saveAttendance(user_id)
 
   </body>
 
-  <script>
-    document.getElementById("datetime").innerHTML =  new Date().toJSON().slice(0,10).replace(/-/g,'/');
+
+  <script type="text/javascript">
+      $(function () {
+
+      });
   </script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+  <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
