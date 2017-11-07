@@ -3,7 +3,10 @@
 <link href="{% static "css/login.css" %}"  rel="stylesheet">
 
 <div class="login-page">
+
   <div class="form">
+    <img src="{% static "images/logo.png" %}" alt="" width="50px">
+    <h1>Do you have a question?</h1>
 <form action="" method="post" class="login-form">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Send" />
