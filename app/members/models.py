@@ -107,27 +107,28 @@ class Book(models.Model):
     def __str__(self):
          return '%s %s' % (self.name, self.description)
 
-    @property
-    def json(self):
-        if self.book_file:
-            book_url = self.book_file.url
+    @staticmethod
+    def json(book):
+        if book['book_file']:
+            book_url = book['book_file']
             book_url_display = "inline"
         else:
             book_url = "#"
             book_url_display = "none"
         return {
-        'id' : self.id,
-        'name': self.name,
-        'description': self.description,
-        'cover_page': self.cover_page.url,
-        'category': self.category,
-        'status': self.status,
-        'number_of_pages': self.number_of_pages,
-        'language' : self.language,
+        'id' : book['id'],
+        'name': book['name'],
+        'description': book['description'],
+        'cover_page': book['cover_page'],
+        'category': book['category'],
+        'status': book['status'],
+        'number_of_pages': book['number_of_pages'],
+        'language' : book['language'],
         'book_file': book_url,
-        'page_num': self.page_num,
+        'page_num': book['page_num'],
         'book_url_display': book_url_display,
-        'hardcopy_available': self.hardcopy_available
+        'hardcopy_available': book['hardcopy_available'],
+        'holds' : book['holds']
         }
 
 class BookReserve(models.Model):

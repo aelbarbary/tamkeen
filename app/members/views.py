@@ -114,10 +114,30 @@ def show_members(request):
     return render(request, 'view-members.html')
 
 def books(request):
-    books = Book.objects.order_by('name', 'status')
+    result = []
+    with connection.cursor() as cursor:
+        query = "select b.id,b.name, b.description, '/media/' || b.cover_page cover_page, b.category, b.status, b.number_of_pages, '/media/' ||  b.book_file book_file, b.page_num, b.language, b.hardcopy_available, count(r) holds from members_book b "\
+                +"left join members_bookreserve r "\
+	            +" on b.id = r.book_id "\
+                + " group by b.id, b.name"
 
-    data = json.dumps([book.json for book in books])
-    return HttpResponse(data, content_type='application/json')
+        cursor.execute(query, [date,date])
+        rows = dictfetchall(cursor)
+        for row in rows:
+            print(row)
+            result.append(Book.json(row))
+
+        data = json.dumps(result)
+
+        return HttpResponse(data, content_type='application/json')
+
+def dictfetchall(cursor):
+    # "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
 
 def show_books(request):
     return render(request, 'view-books.html')
@@ -176,13 +196,7 @@ def rest_attendance_sheet(request, date):
         cursor.execute(query, [date,date])
         for row in cursor.fetchall():
             result.append(json_attendance(row))
-            # data = json.dumps(json_attendance(row))
 
-    # members = Profile.objects.order_by('first_name', 'last_name')
-    # result = []
-    # for m in members:
-    #     attendance =  get_attendace(m.id, date)
-    #
     data = json.dumps(result)
     return HttpResponse(data, content_type='application/json')
 
