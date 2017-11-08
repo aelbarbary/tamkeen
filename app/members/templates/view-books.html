@@ -79,15 +79,19 @@
          <p ><h3 style="color:gray; font-size:12PX">(${category})</h3></p>
 
          <p class="product-description">${description}</p>
+         <div class="row">
          {% verbatim %}
           {{if hardcopy_available}}
             <button id="reserve${id}" onclick="reserveBook(${id})">Reserve</button>
             <p style="color:gray; font-size:8pt; margin-top:5px;">You need to login if you want to borrow this book</p>
           {{else}}
-            <span class="alert alert-warning"> Only Available Online </span>
+            <div class="alert alert-warning"> Only Available Online </div>
           {{/if}}
          {% endverbatim %}
+         </div>
+         <div class="row">
          <a href="${book_file}#page=${page_num}" style="display:${book_url_display}; margin:10pt;">read online</a>
+         </div>
          <p class="product-price"><span style="font-size:10">pages: </span> ${number_of_pages}</p>
 
      </div>

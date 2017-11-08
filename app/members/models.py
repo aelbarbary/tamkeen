@@ -69,6 +69,8 @@ class Profile(AbstractUser):
 
             EmailSender(instance, subject, message, recepients).start()
 
+post_save.connect(Profile.post_save, sender=Profile)
+
 def get_attendace(user_id):
     today = datetime.now().date()
     tomorrow = today + timedelta(1)
@@ -135,6 +137,7 @@ class BookReserve(models.Model):
 
     @staticmethod
     def post_save(sender, created, **kwargs):
+        print("book reserved")
         if created:
             instance = kwargs.get('instance')
             print(instance)
@@ -152,6 +155,8 @@ class BookReserve(models.Model):
 
             recepients = ['abdelrahman.elbarbary@gmail.com', 'alinour64@yahoo.com']
             EmailSender(instance, subject, message, recepients).start()
+
+post_save.connect(BookReserve.post_save, sender=BookReserve)
 
 class Attendance(models.Model):
     user = models.ForeignKey(Profile, related_name='attendance_user')
