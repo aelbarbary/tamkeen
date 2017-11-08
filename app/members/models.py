@@ -101,7 +101,7 @@ class Book(models.Model):
     language = models.CharField(max_length=2, default="en")
     book_file = models.FileField(upload_to="books", blank=True)
     page_num = models.IntegerField(default=0)
-
+    hardcopy_available = models.BooleanField(default=False)
     def __str__(self):
          return '%s %s' % (self.name, self.description)
 
@@ -124,7 +124,8 @@ class Book(models.Model):
         'language' : self.language,
         'book_file': book_url,
         'page_num': self.page_num,
-        'book_url_display': book_url_display
+        'book_url_display': book_url_display,
+        'hardcopy_available': self.hardcopy_available
         }
 
 class BookReserve(models.Model):

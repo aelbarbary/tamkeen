@@ -62,7 +62,9 @@
         <!-- /.container-fluid -->
     </nav>
   </body>
-<script id="bookTemplate" type="text/x-jQuery-tmpl">
+
+  <script id="bookTemplate" type="text/x-jQuery-tmpl">
+
     <li>
     <div class="alert alert-success hidden" role="alert" id="alert${id}">
       <strong>Thank you {{ request.user.first_name }}</strong>. The library admin will contact you soon
@@ -77,14 +79,21 @@
          <p ><h3 style="color:gray; font-size:12PX">(${category})</h3></p>
 
          <p class="product-description">${description}</p>
-
-         <button id="reserve${id}" onclick="reserveBook(${id})">Reserve</button>
-         <a href="${book_file}#page=${page_num}" style="display:${book_url_display}">read online</a>
+         {% verbatim %}
+          {{if hardcopy_available}}
+            <button id="reserve${id}" onclick="reserveBook(${id})">Reserve</button>
+            <p style="color:gray; font-size:8pt; margin-top:5px;">You need to login if you want to borrow this book</p>
+          {{else}}
+            <span class="alert alert-warning"> Only Available Online </span>
+          {{/if}}
+         {% endverbatim %}
+         <a href="${book_file}#page=${page_num}" style="display:${book_url_display}; margin:10pt;">read online</a>
          <p class="product-price"><span style="font-size:10">pages: </span> ${number_of_pages}</p>
-         <p style="color:gray; font-size:8pt; margin-top:5px;">You need to login if you want to borrow this book</p>
+
      </div>
 
      </li>
+
 </script>
 
 <ul id="list" class="product-list-vertical">
