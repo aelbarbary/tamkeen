@@ -9,8 +9,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 from .forms import *
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
-import threading
 import json
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponseForbidden
@@ -24,6 +22,7 @@ from django.shortcuts import render, redirect
 from .email import EmailSender
 from datetime import date, datetime, timedelta, time
 from pytz import timezone
+from django.db import connection
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("django")
@@ -166,29 +165,41 @@ def change_password(request):
 
 @staff_member_required
 def rest_attendance_sheet(request, date):
-
-    members = Profile.objects.order_by('first_name', 'last_name')
     result = []
-    for m in members:
-        attendance =  get_attendace(m.id, date )
-        result.append(json_attendance(m,attendance))
+    with connection.cursor() as cursor:
+        query = "select p.id, p.first_name, p.last_name, p.gender, date_time "\
+                + "from members_profile p left join members_attendance a "\
+	            + "on p.id = a.user_id " \
+                + "and date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD')) "\
+	            + "and date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)"
+
+        cursor.execute(query, [date,date])
+        for row in cursor.fetchall():
+            result.append(json_attendance(row))
+            # data = json.dumps(json_attendance(row))
+
+    # members = Profile.objects.order_by('first_name', 'last_name')
+    # result = []
+    # for m in members:
+    #     attendance =  get_attendace(m.id, date)
+    #
     data = json.dumps(result)
     return HttpResponse(data, content_type='application/json')
 
-def json_attendance(member, attendance):
-     is_attendant = False
-     date_time = "N/A"
-     if attendance:
-         is_attendant = True
-         date_time = attendance[0].date_time.astimezone(timezone('US/Pacific')).strftime('%H:%M:%S')
+def json_attendance(attendance):
 
+     is_attendant = False
+     in_time = "N/A"
+     if attendance[4]:
+         is_attendant = True
+         in_time = attendance[4].astimezone(timezone('US/Pacific')).strftime('%H:%M:%S')
      return {
-     'id' : member.id,
-     'first_name': member.first_name,
-     'last_name': member.last_name,
-     'gender': member.gender,
-     'attendance': is_attendant,
-     'datetime': date_time
+     'id': attendance[0],
+     'first_name': attendance[1],
+     'last_name': attendance[2],
+     'gender': attendance[3],
+     'datetime': in_time,
+     'attendance': is_attendant
      }
 
 def get_attendace(user_id, date):
@@ -208,14 +219,13 @@ def attendance_sheet(request):
 @login_required
 def record_attendacne(request):
     if request.method == "POST":
-        print("recording")
         json_data = json.loads(request.body.decode('utf-8'))
+        print(json_data)
         user_id = json_data["userId"]
         checked = json_data["checked"]
         date = json_data["date"]
         print(date)
         date = datetime.strptime(date,'%Y%m%d %H:%M:%S')
-        # print(date)
         if checked == True:
             request = Attendance(user_id=user_id, date_time = date )
             request.save()
