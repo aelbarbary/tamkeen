@@ -37,7 +37,8 @@ class AnswerForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = []
+        exclude=[]
+
 
 class BookForm(forms.ModelForm):
     class Meta:
@@ -49,11 +50,17 @@ class BookReserveForm(forms.ModelForm):
         model = BookReserve
         exclude = []
 
-# class NewMemberRequestForm(forms.ModelForm):
-#     class Meta:
-#         model = NewMemberRequest
-#     CHOICES=[('Male','M'),
-#          ('Female','F')]
-#     gender = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
+class NewMemberRequestForm(forms.ModelForm):
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
+    gender = forms.ChoiceField(choices=GENDER_CHOICES, widget=forms.RadioSelect())
+    class Meta:
+        model = NewMemberRequest
+        exclude=[]
+        label={
+            'whats_app': 'Phone'
+        }
 
 MAX_CHILDREN = 5

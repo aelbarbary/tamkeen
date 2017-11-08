@@ -242,7 +242,8 @@ class NewMemberRequest(CreateView):
     success_url = '/'
     template_name = 'newmemberrequest_form.html'
     model = NewMemberRequest
-    fields = ['first_name','last_name', 'whats_app', 'email', 'gender']
+    # fields = ['first_name','last_name', 'whats_app', 'email', 'gender']
+    form_class = NewMemberRequestForm
     # form_class = NewMemberRequestForm
     def form_valid(self, form):
         response = super(NewMemberRequest, self).form_valid(form)

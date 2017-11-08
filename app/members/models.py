@@ -24,9 +24,13 @@ class Question(models.Model):
         return 'Name: ' + self.text
 
 class Profile(AbstractUser):
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
     whats_app = models.CharField(max_length=20, blank=True)
     dob = models.DateField(max_length=8)
-    gender = models.CharField(max_length=1, default='M')
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
     photo = models.ImageField(upload_to='profile_pics', default = 'profile_pics/default.png' )
     uw_waiver = models.ImageField(upload_to='uw_waivers', default = 'uw_waivers/default.png')
     skills = models.TextField(blank=True, null=True)

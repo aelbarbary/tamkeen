@@ -4,9 +4,36 @@
 
 <div class="login-page">
   <div class="form">
+    <h1>New Member Request</h1>
 <form action="" method="post" class="login-form">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit" />
 </form>
 </div>
 </div>
+<style>
+ul {
+    list-style-type: none;
+    margin: 10;
+    padding: 20;
+    overflow: hidden;
+
+}
+
+li {
+    float: left;
+    padding: 20px;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111111;
+}
+</style>
