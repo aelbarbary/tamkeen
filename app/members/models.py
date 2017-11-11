@@ -191,4 +191,5 @@ class Award(models.Model):
 class UserAward(models.Model):
     user = models.ForeignKey(Profile, related_name='award_user')
     award = models.ForeignKey(Award, related_name='award')
+    description = models.TextField()
     date_time = models.DateTimeField()
