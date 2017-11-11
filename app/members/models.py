@@ -175,7 +175,20 @@ class NewMemberRequest(models.Model):
 class Inquiry(models.Model):
     name =models.CharField(max_length=200, blank=True)
     email = models.CharField(max_length=200, blank=True)
-    text =models.TextField(verbose_name= 'Inquiry')
+    text = models.TextField(verbose_name= 'Inquiry')
 
     def __str__(self):
         return '%s %s' % (self.name, self.text)
+
+class Award(models.Model):
+    name = models.CharField(max_length=200, blank=True)
+    description = models.TextField()
+    prize = models.CharField(max_length=200, blank=True)
+    pic=models.ImageField(upload_to='awards', default = 'awards/default.png' )
+    def __str__(self):
+        return '%s' % (self.name)
+
+class UserAward(models.Model):
+    user = models.ForeignKey(Profile, related_name='award_user')
+    award = models.ForeignKey(Award, related_name='award')
+    date_time = models.DateTimeField()

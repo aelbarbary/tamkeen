@@ -43,6 +43,13 @@ class NewMemberRequestAdmin(admin.ModelAdmin):
 class InquiryAdmin(admin.ModelAdmin):
     model = Inquiry
 
+class UserAwardsInline(admin.TabularInline):
+        model = UserAward
+
+class AwardAdmin(admin.ModelAdmin):
+    inlines = [UserAwardsInline]
+    model = Award
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Quiz, QuizAdmin)
@@ -50,3 +57,4 @@ admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(NewMemberRequest, NewMemberRequestAdmin)
 admin.site.register(Inquiry, InquiryAdmin)
+admin.site.register(Award, AwardAdmin)

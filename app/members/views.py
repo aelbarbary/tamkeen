@@ -163,8 +163,8 @@ def profile(request):
     else:
         skills = []
     answers_count = Answer.objects.filter(user_id=request.user.id).count()
-
-    context = { 'user': profile, 'skills': skills, 'answers_count': answers_count }
+    awards_count = UserAward.objects.filter(user_id=request.user.id).count()
+    context = { 'user': profile, 'skills': skills, 'answers_count': answers_count, 'awards_count': awards_count }
     return render(request, 'profile.html', context )
 
 def change_password(request):
