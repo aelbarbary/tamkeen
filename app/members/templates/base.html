@@ -1,6 +1,9 @@
 
 {% load static %}
 
+{% if GOOGLE_ANALYTICS_PROPERTY_ID %}
+  {% include "ga.html" %}
+{% endif %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -196,6 +199,8 @@ window.onclick = function(event) {
 
   <script data-cfasync="false" type="text/javascript"
   src="{% static "js/form-submission-handler.js" %}"></script>
+
 </body>
+
 
 </html>

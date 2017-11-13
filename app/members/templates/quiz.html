@@ -1,4 +1,7 @@
 {% load static %}
+{% if GOOGLE_ANALYTICS_PROPERTY_ID %}
+  {% include "ga.html" %}
+{% endif %}
 <link rel="stylesheet" href="{% static "css/product-lists/product-list-basic.css" %}">
 <link href="{% static "vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{% static "css/user-profiles-lists/user-profiles-list-small.css" %}">

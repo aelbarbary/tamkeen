@@ -1,5 +1,7 @@
 {% load static %}
-
+{% if GOOGLE_ANALYTICS_PROPERTY_ID %}
+  {% include "ga.html" %}
+{% endif %}
 
 <link href ="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 <script src="{% static "vendor/jquery/jquery.min.js" %}"></script>

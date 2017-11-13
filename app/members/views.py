@@ -79,30 +79,6 @@ def thanks(request):
 def registration_activate(request, key):
     return render(request, 'thanks.html', {})
 
-def questionsHistory(request):
-    questions = Question.objects.exclude(closed=0).order_by('date_time')
-    score =0
-    for q in questions:
-        answer = QuestionAnswer.objects.filter(question = q.id).order_by('-score', 'date_time')[:1]
-        q.answer = answer[0].answer
-        q.name = answer[0].name
-        q.totalPoints = QuestionAnswer.objects.filter(name = q.name).aggregate(Sum('score'))["score__sum"]
-        score = answer[0].score
-
-        rank =  getRank(score)
-        q.rankImage = rank["rankImage"]
-        q.rank = rank["rank"]
-
-    personList = QuestionAnswer.objects.values('name').annotate(score = Sum('score')).order_by('-score')
-    for person in personList:
-        rank =  getRank(person["score"])
-        person["rankImage"] = rank["rankImage"]
-
-    context = {'questions': questions,
-                'personList': personList,
-                'scoreRange': range(score)}
-    return render(request, 'questions-history.html', context)
-
 @staff_member_required
 def members(request):
     members = Profile.objects.order_by('first_name', 'last_name')

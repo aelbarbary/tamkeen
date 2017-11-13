@@ -1,5 +1,7 @@
 {% load static %}
-
+{% if GOOGLE_ANALYTICS_PROPERTY_ID %}
+  {% include "ga.html" %}
+{% endif %}
 <link href="{% static "css/login.css" %}"  rel="stylesheet">
 
 <div class="login-page">

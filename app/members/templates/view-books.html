@@ -1,5 +1,7 @@
 {% load static %}
-
+{% if GOOGLE_ANALYTICS_PROPERTY_ID %}
+  {% include "ga.html" %}
+{% endif %}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -162,6 +164,3 @@ function reserveBook(book_id){
         }
     });
 }
-
-
-</script>
