@@ -175,7 +175,7 @@ class NewMemberRequest(models.Model):
 class Inquiry(models.Model):
     name =models.CharField(max_length=200, blank=True)
     email = models.CharField(max_length=200, blank=True)
-    text = models.TextField(verbose_name= 'Inquiry')
+    text = models.TextField(verbose_name= 'Message')
 
     def __str__(self):
         return '%s %s' % (self.name, self.text)

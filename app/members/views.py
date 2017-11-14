@@ -18,7 +18,7 @@ import watchtower, logging
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from .email import EmailSender
 from datetime import date, datetime, timedelta, time
 from pytz import timezone
@@ -167,7 +167,8 @@ def rest_attendance_sheet(request, date):
                 + "from members_profile p left join members_attendance a "\
 	            + "on p.id = a.user_id " \
                 + "and date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD')) "\
-	            + "and date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)"
+	            + "and date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)"\
+                + "order by p.first_name"
 
         cursor.execute(query, [date,date])
         for row in cursor.fetchall():
@@ -182,7 +183,7 @@ def json_attendance(attendance):
      in_time = "N/A"
      if attendance[4]:
          is_attendant = True
-         in_time = attendance[4].astimezone(timezone('US/Pacific')).strftime('%H:%M:%S')
+         in_time = attendance[4].astimezone(timezone('US/Pacific')).strftime('%-H:%M:%S')
      return {
      'id': attendance[0],
      'first_name': attendance[1],
@@ -250,14 +251,14 @@ class NewMemberRequest(CreateView):
 
 class InquiryCreate(CreateView):
     success_url = '/'
-    template_name = 'inquiry_form.html'
+    template_name = 'open-your-heart.html'
     model = Inquiry
     fields = ['name', 'email', 'text']
     def form_valid(self, form):
         response = super(InquiryCreate, self).form_valid(form)
         instance = self.object
 
-        subject = 'New Inquiry'
+        subject = 'Open Your Heart: New Message'
         recepients = [ 'm.h.ali@hotmail.com']
         name = "Anonymous"
         if instance.name:
@@ -266,4 +267,4 @@ class InquiryCreate(CreateView):
         message += "Inquiry: %s\n" % instance.text
 
         EmailSender(instance, subject, message, recepients).start()
-        return redirect('/')
+        return render_to_response( 'thanks.html')

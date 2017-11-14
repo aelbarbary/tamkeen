@@ -32,5 +32,5 @@ urlpatterns = [
     url(r'^rest/members/attendance/new$', views.record_attendacne, name='record_attendacne'),
     url(r'^rest/members/attendance/(?P<date>\d+)/$', views.rest_attendance_sheet, name='rest_attendance_sheet'),
     url(r'^register/$', views.NewMemberRequest.as_view(), name='new_member_request'),
-    url(r'^inquiry/$', views.InquiryCreate.as_view(), name='new_inquiry')
+    url(r'^openyourheart/$', views.InquiryCreate.as_view(), name='new_inquiry')
 ]

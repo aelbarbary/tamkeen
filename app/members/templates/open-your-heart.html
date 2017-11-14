@@ -7,9 +7,9 @@
 <div class="login-page">
 
   <div class="form">
-    <img src="{% static "images/logo.png" %}" alt="" width="50px">
-    <h4 style="color:green">You can submit a question anonymously by leaving the name and email fields blank</h4>
-    <h1>Do you have a question?</h1>
+    <img src="{% static "images/openyourheart.png" %}" alt="" width="100px">
+    <h4 style="color:green">You can send the messsage anonymously by leaving the name and email fields blank</h4>
+    <h1>Open Your Heart</h1>
 <form action="" method="post" class="login-form">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Send" />
