@@ -135,30 +135,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tamkeen.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-# DATABASES = {
-#      'default': {
-#          'ENGINE': 'django.db.backends.postgresql',
-#          'NAME': 'postgres',
-#          'USER': 'postgres',
-#          'HOST': 'db',
-#          'PORT': 5432,
-#      }
-#  }
-#
-# DATABASES = {
-#      'default': {
-#          'ENGINE': 'django.db.backends.postgresql',
-#          'NAME': 'tamkeen',
-#          'HOST': 'localhost',
-#          'USER': 'postgres',
-#          'PASSWORD': 'passw0rd'
-#      }
-#  }
-
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.postgresql',
@@ -234,5 +210,5 @@ LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
 
-GOOGLE_ANALYTICS_PROPERTY_ID = os.environ['GA_TRACKING_ID'] 
+GOOGLE_ANALYTICS_PROPERTY_ID = os.environ['GA_TRACKING_ID']
 GOOGLE_ANALYTICS_DOMAIN = 'tamkeen.us'
