@@ -4,25 +4,29 @@
 
     <!-- Header -->
     <header>
-      <div class="cycle-slideshow bg"  data-cycle-speed=1500>
-        <img src="{% static 'images/bg1.jpg' %}">
+      <div class="cycle-slideshow bg"  data-cycle-speed=1000>
+        <img src="{% static 'images/khalidibnwaleedpichalaqa.jpg' %}">
         <img src="{% static 'images/bg.jpg' %}">
         <img src="{% static 'images/bg5.jpg' %}">
+        <img src="{% static 'images/tamkeengirlspizzapark.jpg' %}">
+        <img src="{% static 'images/tamkeen-battleofyarmookpichalaqa.jpg' %}">
+        <img src="{% static 'images/tamkeensoccerpic.jpg' %}">
+        <img src="{% static 'images/tamkeenprayerpic.jpg' %}">
       </div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <img class="img-responsive animated pulse" src="{% static "images/logo.png" %}" alt="">
+                    <img class="img-responsive animated flipInX" src="{% static "images/logo.png" %}" alt="">
                     <div class="intro-text">
-                        <span class="name">تمكيــــــــــــن</span>
-                        <span class="name">TAMKEEN</span>
+                        <span class="name animated slideInRight">تمكيــــــــــــن</span>
+                        <span class="name animated slideInLeft">TAMKEEN</span>
                         <span class="skills">BUILDING A MUSLIM</span><br/>
                         <hr class="star-light">
 
-                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="btn register hvr-bounce-in">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="btn  hvr-bounce-in">
                           <input type="hidden" name="cmd" value="_s-xclick">
                           <input type="hidden" name="hosted_button_id" value="5DTHYHPL9LEPN" >
-                          <input type="image" src="http://sevaashram.com/wp-content/uploads/2011/12/paypal-donate-button1.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                          <input type="image" class="paypalbutton" src="http://sevaashram.com/wp-content/uploads/2011/12/paypal-donate-button1.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
                           <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
                         </form>
                         <br/>
@@ -32,6 +36,78 @@
             </div>
         </div>
     </header>
+<!--
+    <section id="directors">
+      <div class="container">
+        <h2 class="text-center">Board Of Directors</h2>
+        <p class="text-center">Their dedication,  hard work,  and efforts make <b>Tamkeen</b> what it is today!</p>
+        <p class="text-center">Hover over Us</p>
+        <hr class="star-primary">
+
+          <div class="row">
+            <div class="col-md-4 col-sm-6">
+              <div class="hovereffect">
+                <img class="text-center" src="{% static "images/bg1.jpg" %}" alt="">
+                  <div class="overlay">
+                    <h2>Mohammad Ali</h2>
+				            <p>CEO and Founder of Tamkeen</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-sm-6">
+                <div class="hovereffect">
+                  <img class="" src="{% static "images/bg1.jpg" %}" alt="">
+                    <div class="overlay">
+                      <h2>Abderrahman ElBarbary</h2>
+  				            <p></p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6">
+                  <div class="hovereffect">
+                    <img class="" src="{% static "images/bg1.jpg" %}" alt="">
+                      <div class="overlay">
+                        <h2>Haytham Odeh</h2>
+    				            <p>Web Devoloper/Senior Editor</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-sm-6">
+                    <div class="hovereffect">
+                      <img class="" src="{% static "images/bg1.jpg" %}" alt="">
+                        <div class="overlay">
+                          <h2>Haytham Odeh</h2>
+      				            <p>Web Devoloper/Senior Editor</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-6">
+                      <div class="hovereffect">
+                        <img class="" src="{% static "images/bg1.jpg" %}" alt="">
+                          <div class="overlay">
+                            <h2>Haytham Odeh</h2>
+        				            <p>Web Devoloper/Senior Editor</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class=" col-md-4 col-sm-6 ">
+                        <div class="hovereffect">
+                          <img class="" src="{% static "images/bg1.jpg" %}" alt="">
+                            <div class="overlay">
+                              <h2>Haytham Odeh</h2>
+          				            <p>Web Devoloper/Senior Editor</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+      </div>
+    </section>
+  -->
 
 <section id="mailingList">
   <div class="container">
@@ -47,13 +123,48 @@
       <div class="col-md-4 text-center">
         <a href="https://groups.google.com/forum/#!forum/tamkeen-parents/join" class="btn btn-danger register hvr-pop" role="button" target="_blank">Tamkeen Parents</a>
       </div>
-
-
     </div>
+    <h2 class="text-center">Social</h2>
+      <p class="text-center">Join Our Whatsapp Chat For The Latest Updates</p>
+      <div class="row">
+        <div class="col-md-12 text-center">
+         <a id="myBtn" class="btn btn-success register hvr-pop" role="button" target="_blank">Join Whatsapp</a>
+         <div id="myModal" class="modal">
+           <div id="contactForm" class="modal-content">
+             <span class="close">&times;</span>
+             <form id="gform" action="https://formspree.io/tamkeen.moderator@gmail.com" method="post">
+                <h4>Please Fill Out The Form</h4>
+               <input placeholder="Name(First and Last)" type="text" name="Name" required />
+               <input placeholder="Phone" type="phone" name="Phone" required />
+               <select id="Gender" name="Gender" required>
+                 <option value="male">Male</option>
+                 <option value="female">Female</option>
+               </select>
+
+               <label for="email"><em>Your</em> Email Address:</label>
+               <input id="email" name="email" type="email" value=""
+               required placeholder="your.name@email.com"/>
+               <span id="email-invalid" style="display:none">
+                 Must be a valid email address</span>
+               <input type="hidden" name="_subject" value="New Whatsapp Request!" />
+               <input class="formBtn" type="submit" />
+               <input class="formBtn" type="reset" />
 
 
+             </form>
+
+             <!-- Customise the Thankyou Message People See when they submit the form: -->
+             <div style="display:none;" id="thankyou_message">
+                 <img class="animated slideInDown logo " src="{% static "images/logo.png" %}" alt="">
+                 <h3 class="animated rubberBand"><em>Thanks</em> for contacting us!
+                     We will get back to you soon!</h3>
+             </div>
+
+           </div>
+         </div>
+       </div>
+     </div>
   </div>
-
 </section>
 
 <!-- <section id="events" class="events">
@@ -226,12 +337,10 @@
                     </div>
                 </div>
               </div>
-            </div>
 
-            <div class="row">
-              <div class="col-md-2">
-              </div>
-              <div class="col-md-4">
+
+
+              <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
                   <img src="{% static "images/team.png"%}" alt="..." width=100px>
                   <div class="caption">
@@ -243,7 +352,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
                   <img src="{% static "images/fun.png"%}" alt="..." width=100px>
                   <div class="caption">
@@ -252,13 +361,11 @@
                   </div>
                 </div>
               </div>
-
-            <div>
+              </div>
+            
 
             <br>
 
-
-        </div>
     </section>
 
     <section class="mission" id="partners">

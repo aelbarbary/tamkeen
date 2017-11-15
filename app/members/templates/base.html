@@ -35,6 +35,8 @@
     <link href="{% static "vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+
 </head>
 
 <body id="page-top" class="index">
@@ -121,6 +123,7 @@
                         </ul>
                         <div class="page-scroll">
                             <a href="#page-top"><img style="width: 100px; margin: 0 auto;" class="img-responsive hvr-push" src="{% static "images/logo.png" %}" alt=""></a>
+                            <p>Go To The Top</p>
                         </div>
                     </div>
                 </div>
@@ -164,6 +167,30 @@
 
 
     <script>
+    //spinner-sm spinner-sm-1
+    $(document).ready(function(){
+      $('html').animate({scrollTop:0}, 1);
+      $('body').animate({scrollTop:0}, 1);
+    $( "body" ).prepend( '<div id="preloader"><div id="status"><img src="{% static 'images/tamkeenloading-img.png' %}" alt="Loading" title="Loading" /><div class="loadbox"><div class="load"></div></div> </div></div>' );
+    //$( "body" ).css({'overflow-y':'hidden'});
+    $(window).on('load', function() { // makes sure the whole site is loaded
+    $('#status').delay(3000).fadeOut(); // will first fade out the loading animation
+    $('#preloader').delay(3200).fadeOut(); // will fade out the white DIV that covers the website.
+    $('body').css({'overflow':'hidden'});
+    });
+      $('body')
+              .delay(3000)
+              .queue(function(next){
+                $(this).css({'overflow-y':'visible'});
+                next();
+              });
+              });
+
+
+    //$( "body" ).css({'overflow-y':'visible'});
+
+
+
     // Get the modal
 var modal = document.getElementById('myModal');
 
