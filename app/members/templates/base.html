@@ -1,6 +1,9 @@
 
 {% load static %}
 
+{% if GOOGLE_ANALYTICS_PROPERTY_ID %}
+  {% include "ga.html" %}
+{% endif %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,7 +62,7 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="page-scroll">
-                        <a href="/inquiry/">Inquiry</a>
+                        <a href="/openyourheart/"> <img src="{% static "images/openyourheart.png" %}" alt="" width="20px"> Open Your Heart</a>
                     </li>
                     <li class="page-scroll">
                         <a href="/books/">Library</a>
@@ -223,6 +226,8 @@ window.onclick = function(event) {
 
   <script data-cfasync="false" type="text/javascript"
   src="{% static "js/form-submission-handler.js" %}"></script>
+
 </body>
+
 
 </html>

@@ -1,5 +1,7 @@
 {% load static %}
-
+{% if GOOGLE_ANALYTICS_PROPERTY_ID %}
+  {% include "ga.html" %}
+{% endif %}
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 <link href="{% static "/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
 <link rel="stylesheet" href="{% static "css/profile.css" %}">
@@ -31,7 +33,7 @@
         </div>
 
         <div class="one-third">
-          <div class="stat">0</div>
+          <div class="stat">{{awards_count}}</div>
           <div class="stat-value">Awards</div>
         </div>
 

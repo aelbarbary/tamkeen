@@ -9,8 +9,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 from .forms import *
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
-import threading
 import json
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponseForbidden
@@ -20,10 +18,11 @@ import watchtower, logging
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from .email import EmailSender
 from datetime import date, datetime, timedelta, time
 from pytz import timezone
+from django.db import connection
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("django")
@@ -80,30 +79,6 @@ def thanks(request):
 def registration_activate(request, key):
     return render(request, 'thanks.html', {})
 
-def questionsHistory(request):
-    questions = Question.objects.exclude(closed=0).order_by('date_time')
-    score =0
-    for q in questions:
-        answer = QuestionAnswer.objects.filter(question = q.id).order_by('-score', 'date_time')[:1]
-        q.answer = answer[0].answer
-        q.name = answer[0].name
-        q.totalPoints = QuestionAnswer.objects.filter(name = q.name).aggregate(Sum('score'))["score__sum"]
-        score = answer[0].score
-
-        rank =  getRank(score)
-        q.rankImage = rank["rankImage"]
-        q.rank = rank["rank"]
-
-    personList = QuestionAnswer.objects.values('name').annotate(score = Sum('score')).order_by('-score')
-    for person in personList:
-        rank =  getRank(person["score"])
-        person["rankImage"] = rank["rankImage"]
-
-    context = {'questions': questions,
-                'personList': personList,
-                'scoreRange': range(score)}
-    return render(request, 'questions-history.html', context)
-
 @staff_member_required
 def members(request):
     members = Profile.objects.order_by('first_name', 'last_name')
@@ -115,10 +90,30 @@ def show_members(request):
     return render(request, 'view-members.html')
 
 def books(request):
-    books = Book.objects.order_by('name', 'status')
+    result = []
+    with connection.cursor() as cursor:
+        query = "select b.id,b.name, b.description, '/media/' || b.cover_page cover_page, b.category, b.status, b.number_of_pages, '/media/' ||  b.book_file book_file, b.page_num, b.language, b.hardcopy_available, count(r) holds from members_book b "\
+                +"left join members_bookreserve r "\
+	            +" on b.id = r.book_id "\
+                + " group by b.id, b.name"
 
-    data = json.dumps([book.json for book in books])
-    return HttpResponse(data, content_type='application/json')
+        cursor.execute(query, [date,date])
+        rows = dictfetchall(cursor)
+        for row in rows:
+            print(row)
+            result.append(Book.json(row))
+
+        data = json.dumps(result)
+
+        return HttpResponse(data, content_type='application/json')
+
+def dictfetchall(cursor):
+    # "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
 
 def show_books(request):
     return render(request, 'view-books.html')
@@ -144,8 +139,8 @@ def profile(request):
     else:
         skills = []
     answers_count = Answer.objects.filter(user_id=request.user.id).count()
-
-    context = { 'user': profile, 'skills': skills, 'answers_count': answers_count }
+    awards_count = UserAward.objects.filter(user_id=request.user.id).count()
+    context = { 'user': profile, 'skills': skills, 'answers_count': answers_count, 'awards_count': awards_count }
     return render(request, 'profile.html', context )
 
 def change_password(request):
@@ -166,29 +161,36 @@ def change_password(request):
 
 @staff_member_required
 def rest_attendance_sheet(request, date):
-
-    members = Profile.objects.order_by('first_name', 'last_name')
     result = []
-    for m in members:
-        attendance =  get_attendace(m.id, date )
-        result.append(json_attendance(m,attendance))
+    with connection.cursor() as cursor:
+        query = "select p.id, p.first_name, p.last_name, p.gender, date_time "\
+                + "from members_profile p left join members_attendance a "\
+	            + "on p.id = a.user_id " \
+                + "and date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD')) "\
+	            + "and date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)"\
+                + "order by p.first_name"
+
+        cursor.execute(query, [date,date])
+        for row in cursor.fetchall():
+            result.append(json_attendance(row))
+
     data = json.dumps(result)
     return HttpResponse(data, content_type='application/json')
 
-def json_attendance(member, attendance):
-     is_attendant = False
-     date_time = "N/A"
-     if attendance:
-         is_attendant = True
-         date_time = attendance[0].date_time.astimezone(timezone('US/Pacific')).strftime('%H:%M:%S')
+def json_attendance(attendance):
 
+     is_attendant = False
+     in_time = "N/A"
+     if attendance[4]:
+         is_attendant = True
+         in_time = attendance[4].astimezone(timezone('US/Pacific')).strftime('%-H:%M:%S')
      return {
-     'id' : member.id,
-     'first_name': member.first_name,
-     'last_name': member.last_name,
-     'gender': member.gender,
-     'attendance': is_attendant,
-     'datetime': date_time
+     'id': attendance[0],
+     'first_name': attendance[1],
+     'last_name': attendance[2],
+     'gender': attendance[3],
+     'datetime': in_time,
+     'attendance': is_attendant
      }
 
 def get_attendace(user_id, date):
@@ -208,14 +210,13 @@ def attendance_sheet(request):
 @login_required
 def record_attendacne(request):
     if request.method == "POST":
-        print("recording")
         json_data = json.loads(request.body.decode('utf-8'))
+        print(json_data)
         user_id = json_data["userId"]
         checked = json_data["checked"]
         date = json_data["date"]
         print(date)
         date = datetime.strptime(date,'%Y%m%d %H:%M:%S')
-        # print(date)
         if checked == True:
             request = Attendance(user_id=user_id, date_time = date )
             request.save()
@@ -232,7 +233,8 @@ class NewMemberRequest(CreateView):
     success_url = '/'
     template_name = 'newmemberrequest_form.html'
     model = NewMemberRequest
-    fields = ['first_name','last_name', 'whats_app', 'email', 'gender']
+    # fields = ['first_name','last_name', 'whats_app', 'email', 'gender']
+    form_class = NewMemberRequestForm
     # form_class = NewMemberRequestForm
     def form_valid(self, form):
         response = super(NewMemberRequest, self).form_valid(form)
@@ -249,14 +251,14 @@ class NewMemberRequest(CreateView):
 
 class InquiryCreate(CreateView):
     success_url = '/'
-    template_name = 'inquiry_form.html'
+    template_name = 'open-your-heart.html'
     model = Inquiry
     fields = ['name', 'email', 'text']
     def form_valid(self, form):
         response = super(InquiryCreate, self).form_valid(form)
         instance = self.object
 
-        subject = 'New Inquiry'
+        subject = 'Open Your Heart: New Message'
         recepients = [ 'm.h.ali@hotmail.com']
         name = "Anonymous"
         if instance.name:
@@ -265,4 +267,4 @@ class InquiryCreate(CreateView):
         message += "Inquiry: %s\n" % instance.text
 
         EmailSender(instance, subject, message, recepients).start()
-        return redirect('/')
+        return render_to_response( 'thanks.html')

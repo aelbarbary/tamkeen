@@ -83,7 +83,7 @@ print("BASE_DIR:" + BASE_DIR)
 SECRET_KEY = 'kva1tbcca-76u$4@dd#1)!f3tr%a1j3n)e6^8a5exa()+2oo0r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [ '*']
 
@@ -126,6 +126,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
+                'members.context_processors.google_analytics',
 
             ],
         },
@@ -232,3 +233,6 @@ LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not
 # SECURE_SSL_REDIRECT=True
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
+
+GOOGLE_ANALYTICS_PROPERTY_ID = os.environ['GA_TRACKING_ID'] 
+GOOGLE_ANALYTICS_DOMAIN = 'tamkeen.us'

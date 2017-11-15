@@ -24,9 +24,13 @@ class Question(models.Model):
         return 'Name: ' + self.text
 
 class Profile(AbstractUser):
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
     whats_app = models.CharField(max_length=20, blank=True)
     dob = models.DateField(max_length=8)
-    gender = models.CharField(max_length=1, default='M')
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
     photo = models.ImageField(upload_to='profile_pics', default = 'profile_pics/default.png' )
     uw_waiver = models.ImageField(upload_to='uw_waivers', default = 'uw_waivers/default.png')
     skills = models.TextField(blank=True, null=True)
@@ -65,6 +69,8 @@ class Profile(AbstractUser):
 
             EmailSender(instance, subject, message, recepients).start()
 
+post_save.connect(Profile.post_save, sender=Profile)
+
 def get_attendace(user_id):
     today = datetime.now().date()
     tomorrow = today + timedelta(1)
@@ -97,30 +103,32 @@ class Book(models.Model):
     language = models.CharField(max_length=2, default="en")
     book_file = models.FileField(upload_to="books", blank=True)
     page_num = models.IntegerField(default=0)
-
+    hardcopy_available = models.BooleanField(default=False)
     def __str__(self):
          return '%s %s' % (self.name, self.description)
 
-    @property
-    def json(self):
-        if self.book_file:
-            book_url = self.book_file.url
+    @staticmethod
+    def json(book):
+        if book['book_file']:
+            book_url = book['book_file']
             book_url_display = "inline"
         else:
             book_url = "#"
             book_url_display = "none"
         return {
-        'id' : self.id,
-        'name': self.name,
-        'description': self.description,
-        'cover_page': self.cover_page.url,
-        'category': self.category,
-        'status': self.status,
-        'number_of_pages': self.number_of_pages,
-        'language' : self.language,
+        'id' : book['id'],
+        'name': book['name'],
+        'description': book['description'],
+        'cover_page': book['cover_page'],
+        'category': book['category'],
+        'status': book['status'],
+        'number_of_pages': book['number_of_pages'],
+        'language' : book['language'],
         'book_file': book_url,
-        'page_num': self.page_num,
-        'book_url_display': book_url_display
+        'page_num': book['page_num'],
+        'book_url_display': book_url_display,
+        'hardcopy_available': book['hardcopy_available'],
+        'holds' : book['holds']
         }
 
 class BookReserve(models.Model):
@@ -130,6 +138,7 @@ class BookReserve(models.Model):
 
     @staticmethod
     def post_save(sender, created, **kwargs):
+        print("book reserved")
         if created:
             instance = kwargs.get('instance')
             print(instance)
@@ -148,6 +157,8 @@ class BookReserve(models.Model):
             recepients = ['abdelrahman.elbarbary@gmail.com', 'alinour64@yahoo.com']
             EmailSender(instance, subject, message, recepients).start()
 
+post_save.connect(BookReserve.post_save, sender=BookReserve)
+
 class Attendance(models.Model):
     user = models.ForeignKey(Profile, related_name='attendance_user')
     date_time = models.DateTimeField()
@@ -164,7 +175,21 @@ class NewMemberRequest(models.Model):
 class Inquiry(models.Model):
     name =models.CharField(max_length=200, blank=True)
     email = models.CharField(max_length=200, blank=True)
-    text =models.TextField(verbose_name= 'Inquiry')
+    text = models.TextField(verbose_name= 'Message')
 
     def __str__(self):
         return '%s %s' % (self.name, self.text)
+
+class Award(models.Model):
+    name = models.CharField(max_length=200, blank=True)
+    description = models.TextField()
+    prize = models.CharField(max_length=200, blank=True)
+    pic=models.ImageField(upload_to='awards', default = 'awards/default.png' )
+    def __str__(self):
+        return '%s' % (self.name)
+
+class UserAward(models.Model):
+    user = models.ForeignKey(Profile, related_name='award_user')
+    award = models.ForeignKey(Award, related_name='award')
+    description = models.TextField()
+    date_time = models.DateTimeField()
