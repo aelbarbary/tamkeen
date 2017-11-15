@@ -134,7 +134,11 @@ $(document).ready(function() {
              success: function(data){
                var items = [];
                $("#bookTemplate").tmpl(data).appendTo("#list");
-         }
+             },
+             error: function(xhr, status, error) {
+               var err = eval("(" + xhr.responseText + ")");
+               alert(err.Message);
+             }
        });
 } );
 
@@ -164,3 +168,4 @@ function reserveBook(book_id){
         }
     });
 }
+</script>
