@@ -90,7 +90,6 @@ header img {
   display: block;
   margin: 0 auto 9px;
   width: 190px;
-  animation-delay: 3.3s;
 }
 header .intro-text {
   font-size: 10px;
@@ -106,12 +105,10 @@ header .intro-text .name {
   text-transform: uppercase;
   font-weight: 700;
   font-size: 2em;
-  animation-delay: 3.1s;
 }
 header .intro-text .skills {
   font-size: 1.25em;
   font-weight: 300;
-  animation-delay: 3.3s;
 }
 
 header .intro-text .name{
