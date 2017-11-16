@@ -120,7 +120,7 @@ function handleFormSubmit(event) {  // handles form submit withtout any jquery
     var xhr = new XMLHttpRequest();
     //var url = 'http:/tamkeen.us';  //
     //var xhr = createCORSRequest('POST', url);
-    //xhr.open('POST', url);
+    xhr.open('POST', url);
     xhr.withCredentials = true;
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
