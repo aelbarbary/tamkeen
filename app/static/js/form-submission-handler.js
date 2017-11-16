@@ -116,12 +116,12 @@ function handleFormSubmit(event) {  // handles form submit withtout any jquery
     document.getElementById('email-invalid').style.display = 'block';
     return false;
   } else {
-    //var url = event.target.action;  //
-    //var xhr = new XMLHttpRequest();
-    var url = 'http:/tamkeen.us';  //
-    var xhr = createCORSRequest('POST', url);
+    var url = event.target.action;  //
+    var xhr = new XMLHttpRequest();
+    //var url = 'http:/tamkeen.us';  //
+    //var xhr = createCORSRequest('POST', url);
     //xhr.open('POST', url);
-    //xhr.withCredentials = true;
+    xhr.withCredentials = true;
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         console.log( xhr.status, xhr.statusText )
