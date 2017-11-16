@@ -259,7 +259,7 @@ class InquiryCreate(CreateView):
         instance = self.object
 
         subject = 'Open Your Heart: New Message'
-        recepients = [ 'm.h.ali@hotmail.com']
+        recepients = [ 'm.h.ali@hotmail.com', 'tamkeen.moderator@gmail.com']
         name = "Anonymous"
         if instance.name:
             name = instance.name

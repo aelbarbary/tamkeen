@@ -175,7 +175,7 @@
     $(document).ready(function(){
       $('html').animate({scrollTop:0}, 1);
       $('body').animate({scrollTop:0}, 1);
-    $( "body" ).prepend( '<div id="preloader"><div id="status"><img src="{% static 'images/tamkeenloading-img.png' %}" alt="Loading" title="Loading" /><div class="loadbox"><div class="load"></div></div> </div></div>' );
+    $( "body" ).prepend( '<div id="preloader"><div id="status"><img src="{% static 'images/tamkeenloadingimg.png' %}" alt="Loading" title="Loading" /><div class="loadbox"><div class="load"></div></div> </div></div>' );
     //$( "body" ).css({'overflow-y':'hidden'});
     $(window).on('load', function() { // makes sure the whole site is loaded
     $('#status').delay(3000).fadeOut(); // will first fade out the loading animation
