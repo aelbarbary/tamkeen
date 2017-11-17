@@ -23,6 +23,7 @@ from .email import EmailSender
 from datetime import date, datetime, timedelta, time
 from pytz import timezone
 from django.db import connection
+from embed_video.backends import detect_backend
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("django")
@@ -31,8 +32,12 @@ def index(request):
     if request.user.is_authenticated:
         name = "%s %s" % (request.user.first_name, request.user.last_name)
         logger.info("user %s has logged" % name)
+    video_list = []
+    videos =   SuggestedVideo.objects.all()[0:2]
+    for v in videos:
+        video_list.append(v.video)
 
-    context = { 'user_text': request.user if request.user.is_authenticated else 'login'}
+    context = { 'user_text': request.user if request.user.is_authenticated else 'login', 'videos': video_list}
     return render(request, 'index.html', context)
 
 def get_client_ip(request):

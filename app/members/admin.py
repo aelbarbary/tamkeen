@@ -50,6 +50,9 @@ class AwardAdmin(admin.ModelAdmin):
     inlines = [UserAwardsInline]
     model = Award
 
+class SuggestedVideoAdmin(admin.ModelAdmin):
+    model = SuggestedVideo
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Quiz, QuizAdmin)
@@ -58,3 +61,4 @@ admin.site.register(Book, BookAdmin)
 admin.site.register(NewMemberRequest, NewMemberRequestAdmin)
 admin.site.register(Inquiry, InquiryAdmin)
 admin.site.register(Award, AwardAdmin)
+admin.site.register(SuggestedVideo, SuggestedVideoAdmin)

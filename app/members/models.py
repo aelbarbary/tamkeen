@@ -8,6 +8,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import date, datetime, timedelta, time
+from embed_video.fields import EmbedVideoField
 
 from .email import EmailSender
 
@@ -193,3 +194,6 @@ class UserAward(models.Model):
     award = models.ForeignKey(Award, related_name='award')
     description = models.TextField()
     date_time = models.DateTimeField()
+
+class SuggestedVideo(models.Model):
+    video = EmbedVideoField()

@@ -100,6 +100,7 @@ INSTALLED_APPS = [
     'members',
     'storages',
     'sslserver',
+    'embed_video',
 ]
 
 MIDDLEWARE = [
@@ -212,3 +213,10 @@ LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not
 
 GOOGLE_ANALYTICS_PROPERTY_ID = os.environ['GA_TRACKING_ID']
 GOOGLE_ANALYTICS_DOMAIN = 'tamkeen.us'
+
+EMBED_VIDEO_BACKENDS = (
+    'embed_video.backends.YoutubeBackend',
+    'embed_video.backends.VimeoBackend',
+    'embed_video.backends.SoundCloudBackend',
+
+)

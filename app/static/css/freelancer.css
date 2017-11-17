@@ -226,19 +226,16 @@ section h2 {
   }
 }
 
-section.events {
+section.white {
+  background: #ffffff;
+  color: black;
+}
+
+section.blue {
   background: #2C3E50;
   color: white;
 }
 
-section.mission {
-  background: #2C3E50;
-  color: white;
-}
-section.gallery {
-  background: #ecfcec;
-  color: black;
-}
 @media (max-width: 767px) {
   section {
     padding: 30px 0;
@@ -356,7 +353,7 @@ footer h3 {
 }
 footer .footer-above {
   padding-top: 50px;
-  background-color: #2C3E50;
+  background-color: #617487;
 }
 footer .footer-col {
   margin-bottom: 50px;
@@ -564,6 +561,7 @@ fieldset[disabled] .btn-success.active {
 
 blockquote {
   background: #f9f9f9;
+  color: black;
   border-left: 10px solid #ccc;
   margin: 1.5em 10px;
   padding: 0.5em 10px;
