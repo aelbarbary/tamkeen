@@ -2,6 +2,7 @@
 {% if GOOGLE_ANALYTICS_PROPERTY_ID %}
   {% include "ga.html" %}
 {% endif %}
+{% load embed_video_tags %}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -44,7 +45,7 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="#page-top">Tamkeen Library</a>
+                <a class="navbar-brand" href="#page-top">Suggested Videos</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -63,50 +64,19 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
+
+    <div id = "list" class="container">
+      <div class="row">
+        <div class="col-sm text-center">
+          {% for v in videos %}
+            {% video v 'small' %}
+          {%endfor%}
+          <div>
+      </div>
+    </div>
+
   </body>
 
-  <script id="bookTemplate" type="text/x-jQuery-tmpl">
-
-    <li>
-    <div class="alert alert-success hidden" role="alert" id="alert${id}">
-      <strong>Thank you {{ request.user.first_name }}</strong>. The library admin will contact you soon
-    </div>
-     <a href="${cover_page}" class="product-photo">
-         <img src="${cover_page}" height="160" alt="iPhone 6" />
-     </a>
-
-     <div class="product-details">
-
-         <h2>${name}</h2>
-         <p><h3 style="color:gray; font-size:12PX">(${category})</h3></p>
-         <h7>Language: ${language}</h7>
-
-         <p class="product-description">${description}</p>
-         <div class="row">
-         {% verbatim %}
-          {{if hardcopy_available}}
-            <button id="reserve${id}" onclick="reserveBook(${id})">Reserve</button>
-            <p style="color:gray; font-size:8pt; margin-top:5px;">You need to login if you want to borrow this book</p>
-          {{else}}
-            <div class="alert alert-warning"> Only Available Online </div>
-          {{/if}}
-         {% endverbatim %}
-         </div>
-         <div class="row">
-         <a href="${book_file}#page=${page_num}" style="display:${book_url_display}; margin:10pt;">read online</a>
-
-         </div>
-         <p class="product-price"><span style="font-size:10; margin-left:10pt">Holds: </span> ${holds}</p>
-         <p class="product-price"><span style="font-size:10">Pages: </span> ${number_of_pages}</p>
-
-     </div>
-
-     </li>
-
-</script>
-
-<ul id="list" class="product-list-vertical">
-</ul>
 
 <!-- jQuery -->
 <script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
@@ -118,55 +88,7 @@
 <!-- Plugin JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
-<!-- Contact Form JavaScript -->
-<script src="{% static "js/jqBootstrapValidation.js" %}"></script>
 
 <!-- Theme JavaScript -->
 <script src="{% static "js/freelancer.min.js" %}"></script>
 <script src="{% static "js/main.js" %}"></script>
-
-<script >
-$(document).ready(function() {
-  var t = $('#list');
-  $.ajax({
-             type: "GET",
-             dataType: "json",
-             url: "/rest/books",
-             success: function(data){
-               var items = [];
-               $("#bookTemplate").tmpl(data).appendTo("#list");
-             },
-             error: function(xhr, status, error) {
-               var err = eval("(" + xhr.responseText + ")");
-               alert(err.Message);
-             }
-       });
-} );
-
-function reserveBook(book_id){
-    if ("{{ request.user}}" == "AnonymousUser")
-    {
-       window.location.href ="/accounts/login?next=/books";
-    }
-
-    data = {
-        userId: {{ request.user.id }}
-    }
-    $.ajax({
-        type: "POST",
-        url: "/rest/books/" + book_id  + "/reserve/",
-        data: JSON.stringify(data),
-        success: function(result) {
-          $("#alert"+ book_id).removeClass("hidden");
-          $("#alert"+ book_id).fadeTo(2000, 500).slideUp(500, function(){
-              $("#alert"+ book_id).slideUp(500);
-           });
-          $("#reserve"+book_id).prop("disabled",true);
-        },
-        error: function(xhr, status, error) {
-          var err = eval("(" + xhr.responseText + ")");
-          alert(err.Message);
-        }
-    });
-}
-</script>

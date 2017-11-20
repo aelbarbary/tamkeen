@@ -78,7 +78,10 @@ function getSheet(table, sheet_date)
              dataType: "json",
              url: "/rest/members/attendance/"+ sheet_date,
              success: function(data){
-               data.forEach(function(entry) {
+               console.log(data.attendance_perc);
+               $('.progress-bar').css('width', data.attendance_perc+'%').attr('aria-valuenow', data.attendance_perc);
+               $('.progress-bar').text('Attendance: '+data.attendance_perc + '%')
+               data.result.forEach(function(entry) {
                  uw_waiver = entry["uw_waiver"]
                  photo = entry["photo"]
                  attended_today = entry["attendance"]
@@ -143,6 +146,12 @@ function getSheet(table, sheet_date)
             </div>
         </div>
     </div>
+  </div>
+  <div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="70"
+    aria-valuemin="0" aria-valuemax="100" style="width:0%">
+
+      </div>
   </div>
   <table id="example" class="display" cellspacing="0" width="100%">
 

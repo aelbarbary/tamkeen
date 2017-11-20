@@ -32,8 +32,9 @@ def index(request):
     if request.user.is_authenticated:
         name = "%s %s" % (request.user.first_name, request.user.last_name)
         logger.info("user %s has logged" % name)
+
     video_list = []
-    videos =   SuggestedVideo.objects.all()[0:2]
+    videos =   SuggestedVideo.objects.all().order_by('-date_time')[0:2]
     for v in videos:
         video_list.append(v.video)
 
@@ -179,7 +180,19 @@ def rest_attendance_sheet(request, date):
         for row in cursor.fetchall():
             result.append(json_attendance(row))
 
-    data = json.dumps(result)
+        query = "select round((count(*) )::decimal / (select count(*) from members_profile)::decimal * 100,2 ) as f "\
+                + "from members_attendance "\
+                + "where date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD')) "\
+                + "and date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1) "
+
+        cursor.execute(query, [date,date])
+        row = cursor.fetchone()
+        print(row[0])
+
+    context = { 'result': result, 'attendance_perc': str(row[0]) }
+
+    data = json.dumps(context)
+
     return HttpResponse(data, content_type='application/json')
 
 def json_attendance(attendance):
@@ -273,3 +286,12 @@ class InquiryCreate(CreateView):
 
         EmailSender(instance, subject, message, recepients).start()
         return render_to_response( 'thanks.html')
+
+def get_videos(request):
+    video_list = []
+    videos =   SuggestedVideo.objects.all()
+    for v in videos:
+        video_list.append(v.video)
+
+    context = { 'videos': video_list}
+    return render(request, 'view-videos.html', context)

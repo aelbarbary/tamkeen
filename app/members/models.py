@@ -197,3 +197,4 @@ class UserAward(models.Model):
 
 class SuggestedVideo(models.Model):
     video = EmbedVideoField()
+    date_time= models.DateTimeField()
