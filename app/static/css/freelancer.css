@@ -153,6 +153,7 @@ header .intro-text .name{
 .navbar-custom .navbar-nav li a {
   color: white;
   background-color: transparent;
+  font-size: 12pt;
 }
 .navbar-custom .navbar-nav li a:hover {
   color: #18BC9C;
