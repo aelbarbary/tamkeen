@@ -33,5 +33,7 @@ urlpatterns = [
     url(r'^rest/members/attendance/(?P<date>\d+)/$', views.rest_attendance_sheet, name='rest_attendance_sheet'),
     url(r'^register/$', views.NewMemberRequest.as_view(), name='new_member_request'),
     url(r'^openyourheart/$', views.InquiryCreate.as_view(), name='new_inquiry'),
-    url(r'^videos/$', views.get_videos, name='view_videos')
+    url(r'^videos/$', views.get_videos, name='view_videos'),
+    url(r'^stats/$', views.stats, name='stats')
+
 ]

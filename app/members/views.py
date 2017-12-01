@@ -296,3 +296,47 @@ def get_videos(request):
 
     context = { 'videos': video_list}
     return render(request, 'view-videos.html', context)
+
+@staff_member_required
+def stats(request):
+    context = {}
+    with connection.cursor() as cursor:
+        # USer Info completeness
+        query = "select round(count(1)::numeric/(select count(1) from members_profile ) ::numeric  ,2) * 100 "\
+                + "from members_profile "\
+                + "where whats_app <> '' and uw_waiver <> 'uw_waivers/default.png'"
+
+        cursor.execute(query)
+        completeness = cursor.fetchone()
+
+        # Quiz answers
+        query = "select count(1) " \
+                +"from members_answer "\
+                +"where date_time > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
+
+        cursor.execute(query)
+        quiz_answers = cursor.fetchone()
+
+        # New Members
+        query = "select count(1) " \
+                +"from members_profile "\
+                +"where date_joined > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
+
+        cursor.execute(query)
+        new_members = cursor.fetchone()
+
+        # Books checkouts
+        query = "select count(1) " \
+                +"from members_bookreserve "\
+                +"where date_time > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
+
+        cursor.execute(query)
+        book_checkouts = cursor.fetchone()
+
+        context = { 'completeness':completeness[0],
+                'quiz_answers': quiz_answers[0],
+                'new_members': new_members[0],
+                'book_checkouts' :book_checkouts[0] }
+
+
+    return render(request, 'stats.html', context)

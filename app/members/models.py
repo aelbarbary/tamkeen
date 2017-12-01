@@ -179,6 +179,7 @@ class Inquiry(models.Model):
     name =models.CharField(max_length=200, blank=True)
     email = models.CharField(max_length=200, blank=True)
     text = models.TextField(verbose_name= 'Message')
+    date_time = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
         return '%s %s' % (self.name, self.text)
