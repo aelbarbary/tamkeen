@@ -14,6 +14,8 @@ from .email import EmailSender
 
 class Quiz(models.Model):
     name = models.CharField(max_length=2000)
+    def __str__(self):
+        return 'Name: ' + self.name
 
 class Question(models.Model):
     text = models.CharField(max_length=2000)

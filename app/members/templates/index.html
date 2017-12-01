@@ -65,9 +65,11 @@
         {% if 'youtube' in v.lower %}
           {% video v 'small' %}
         {% else %}
-          {{v|safe}}
+        <div class="fb-video" data-href="{{v}}" data-width="500" data-show-text="false">
+          <div class="fb-xfbml-parse-ignore">
+          </div>
+        </div>
         {% endif %}
-
       {%endfor%}
       <div>
     </div>
