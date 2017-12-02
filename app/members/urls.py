@@ -24,7 +24,9 @@ urlpatterns = [
     url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^rest/books/(?P<id>\d+)/reserve/$', views.reserve_book, name='reserve_book'),
 
-    url(r'^rest/books/$', views.books, name='books'),
+    url(r'^rest/books/$', views.get_books, name='get_books'),
+    url(r'^rest/books/requested$', views.get_requested_books, name='get_requested_books'),
+
     url(r'^books/$', views.show_books, name='show_books'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^password/change/$', views.change_password, name='change_password'),

@@ -96,7 +96,7 @@ def members(request):
 def show_members(request):
     return render(request, 'view-members.html')
 
-def books(request):
+def get_books(request):
     result = []
     with connection.cursor() as cursor:
         query = "select b.id,b.name, b.description, '/media/' || b.cover_page cover_page, b.category, b.status, b.number_of_pages, '/media/' ||  b.book_file book_file, b.page_num, b.language, b.hardcopy_available, count(r) holds from members_book b "\
@@ -109,6 +109,27 @@ def books(request):
         for row in rows:
             print(row)
             result.append(Book.json(row))
+
+        data = json.dumps(result)
+
+        return HttpResponse(data, content_type='application/json')
+
+def get_requested_books(request):
+    result = []
+    with connection.cursor() as cursor:
+        query = "select b.id,b.name, b.description, p.first_name, p.last_name "\
+                +"from members_book b "\
+                +"join  members_bookreserve r "\
+                +"on b.id = r.book_id  "\
+                +"join members_profile p "\
+                +"on p.id = r.user_id "\
+                +"where r.date_time > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
+
+        cursor.execute(query)
+        rows = dictfetchall(cursor)
+        for row in rows:
+            print(row)
+            result.append(row)
 
         data = json.dumps(result)
 
