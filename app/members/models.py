@@ -94,7 +94,7 @@ class Answer(models.Model):
     date_time = models.DateTimeField()
     score = models.IntegerField(default=0)
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
-    user = models.ForeignKey(Profile)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
 class Book(models.Model):
     name = models.CharField(max_length=200, blank=False)
@@ -135,7 +135,7 @@ class Book(models.Model):
         }
 
 class BookReserve(models.Model):
-    user = models.ForeignKey(Profile, related_name='user')
+    user = models.ForeignKey(Profile, related_name='user', on_delete=models.CASCADE,)
     book = models.ForeignKey(Book, related_name='book_reserves', on_delete=models.CASCADE)
     date_time = models.DateTimeField()
 
@@ -163,7 +163,7 @@ class BookReserve(models.Model):
 post_save.connect(BookReserve.post_save, sender=BookReserve)
 
 class Attendance(models.Model):
-    user = models.ForeignKey(Profile, related_name='attendance_user')
+    user = models.ForeignKey(Profile, related_name='attendance_user', on_delete=models.CASCADE,)
     date_time = models.DateTimeField()
 
 class NewMemberRequest(models.Model):
@@ -193,7 +193,7 @@ class Award(models.Model):
         return '%s' % (self.name)
 
 class UserAward(models.Model):
-    user = models.ForeignKey(Profile, related_name='award_user')
+    user = models.ForeignKey(Profile, related_name='award_user',on_delete=models.CASCADE,)
     award = models.ForeignKey(Award, related_name='award', on_delete=models.CASCADE)
     description = models.TextField()
     date_time = models.DateTimeField()
