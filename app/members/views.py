@@ -354,10 +354,19 @@ def stats(request):
         cursor.execute(query)
         book_checkouts = cursor.fetchone()
 
+        # Open your heart
+        query = "select count(1) " \
+                +"from members_inquiry "\
+                +"where date_time > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
+
+        cursor.execute(query)
+        open_your_heart = cursor.fetchone()
+
         context = { 'completeness':completeness[0],
                 'quiz_answers': quiz_answers[0],
                 'new_members': new_members[0],
-                'book_checkouts' :book_checkouts[0] }
+                'book_checkouts' :book_checkouts[0],
+                'open_your_heart': open_your_heart[0]}
 
 
     return render(request, 'stats.html', context)
