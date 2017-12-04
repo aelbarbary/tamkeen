@@ -93,7 +93,7 @@ class Answer(models.Model):
     text = models.CharField(max_length=2000)
     date_time = models.DateTimeField()
     score = models.IntegerField(default=0)
-    question = models.ForeignKey(Question, related_name='answers')
+    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
     user = models.ForeignKey(Profile)
 
 class Book(models.Model):
@@ -136,7 +136,7 @@ class Book(models.Model):
 
 class BookReserve(models.Model):
     user = models.ForeignKey(Profile, related_name='user')
-    book = models.ForeignKey(Book, related_name='book_reserves')
+    book = models.ForeignKey(Book, related_name='book_reserves', on_delete=models.CASCADE)
     date_time = models.DateTimeField()
 
     @staticmethod
@@ -194,7 +194,7 @@ class Award(models.Model):
 
 class UserAward(models.Model):
     user = models.ForeignKey(Profile, related_name='award_user')
-    award = models.ForeignKey(Award, related_name='award')
+    award = models.ForeignKey(Award, related_name='award', on_delete=models.CASCADE)
     description = models.TextField()
     date_time = models.DateTimeField()
 
