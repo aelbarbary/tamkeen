@@ -53,6 +53,9 @@ class AwardAdmin(admin.ModelAdmin):
 class SuggestedVideoAdmin(admin.ModelAdmin):
     model = SuggestedVideo
 
+class CheckoutAdmin(admin.ModelAdmin):
+    model = Checkout
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Quiz, QuizAdmin)
@@ -62,3 +65,4 @@ admin.site.register(NewMemberRequest, NewMemberRequestAdmin)
 admin.site.register(Inquiry, InquiryAdmin)
 admin.site.register(Award, AwardAdmin)
 admin.site.register(SuggestedVideo, SuggestedVideoAdmin)
+admin.site.register(Checkout, CheckoutAdmin)

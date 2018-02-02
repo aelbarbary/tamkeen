@@ -48,25 +48,12 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
             'filters': []
-        },
-        'watchtower': {
-            'level': 'DEBUG',
-            'class': 'watchtower.CloudWatchLogHandler',
-                     'boto3_session': boto3_session,
-                     'log_group': 'tamkeen',
-                     'stream_name': 'index-visitors',
-            'formatter': 'aws',
-        },
+        }
     },
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
-            'propagate': False,
-        },
-        'django': {
-            'handlers': ['watchtower'],
-            'level': 'INFO',
             'propagate': False,
         }
     }

@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <link href="{% static "/css/attendance.css" %}" rel="stylesheet">
 <link href ="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 <script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
@@ -26,7 +27,14 @@ $(document).ready(function() {
   url = "/rest/members/attendance/" + today
   var t = $('#example').DataTable({
     paging: false,
-    ajax: ""
+    ajax: "",
+    createdRow: function ( row, data, index ) {
+            console.log(data);
+            if ( data[7]) {
+              $(row).css("background-color", "#d5f49e");
+              $(row).find("input,button,textarea,select").attr("disabled", "disabled");
+            }
+        }
   });
 
   $('#datetimepicker').datetimepicker({
@@ -58,10 +66,30 @@ function saveAttendance(user_id)
   data = { userId: user_id, checked: checked, date: date }
   $.ajax({
       type: "POST",
-      url: "/rest/members/attendance/new",
+      url: "/rest/members/attendance/checkin",
       data: JSON.stringify(data),
       success: function(result) {
 
+      },
+      error: function(xhr, status, error) {
+        console.log(error);
+      }
+  });
+}
+
+function checkout(user_id, element)
+{
+  date = $('#datetimepicker').data("DateTimePicker").date().format("YYYYMMDD hh:mm:ss");
+
+  data = { userId: user_id, date: date }
+  $.ajax({
+      type: "POST",
+      url: "/rest/members/attendance/checkout",
+      data: JSON.stringify(data),
+      success: function(result) {
+        var tr = $(element).closest('tr');
+        tr.css("background-color", "#d5f49e");
+        tr.find("input,button,textarea,select").attr("disabled", "disabled");
       },
       error: function(xhr, status, error) {
         console.log(error);
@@ -82,13 +110,17 @@ function getSheet(table, sheet_date)
                $('.progress-bar').css('width', data.attendance_perc+'%').attr('aria-valuenow', data.attendance_perc);
                $('.progress-bar').text('Attendance: '+data.attendance_perc + '%')
                data.result.forEach(function(entry) {
+                 console.log(entry);
                  uw_waiver = entry["uw_waiver"]
                  photo = entry["photo"]
-                 attended_today = entry["attendance"]
+                 checked_in = entry["checked_in"]
+                 checked_out = entry["checked_out"]
+                 checkOutBtn = ""
                  checkbox = "<input id='checkbox" + entry["id"] + "'  type='checkbox' onclick='saveAttendance(" + entry["id"] + ");'"
-                 if (attended_today == true)
+                 if (checked_in)
                  {
                     checkbox += "checked";
+                    checkOutBtn = "<input type='button' value='Check-out' class='btn btn-primary' onclick='checkout(" + entry["id"] + ", this);'/> "
                  }
                  checkbox += "></input>"
                  row = table.row.add( [
@@ -96,9 +128,14 @@ function getSheet(table, sheet_date)
                      entry["first_name"],
                      entry["last_name"],
                      entry["gender"],
-                     entry["datetime"],
+                     entry["checked_in_time"],
+                     checkOutBtn,
+                     checked_in,
+                     checked_out
                  ] ).draw( false );
-             }
+
+                 $(row).css("background-color", "red");
+               }
          )}
        });
 }
@@ -162,6 +199,7 @@ function getSheet(table, sheet_date)
                   <th>Last Name</th>
                   <th>Gender</th>
                   <th>Time</th>
+                  <th></th>
               </tr>
           </thead>
 
@@ -172,6 +210,7 @@ function getSheet(table, sheet_date)
                 <th>Last Name</th>
                 <th>Gender</th>
                 <th>Time</th>
+                <th></th>
               </tr>
           </tfoot>
       </table>

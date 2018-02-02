@@ -86,8 +86,11 @@ def get_attendace(user_id):
     return False
 
 def calculate_age(born):
-    today = date.today()
-    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+    if born:
+        today = date.today()
+        return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+    else:
+        return 'unknown'
 
 class Answer(models.Model):
     text = models.CharField(max_length=2000)
@@ -164,6 +167,10 @@ post_save.connect(BookReserve.post_save, sender=BookReserve)
 
 class Attendance(models.Model):
     user = models.ForeignKey(Profile, related_name='attendance_user', on_delete=models.CASCADE,)
+    date_time = models.DateTimeField()
+
+class Checkout(models.Model):
+    user = models.ForeignKey(Profile, related_name='checkout_user', on_delete=models.CASCADE,)
     date_time = models.DateTimeField()
 
 class NewMemberRequest(models.Model):
