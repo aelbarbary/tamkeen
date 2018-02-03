@@ -41,7 +41,6 @@ def rest_attendance_sheet(request, date):
 	            + "and ch.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1) "\
                 + "order by p.first_name"
 
-
         cursor.execute(query, [date,date, date, date])
 
         for row in cursor.fetchall():
@@ -55,8 +54,6 @@ def rest_attendance_sheet(request, date):
         cursor.execute(query, [date,date])
         row = cursor.fetchone()
 
-        print(row[0])
-
     context = { 'result': result, 'attendance_perc': str(row[0]) }
 
     data = json.dumps(context)
@@ -69,11 +66,10 @@ def json_attendance(attendance):
      checked_out = False
      checked_in_time = "N/A"
      checked_out_time = "N/A"
-     print(attendance[4])
+
      if attendance[4] is not None:
          checked_in = True
          checked_in_time = attendance[4].astimezone(timezone('US/Pacific')).strftime('%-H:%M:%S')
-     print(checked_in)
 
      if attendance[5] is not None:
          checked_out = True
@@ -87,7 +83,7 @@ def json_attendance(attendance):
          'checked_in_time': checked_in_time,
          'checked_out_time': checked_out_time,
          'checked_in': checked_in,
-         'checked_out': checked_out
+         'checked_out': checked_out,
      }
 
 def get_attendace(user_id, date):
