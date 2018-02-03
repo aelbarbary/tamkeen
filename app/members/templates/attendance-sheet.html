@@ -64,19 +64,24 @@ $(document).ready(function() {
 
 function saveAttendance(user_id)
 {
-  checked = false
+  checked_in = false
   if ($("#checkbox" + user_id).is(':checked'))
-    checked = true
+    checked_in = true
   date = $('#datetimepicker').data("DateTimePicker").date().format("YYYYMMDD hh:mm:ss");
 
-  data = { userId: user_id, checked: checked, date: date }
+  data = { userId: user_id, checked: checked_in, date: date }
   $.ajax({
       type: "POST",
       url: "/rest/members/attendance/checkin",
       data: JSON.stringify(data),
       success: function(result) {
-           var today = moment().format('YYYYMMDD');
-           getSheet($('#example').DataTable() , today);
+           // Show checkout button if checked_in
+           if (checked_in){
+             $("#checkoutbtn-" + user_id).show();
+           }else {
+             $("#checkoutbtn-" + user_id).hide();
+           }
+
       },
       error: function(xhr, status, error) {
         console.log(error);
@@ -134,7 +139,7 @@ function getSheet(table, sheet_date)
                      entry["last_name"],
                      entry["gender"],
                      entry["checked_in_time"],
-                     "<input id='checkoutbtn-'" + entry["id"] + " type='button' value='Check-out' class='btn btn-primary checkout' onclick='checkout(" + entry["id"] + ", this);'/> ",
+                     "<input id='checkoutbtn-" + entry["id"] + "' type='button' value='Check-out' class='btn btn-primary checkout' onclick='checkout(" + entry["id"] + ", this);'/> ",
                      checked_in,
                      checked_out
 
