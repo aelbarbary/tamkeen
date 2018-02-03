@@ -9,16 +9,6 @@
 <link href="{% static "/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
 <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
 
-<style>
-  tr > th:nth-of-type(9),
-  tr > td:nth-of-type(9) {
-  display: none;
-  }
-
-  td{
-    font-size: 15pt;
-  }
-</style>
 
 <script>
 $(document).ready(function() {
@@ -29,7 +19,7 @@ $(document).ready(function() {
     paging: false,
     ajax: "",
     createdRow: function ( row, data, index ) {
-            console.log(data);
+
             if ( data[7]) { // if checked-out
               $(row).css("background-color", "#d5f49e");
               $(row).find("input,button,textarea,select").attr("disabled", "disabled");
@@ -39,7 +29,6 @@ $(document).ready(function() {
             }else{
               $(row).find(".checkout").hide();
             }
-
         }
   });
 
@@ -47,18 +36,18 @@ $(document).ready(function() {
     defaultDate: new Date()
   });
 
-  getSheet(t, today);
+  getAttendanceSheet(t, today);
   $('#datetimepicker').on('dp.change', function(e){
-    getSheet(t, e.date.format("YYYYMMDD"));
+    getAttendanceSheet(t, e.date.format("YYYYMMDD"));
   })
 
   $(function(){
-      setInterval(oneSecondFunction, 30000);
+      setInterval(refreshAttendanceSheet, 30000);
     });
 
-    function oneSecondFunction() {
-      getSheet(t, $('#datetimepicker').data("DateTimePicker").date().format("YYYYMMDD"));
-  }
+    function refreshAttendanceSheet() {
+      getAttendanceSheet(t, $('#datetimepicker').data("DateTimePicker").date().format("YYYYMMDD"));
+    }
 
 } );
 
@@ -78,6 +67,7 @@ function saveAttendance(user_id)
            // Show checkout button if checked_in
            if (checked_in){
              $("#checkoutbtn-" + user_id).show();
+
            }else {
              $("#checkoutbtn-" + user_id).hide();
            }
@@ -109,20 +99,17 @@ function checkout(user_id, element)
   });
 }
 
-function getSheet(table, sheet_date)
+function getAttendanceSheet(table, sheet_date)
 {
-  console.log(sheet_date);
   table.clear();
   $.ajax({
              type: "GET",
              dataType: "json",
              url: "/rest/members/attendance/"+ sheet_date,
              success: function(data){
-               console.log(data.attendance_perc);
                $('.progress-bar').css('width', data.attendance_perc+'%').attr('aria-valuenow', data.attendance_perc);
                $('.progress-bar').text('Attendance: '+data.attendance_perc + '%')
                data.result.forEach(function(entry) {
-                 console.log(entry);
                  uw_waiver = entry["uw_waiver"]
                  photo = entry["photo"]
                  checked_in = entry["checked_in"]
