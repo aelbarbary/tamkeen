@@ -32,7 +32,7 @@ class Profile(AbstractUser):
         ('F', 'Female'),
     )
     whats_app = models.CharField(max_length=20, blank=True)
-    dob = models.DateField(max_length=8, blank=True)
+    dob = models.DateField(max_length=8)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
     photo = models.ImageField(upload_to='profile_pics', default = 'profile_pics/default.png' )
     uw_waiver = models.ImageField(upload_to='uw_waivers', default = 'uw_waivers/default.png')

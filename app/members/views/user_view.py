@@ -68,7 +68,8 @@ class NewMemberRequest(CreateView):
                                         password,
                                         first_name = instance.first_name,
                                         last_name = instance.last_name,
-                                        gender = instance.gender)
+                                        gender = instance.gender,
+                                        dob=datetime.now())
         new_user.save()
 
         subject = 'Your account was created successfully!'
