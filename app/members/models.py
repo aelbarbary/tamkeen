@@ -182,8 +182,8 @@ class NewMemberRequest(models.Model):
     first_name =models.CharField(max_length=100)
     last_name =models.CharField(max_length=100)
     gender = models.CharField(max_length=1, default="M")
-    whats_app = models.CharField(max_length=20, blank=True, verbose_name= 'Phone Number')
-    email = models.CharField(max_length=100, blank=True)
+    phone = models.CharField(max_length=10, blank=True, verbose_name= 'Phone Number')
+    email = models.CharField(max_length=100, blank=False)
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
 

@@ -3,7 +3,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from members.models import *
 from django.urls import reverse
 from django.conf import settings
-import logging
 from django.db.models import Max, Sum, Count
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
@@ -14,7 +13,6 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponseForbidden
 from django.db.models import Q
 import os
-import logging
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -23,7 +21,8 @@ from members.email import EmailSender
 from datetime import date, datetime, timedelta, time
 from pytz import timezone
 from django.db import connection
-from embed_video.backends import detect_backend
+import random
+import string
 
 
 @login_required
@@ -55,23 +54,32 @@ def change_password(request):
     })
 
 class NewMemberRequest(CreateView):
-    success_url = '/'
+    success_url = '/accounts/register/thanks/'
     template_name = 'newmemberrequest_form.html'
     model = NewMemberRequest
-    # fields = ['first_name','last_name', 'whats_app', 'email', 'gender']
     form_class = NewMemberRequestForm
-    # form_class = NewMemberRequestForm
     def form_valid(self, form):
         response = super(NewMemberRequest, self).form_valid(form)
         instance = self.object
+        user_name = '%s.%s' % (instance.first_name.replace(" ", "").lower(), instance.last_name.replace(" ", "").lower())
+        password = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
+        new_user = Profile.objects.create_user(user_name,
+                                        instance.email,
+                                        password,
+                                        first_name = instance.first_name,
+                                        last_name = instance.last_name,
+                                        gender = instance.gender)
+        new_user.save()
 
-        subject = 'New Member Request'
-        recepients = ['abdelrahman.elbarbary@gmail.com']
+        subject = 'Your account was created successfully!'
+        recepients = [instance.email]
 
-        message = "Tamkeener: %s %s\n" % (instance.first_name, instance.last_name)
-        message += "Email: %s\n" % instance.email
-        message += "WhatsApp: %s" % instance.whats_app
+        message = "%s, Thank you for registering. your user information is listed below. \n" % (instance.first_name)
+        message = "User Name: %s \n" % (user_name)
+        message += "Password: %s\n" % password
+
         EmailSender(instance, subject, message, recepients).start()
+
         return response
 
 def registration_thanks(request):
