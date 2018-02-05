@@ -63,20 +63,27 @@ class NewMemberRequest(CreateView):
         instance = self.object
         user_name = '%s.%s' % (instance.first_name.replace(" ", "").lower(), instance.last_name.replace(" ", "").lower())
         password = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
-        new_user = Profile.objects.create_user(user_name,
-                                        instance.email,
-                                        password,
-                                        first_name = instance.first_name,
-                                        last_name = instance.last_name,
-                                        gender = instance.gender,
-                                        dob=datetime.now())
-        new_user.save()
+        
+        count = Profile.objects.filter(username=user_name).count()
+        if count == 0:
+            new_user = Profile.objects.create_user(user_name,
+                                            instance.email,
+                                            password,
+                                            first_name = instance.first_name,
+                                            last_name = instance.last_name,
+                                            gender = instance.gender,
+                                            dob=datetime.now())
+            new_user.save()
+        else:
+            user = Profile.objects.get(username=user_name)
+            user.set_password(password)
+            user.save()
 
         subject = 'Your account was created successfully!'
         recepients = [instance.email]
 
         message = "%s, Thank you for registering. your user information is listed below. \n" % (instance.first_name)
-        message = "User Name: %s \n" % (user_name)
+        message = "User Name: %s \n" % user_name
         message += "Password: %s\n" % password
 
         EmailSender(instance, subject, message, recepients).start()
