@@ -176,7 +176,7 @@ class Checkout(models.Model):
     user = models.ForeignKey(Profile, related_name='checkout_user', on_delete=models.CASCADE,)
     date_time = models.DateTimeField()
     def __str__(self):
-         return '%s %s' % (self.date_time, self.usee)
+         return '%s %s' % (self.date_time, self.user)
 
 class NewMemberRequest(models.Model):
     first_name =models.CharField(max_length=100)
