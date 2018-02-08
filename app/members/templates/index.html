@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% load embed_video_tags %}
 
     <header>
       <div class="cycle-slideshow bg"  data-cycle-speed=1000>
@@ -62,14 +61,9 @@
     <div class="row">
       <div class="col-sm text-center">
       {% for v in videos %}
-        {% if 'youtube' in v.lower %}
-          {% video v 'small' %}
-        {% else %}
-        <div class="fb-video" data-href="{{v}}" data-width="500" data-show-text="false">
-          <div class="fb-xfbml-parse-ignore">
-          </div>
-        </div>
-        {% endif %}
+      <div class="youtube" data-embed="{{v.video_id}}">
+          <div class="play-button"></div>
+      </div>
       {%endfor%}
       <div>
     </div>
@@ -256,4 +250,31 @@
         </div>
     </section>
 
+    <script>
+      var youtube = document.querySelectorAll( ".youtube" );
+      for (var i = 0; i < youtube.length; i++) {
+
+        var source = "https://img.youtube.com/vi/"+ youtube[i].dataset.embed +"/sddefault.jpg";
+
+        var image = new Image();
+            image.src = source;
+            image.addEventListener( "load", function() {
+                youtube[ i ].appendChild( image );
+            }( i ) );
+
+        youtube[i].addEventListener( "click", function() {
+
+            var iframe = document.createElement( "iframe" );
+
+                iframe.setAttribute( "frameborder", "0" );
+                iframe.setAttribute( "allowfullscreen", "" );
+
+                iframe.setAttribute( "src", "https://www.youtube.com/embed/"+ this.dataset.embed +"?rel=0&showinfo=0&autoplay=1" );
+
+                this.innerHTML = "";
+                this.appendChild( iframe );
+        } );
+      }
+
+    </script>
 {% endblock %}

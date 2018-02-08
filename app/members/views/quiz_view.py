@@ -23,7 +23,6 @@ from members.email import EmailSender
 from datetime import date, datetime, timedelta, time
 from pytz import timezone
 from django.db import connection
-from embed_video.backends import detect_backend
 
 @csrf_exempt
 @login_required

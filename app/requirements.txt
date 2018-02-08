@@ -7,4 +7,3 @@ django-registration
 django-sslserver
 boto3
 watchtower
-django-embed-video

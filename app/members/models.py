@@ -8,7 +8,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import date, datetime, timedelta, time
-from embed_video.fields import EmbedVideoField
+import urllib.parse as urlparse
 
 from .email import EmailSender
 
@@ -212,4 +212,14 @@ class UserAward(models.Model):
 
 class SuggestedVideo(models.Model):
     video = models.CharField(max_length=500, blank=False)
+    video_id = models.CharField(max_length=12, blank=True, editable=False)
     date_time= models.DateTimeField()
+    def __str__(self):
+        return '%s-%s' % (self.video, self.video_id)
+
+    def save(self, *args, **kwargs):
+        if self.video:
+            parsed = urlparse.urlparse(self.video)
+            print(urlparse.parse_qs(parsed.query)['v'][0])
+            self.video_id = urlparse.parse_qs(parsed.query)['v'][0]
+            super().save(*args, **kwargs)

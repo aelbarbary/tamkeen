@@ -23,15 +23,12 @@ from members.email import EmailSender
 from datetime import date, datetime, timedelta, time
 from pytz import timezone
 from django.db import connection
-from embed_video.backends import detect_backend
 
 def index(request):
     video_list = []
     videos =   SuggestedVideo.objects.all().order_by('-date_time')[0:2]
-    for v in videos:
-        video_list.append(v.video)
 
-    context = { 'user_text': request.user if request.user.is_authenticated else 'login', 'videos': video_list}
+    context = { 'user_text': request.user if request.user.is_authenticated else 'login', 'videos': videos}
     return render(request, 'index.html', context)
 
 class InquiryCreate(CreateView):
@@ -57,10 +54,7 @@ class InquiryCreate(CreateView):
 def get_videos(request):
     video_list = []
     videos =   SuggestedVideo.objects.all()
-    for v in videos:
-        video_list.append(v.video)
-
-    context = { 'videos': video_list}
+    context = { 'videos': videos}
     return render(request, 'view-videos.html', context)
 
 @staff_member_required
