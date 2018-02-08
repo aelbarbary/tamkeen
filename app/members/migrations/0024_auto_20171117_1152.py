@@ -12,5 +12,16 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-      
+        migrations.CreateModel(
+            name='SuggestedVideo',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('video', models.TextField(blank=True, null=True)),
+            ],
+        ),
+        migrations.AlterField(
+            model_name='inquiry',
+            name='text',
+            field=models.TextField(verbose_name='Message'),
+        ),
     ]
