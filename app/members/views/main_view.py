@@ -53,9 +53,10 @@ class InquiryCreate(CreateView):
 
 def get_videos(request):
     video_list = []
-    videos =   SuggestedVideo.objects.all()
+    videos =   SuggestedVideo.objects.all().order_by('-date_time')
     context = { 'videos': videos}
     return render(request, 'view-videos.html', context)
+
 
 @staff_member_required
 def stats(request):
@@ -109,3 +110,16 @@ def stats(request):
 
 
     return render(request, 'stats.html', context)
+
+@csrf_exempt
+def play_video(request):
+    if request.method == "POST":
+        json_data = json.loads(request.body.decode('utf-8'))
+        video_id = json_data["videoId"]
+
+        video = SuggestedVideo.objects.get(pk=video_id)
+        video.views += 1
+        video.save()
+        return HttpResponse("done")
+    else:
+        return HttpResponse()

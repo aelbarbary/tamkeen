@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^$', main_view.index, name='index'),
     url(r'^openyourheart/$', main_view.InquiryCreate.as_view(), name='new_inquiry'),
     url(r'^videos/$', main_view.get_videos, name='view_videos'),
+    url(r'^rest/video/play/$', main_view.play_video, name='play_video'),
     url(r'^stats/$', main_view.stats, name='stats'),
 
     #quiz

@@ -19,6 +19,9 @@
     <!-- Theme CSS -->
     <link href="{% static "css/videos.css" %}"  rel="stylesheet">
 
+    <link href="{% static "vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 </head>
 
 <body id="page-top" class="index">
@@ -55,9 +58,15 @@
       <div class="row">
         <div class="col-sm text-center">
           {% for v in videos %}
-            <div class="youtube" data-embed="{{v.video_id}}">
+
+            <div class="youtube" data-embed="{{v.video_id}}" data-videoid="{{v.id}}">
+                <div class="topcorner" style="font-size:2em;">
+                  <i class="fa fa-fw fa-eye"></i>
+                  {{v.views}}
+                </div>
                 <div class="play-button"></div>
             </div>
+
           {%endfor%}
         <div>
       </div>
@@ -95,6 +104,28 @@
 
             this.innerHTML = "";
             this.appendChild( iframe );
+
+            data = {
+                videoId: this.dataset.videoid
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/rest/video/play/",
+                data: JSON.stringify(data),
+                success: function(result) {
+                  // $("#alert"+ book_id).removeClass("hidden");
+                  // $("#alert"+ book_id).fadeTo(2000, 500).slideUp(500, function(){
+                  //     $("#alert"+ book_id).slideUp(500);
+                  //  });
+                  // $("#reserve"+book_id).prop("disabled",true);
+                },
+                error: function(xhr, status, error) {
+                  
+                  console.log(xhr.responseText);
+                }
+            });
+
     } );
   }
 
