@@ -61,9 +61,13 @@
     <div class="row">
       <div class="col-sm text-center">
       {% for v in videos %}
-      <div class="youtube" data-embed="{{v.video_id}}">
-          <div class="play-button"></div>
-      </div>
+        <div class="youtube" data-embed="{{v.video_id}}" data-videoid="{{v.id}}">
+            <div class="topcorner" style="font-size:2em;">
+              <i class="fa fa-fw fa-eye"></i>
+              {{v.views}}
+            </div>
+            <div class="play-button"></div>
+        </div>
       {%endfor%}
       <div>
     </div>
