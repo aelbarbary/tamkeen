@@ -273,6 +273,20 @@
 
                 this.innerHTML = "";
                 this.appendChild( iframe );
+
+                data = {
+                    videoId: this.dataset.videoid
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/rest/video/play/",
+                    data: JSON.stringify(data),
+                    error: function(xhr, status, error) {
+                      console.log(xhr.responseText);
+                    }
+                });
+
         } );
       }
 

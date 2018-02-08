@@ -113,15 +113,7 @@
                 type: "POST",
                 url: "/rest/video/play/",
                 data: JSON.stringify(data),
-                success: function(result) {
-                  // $("#alert"+ book_id).removeClass("hidden");
-                  // $("#alert"+ book_id).fadeTo(2000, 500).slideUp(500, function(){
-                  //     $("#alert"+ book_id).slideUp(500);
-                  //  });
-                  // $("#reserve"+book_id).prop("disabled",true);
-                },
                 error: function(xhr, status, error) {
-                  
                   console.log(xhr.responseText);
                 }
             });
