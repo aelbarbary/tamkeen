@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import embed_video.fields
 
 
 class Migration(migrations.Migration):
@@ -13,16 +12,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='SuggestedVideo',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('video', embed_video.fields.EmbedVideoField()),
-            ],
-        ),
-        migrations.AlterField(
-            model_name='inquiry',
-            name='text',
-            field=models.TextField(verbose_name='Message'),
-        ),
+      
     ]
