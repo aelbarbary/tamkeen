@@ -165,7 +165,7 @@ header .intro-text .name{
 }
 .navbar-custom .navbar-nav li.active {
   color: white;
-  
+
 }
 .navbar-custom .navbar-nav li.active a:hover,
 .navbar-custom .navbar-nav li.active a:focus,
@@ -628,11 +628,7 @@ blockquote p {
 section#mailingList {
   background-color: white;
   color: #000;
-  padding-bottom: 30px;
-}
 
-section#mailingList p {
-  margin-bottom: 50px;
 }
 
 /* Push */
