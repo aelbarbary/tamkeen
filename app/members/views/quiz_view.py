@@ -23,12 +23,12 @@ from members.email import EmailSender
 from datetime import date, datetime, timedelta, time
 from pytz import timezone
 from django.db import connection
+from .common_view import *
 
 @csrf_exempt
 @login_required
 def quiz(request):
     user_id = request.user.id
-    print("hello")
     if request.method == 'POST':
         quiz_id = request.POST.get('quiz-id')
 
@@ -52,3 +52,54 @@ def quiz(request):
             else:
                 context = {'quiz': last_quiz, 'questions': questions }
                 return render(request, 'quiz.html', context)
+
+@csrf_exempt
+@login_required
+def quiz_history(request):
+    with connection.cursor() as cursor:
+        result = []
+        query = """select
+                quiz.id,
+                quiz.name,
+                (select count(1) from members_question where quiz_id = quiz.id) question_count  ,
+                (select count(1) from members_question q join members_answer a on a.question_id = q.id where quiz_id = quiz.id) answer_count
+                from members_quiz quiz
+                order by id desc"""
+
+        cursor.execute(query, [date,date])
+        rows = dictfetchall(cursor)
+        context = { 'results': rows  }
+
+    return render(request, 'quiz_history.html', context)
+
+
+def quiz_details(request, id):
+    with connection.cursor() as cursor:
+        result = []
+        query = """
+                select
+                    quiz.name,
+                    q.id question_id,
+                    q.text question,
+                    q.image question_image,
+                    a.id answer_id,
+                    a.date_time answer_date_time,
+                    a.text answer,
+                    a.score,
+                    p.first_name || ' ' || p.last_name user_name
+                from members_quiz quiz
+                join members_question q
+                	on q.quiz_id = quiz.id
+                left join members_answer a
+                	on a.question_id = q.id
+                left join members_profile p
+                	on p.id = a.user_id
+                where quiz_id = %s
+                order by q.id, p.first_name
+        """ % id
+
+        cursor.execute(query, [date,date])
+        rows = dictfetchall(cursor)
+        context = { 'results': rows  }
+
+    return render(request, 'quiz_details.html', context)

@@ -1,0 +1,48 @@
+{% load static %}
+
+<link href ="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
+<script data-cfasync="false" type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="{% static "/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+<link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
+<script>
+$(document).ready(function() {
+  var today = moment().format('YYYYMMDD');
+
+  url = "/rest/members/attendance/" + today
+  var t = $('#example').DataTable({
+    paging: false,
+    ajax: ""
+  });
+});
+</script>
+<body id="page-top" class="index">
+
+  <table id="example" class="display" cellspacing="0" width="100%">
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th>Number Of Questions</th>
+                  <th>Number of Answers</th>
+              </tr>
+          </thead>
+          <tbody>
+          {% for r in results %}
+            <tr>
+              <td><a href="/quiz/{{r.id}}">{{r.name}}</a></td>
+              <td>{{r.date_time}}</td>
+              <td>{{r.question_count}}</td>
+              <td>{{r.answer_count}}</td>
+            </tr>
+          {%endfor%}
+          </tbody>
+
+      </table>
+
+  </body>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+  <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>

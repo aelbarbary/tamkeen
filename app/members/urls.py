@@ -18,6 +18,9 @@ urlpatterns = [
 
     #quiz
     url(r'^quiz/$', quiz_view.quiz, name='quiz'),
+    url(r'^quiz/history$', quiz_view.quiz_history, name='quiz_history'),
+    url(r'^quiz/(?P<id>\d+)/$', quiz_view.quiz_details, name='quiz_details'),
+    
 
     # Attendance
     url(r'^attendance/$', attendance_view.attendance_sheet, name='attendance_sheet'),

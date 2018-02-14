@@ -14,12 +14,13 @@ from .email import EmailSender
 
 class Quiz(models.Model):
     name = models.CharField(max_length=2000)
+    date_time = models.DateTimeField(blank=True, default=datetime.now)
     def __str__(self):
         return 'Name: ' + self.name
 
+
 class Question(models.Model):
     text = models.CharField(max_length=2000)
-    date_time = models.DateTimeField()
     image = models.ImageField(upload_to = "question", default = 'no-img.jpg')
     video_link = models.CharField(max_length=2000, blank=True)
     quiz = models.ForeignKey(Quiz, related_name='questions', on_delete=models.CASCADE)

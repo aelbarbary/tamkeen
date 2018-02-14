@@ -3,26 +3,23 @@ from django.http import HttpResponseRedirect, HttpResponse
 from members.models import *
 from django.urls import reverse
 from django.conf import settings
-import logging
 from django.db.models import Max, Sum, Count
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 from members.forms import *
 from django.contrib.auth.decorators import login_required
 import json
-from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponseForbidden
 from django.db.models import Q
 import os
-import logging
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect, render_to_response
-from members.email import EmailSender
 from datetime import date, datetime, timedelta, time
 from pytz import timezone
 from django.db import connection
+from .common_view import *
 
 def get_books(request):
     result = []
@@ -62,14 +59,6 @@ def get_requested_books(request):
         data = json.dumps(result)
 
         return HttpResponse(data, content_type='application/json')
-
-def dictfetchall(cursor):
-    # "Return all rows from a cursor as a dict"
-    columns = [col[0] for col in cursor.description]
-    return [
-        dict(zip(columns, row))
-        for row in cursor.fetchall()
-    ]
 
 def show_books(request):
     return render(request, 'view-books.html')

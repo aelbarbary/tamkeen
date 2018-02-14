@@ -1,0 +1,62 @@
+{% load static %}
+
+<link href ="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
+<script data-cfasync="false" type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="{% static "/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+
+<style>
+
+</style>
+<script>
+  $(document).ready(function() {
+    var t = $('#example').DataTable({
+      paging: false,
+      ajax: "",
+      columnDefs: [
+            { "visible": false, "targets": 0 }
+        ],
+      drawCallback: function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+
+            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr style="background-color:#ccfed0"><td colspan="5">'+group+'</td></tr>'
+                    );
+
+                    last = group;
+                }
+            } );
+        }
+    });
+  });
+</script>
+
+<body id="page-top" class="index">
+  <a href="http://www.tamkeen.us/quiz/history"><input type='button' value='Quiz Hisory' class='btn btn-primary checkout'/></a>
+  <table id="example" class="display" cellspacing="0" width="100%">
+          <thead>
+              <tr>
+                  <th>Question</th>
+                  <th>User</th>
+                  <th>Answer</th>
+                  <th>Date</th>
+              </tr>
+          </thead>
+          <tbody>
+          {% for r in results %}
+            <tr>
+              <td>{{r.question}}</td>
+              <td>{{r.user_name}}</td>
+              <td>{{r.answer}}</td>
+              <td>{{r.answer_date_time}}</td>
+            </tr>
+          {%endfor%}
+          </tbody>
+
+      </table>
+
+  </body>
