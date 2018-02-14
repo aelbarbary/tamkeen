@@ -8,12 +8,9 @@
 
 <script>
 $(document).ready(function() {
-  var today = moment().format('YYYYMMDD');
-
-  url = "/rest/members/attendance/" + today
   var t = $('#example').DataTable({
     paging: false,
-    ajax: ""
+    order: []
   });
 });
 </script>

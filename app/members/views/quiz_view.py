@@ -61,12 +61,13 @@ def quiz_history(request):
         query = """select
                 quiz.id,
                 quiz.name,
+                quiz.date_time,
                 (select count(1) from members_question where quiz_id = quiz.id) question_count  ,
                 (select count(1) from members_question q join members_answer a on a.question_id = q.id where quiz_id = quiz.id) answer_count
-                from members_quiz quiz
-                order by id desc"""
+                FROM members_quiz quiz
+                ORDER BY date_time DESC"""
 
-        cursor.execute(query, [date,date])
+        cursor.execute(query)
         rows = dictfetchall(cursor)
         context = { 'results': rows  }
 
