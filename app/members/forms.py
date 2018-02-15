@@ -51,7 +51,7 @@ class NewMemberRequestForm(forms.ModelForm):
         model = NewMemberRequest
         exclude=[]
         label={
-            'whats_app': 'Phone'
+            'phone': 'Phone'
         }
 
 MAX_CHILDREN = 5

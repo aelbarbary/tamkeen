@@ -50,7 +50,7 @@ class Profile(AbstractUser):
         'first_name': self.first_name,
         'last_name': self.last_name,
         'email': self.email,
-        'whats_app': self.whats_app,
+        'phone': self.phone,
         'gender': self.gender,
         'uw_waiver': self.uw_waiver.url,
         'photo': self.photo.url,
@@ -69,7 +69,7 @@ class Profile(AbstractUser):
 
             message = "Tamkeener: %s %s\n" % (instance.first_name, instance.last_name)
             message += "Email: %s\n" % instance.email
-            message += "WhatsApp: %s" % instance.whats_app
+            message += "Phone: %s" % instance.phone
 
             EmailSender(instance, subject, message, recepients).start()
 
@@ -159,7 +159,7 @@ class BookReserve(models.Model):
             message += "Category: %s\n" % book.category
             message += "Tamkeener: %s %s\n" % (user.first_name, user.last_name)
             message += "Email: %s\n" % user.email
-            message += "WhatsApp: %s\n" % user.whats_app
+            message += "Phone: %s\n" % user.phone
 
             recepients = ['abdelrahman.elbarbary@gmail.com', 'alinour64@yahoo.com']
             EmailSender(instance, subject, message, recepients).start()

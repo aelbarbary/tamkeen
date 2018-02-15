@@ -65,7 +65,7 @@ def stats(request):
         # USer Info completeness
         query = "select round(count(1)::numeric/(select count(1) from members_profile ) ::numeric  ,2) * 100 "\
                 + "from members_profile "\
-                + "where whats_app <> '' and uw_waiver <> 'uw_waivers/default.png'"
+                + "where phone <> '' and uw_waiver <> 'uw_waivers/default.png'"
 
         cursor.execute(query)
         completeness = cursor.fetchone()
