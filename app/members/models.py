@@ -32,7 +32,7 @@ class Profile(AbstractUser):
         ('M', 'Male'),
         ('F', 'Female'),
     )
-    whats_app = models.CharField(max_length=20, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
     dob = models.DateField(max_length=8)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
     photo = models.ImageField(upload_to='profile_pics', default = 'profile_pics/default.png' )
@@ -225,3 +225,10 @@ class SuggestedVideo(models.Model):
             print(urlparse.parse_qs(parsed.query)['v'][0])
             self.video_id = urlparse.parse_qs(parsed.query)['v'][0]
             super().save(*args, **kwargs)
+
+class Alert(models.Model):
+    user = models.ForeignKey(Profile, related_name='alert_user',on_delete=models.CASCADE,)
+    level = models.CharField(max_length=10, blank=False)
+    text = models.CharField(max_length=1000, blank=False)
+    date_time = models.DateTimeField()
+    dismissed = models.BooleanField(default=False)

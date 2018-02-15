@@ -15,15 +15,16 @@ urlpatterns = [
     url(r'^videos/$', main_view.get_videos, name='view_videos'),
     url(r'^rest/video/play/$', main_view.play_video, name='play_video'),
     url(r'^stats/$', main_view.stats, name='stats'),
-
+    url(r'^alerts/$', main_view.alerts, name='alerts'),
     #quiz
     url(r'^quiz/$', quiz_view.quiz, name='quiz'),
     url(r'^quiz/history$', quiz_view.quiz_history, name='quiz_history'),
     url(r'^quiz/(?P<id>\d+)/$', quiz_view.quiz_details, name='quiz_details'),
-    
+
 
     # Attendance
     url(r'^attendance/$', attendance_view.attendance_sheet, name='attendance_sheet'),
+    url(r'^absent/(?P<period_in_days>\d+)/$', attendance_view.absent, name='absent'),
     url(r'^rest/members/attendance/checkin$', attendance_view.rest_checkin, name='rest_checkin'),
     url(r'^rest/members/attendance/checkout$', attendance_view.rest_checkout, name='rest_checkout'),
     url(r'^rest/members/attendance/(?P<date>\d+)/$', attendance_view.rest_attendance_sheet, name='rest_attendance_sheet'),

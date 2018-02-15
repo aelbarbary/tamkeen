@@ -23,6 +23,7 @@ from members.email import EmailSender
 from datetime import date, datetime, timedelta, time
 from pytz import timezone
 from django.db import connection
+from .common_view import *
 
 @staff_member_required
 def rest_attendance_sheet(request, date):
@@ -136,3 +137,24 @@ def rest_checkout(request):
         return HttpResponse("done")
     else:
         return HttpResponse()
+
+@staff_member_required
+def absent(request, period_in_days):
+    context = {}
+    with connection.cursor() as cursor:
+
+        query = """
+            select * from members_profile p
+            left  join members_attendance a
+             on a.user_id = p.id
+             and a.date_time >= NOW() - interval '%s day'
+            where a.date_time is null
+            ORDER BY first_name, last_name
+        """ % period_in_days
+
+        cursor.execute(query)
+        absent = dictfetchall(cursor)
+
+        context = { 'absent': absent, 'absent_days': period_in_days }
+
+    return render(request, 'absent.html', context)

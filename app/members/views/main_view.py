@@ -123,3 +123,52 @@ def play_video(request):
         return HttpResponse("done")
     else:
         return HttpResponse()
+
+@staff_member_required
+def alerts(request):
+    context = {}
+    with connection.cursor() as cursor:
+        # Tamkeeners missing for a month
+        query = """
+            select count(1) from members_profile p
+            left  join members_attendance a
+             on a.user_id = p.id
+             and a.date_time >= NOW() - interval '30 day'
+            where a.date_time is null
+        """
+
+        cursor.execute(query)
+        missing_for_a_month = cursor.fetchone()
+
+        # missing for 2 weeks answers
+        query = """
+            select count(1) from members_profile p
+            left  join members_attendance a
+             on a.user_id = p.id
+             and a.date_time >= NOW() - interval '14 day'
+            where a.date_time is null
+        """
+
+        cursor.execute(query)
+        missing_for_2_weeks = cursor.fetchone()
+
+        # never showed up
+        query = """
+            select count(1) from members_profile p
+            left  join members_attendance a
+             on a.user_id = p.id
+              and a.date_time >= NOW() - interval '180 day'
+            where a.date_time is null
+        """
+
+        cursor.execute(query)
+        missing_for_6_month = cursor.fetchone()
+
+
+        context = { 'missing_for_a_month':missing_for_a_month[0],
+                    'missing_for_2_weeks': missing_for_2_weeks[0],
+                    'missing_for_6_month': missing_for_6_month[0],
+                }
+
+
+    return render(request, 'alerts.html', context)
