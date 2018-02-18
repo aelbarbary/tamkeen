@@ -46,9 +46,9 @@
                     <div>
                      <Strong>Question: </Strong> {{ question.text|linebreaks }}
                     </div>
-                    {% if question.link|length > 0 %}
+                    {% if question.video_link|length > 0 %}
                     <p class="text-center">
-                      <a href="{{question.link}}">
+                      <a href="{{question.video_link}}" target="_blank">
                           <img src="{% static "images/video.png" %}" width="200"/>
                       </a>
                     </p>
