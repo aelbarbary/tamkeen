@@ -1,0 +1,151 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tamkeen - Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static "dashboard/vendor/simple-line-icons/css/simple-line-icons.css" %}">
+    <link rel="stylesheet" href="{% static "dashboard/vendor/font-awesome/css/fontawesome-all.min.css" %}">
+    <link rel="stylesheet" href="{% static "dashboard/css/styles.css" %}">
+</head>
+<body class="sidebar-fixed header-fixed">
+<div class="page-wrapper">
+    <nav class="navbar page-header">
+        <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <a class="navbar-brand" href="#">
+            <img src="{% static "images/logo.png" alt="logo" %}" width="30px;">
+        </a>
+
+        <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+            <i class="fa fa-bars"></i>
+        </a>
+
+    </nav>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav">
+                    <li class="nav-title">Navigation</li>
+
+                    <li class="nav-item">
+                        <a href="/dashboard" class="nav-link active">
+                            <i class="icon icon-speedometer"></i> Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-dropdown hidden">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-target"></i> Layouts <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items hidden">
+                            <li class="nav-item">
+                                <a href="layouts-normal.html" class="nav-link">
+                                    <i class="icon icon-target"></i> Normal
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="layouts-fixed-sidebar.html" class="nav-link">
+                                    <i class="icon icon-target"></i> Fixed Sidebar
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="layouts-fixed-header.html" class="nav-link">
+                                    <i class="icon icon-target"></i> Fixed Header
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="layouts-hidden-sidebar.html" class="nav-link">
+                                    <i class="icon icon-target"></i> Hidden Sidebar
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="/dashboard/people/" class="nav-link">
+                            <i class="icon icon-people"></i> Tamkeeners
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="content">
+          {% block content %}
+          {% endblock %}
+        </div>
+    </div>
+</div>
+<script src="{% static "dashboard/vendor/jquery/jquery.min.js" %}"></script>
+<script src="{% static "dashboard/vendor/popper.js/popper.min.js" %}"></script>
+<script src="{% static "dashboard/vendor/bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="{% static "dashboard/vendor/chart.js/chart.min.js" %}"></script>
+<script src="{% static "dashboard/js/carbon.js" %}"></script>
+<script src="{% static "dashboard/js/demo.js" %}"></script>
+<script>
+
+$(document).ready(function () {
+  var labels = new Array();
+  var count = new Array();
+  $.ajax({
+           type: "GET",
+           dataType: "json",
+           url: "/dashboard/rest/attendancetrend/",
+           success: function(data){
+              data.attendance.forEach( function(entry){
+                console.log(entry.date);
+                labels.push(entry.date);
+                count.push(entry.total_count);
+              });
+
+              var lineChart = $('#line-chart');
+              var attendance = "{{attendance}}"
+              //var attendance =  JSON.parse("{{attendance}}".replace("&#39;", "\""));
+              console.log(labels);
+              if (lineChart.length > 0) {
+                  // for (var i = 0; i < attendance.length; i++) {
+                  //  console.log(attendance[i]);
+                  // }
+                  new Chart(lineChart, {
+                      type: 'line',
+                      data: {
+                          labels: labels,
+                          datasets: [{
+                              label: 'Users',
+                              data: count,
+                              backgroundColor: 'rgba(66, 165, 245, 0.5)',
+                              borderColor: '#2196F3',
+                              borderWidth: 1
+                          }]
+                      },
+                      options: {
+                          legend: {
+                              display: false
+                          },
+                          scales: {
+                              yAxes: [{
+                                  ticks: {
+                                      beginAtZero: true
+                                  }
+                              }]
+                          }
+                      }
+                  });
+              }
+            }
+          });
+
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+
+    <div class="col-md">
+        <div class="card">
+            <div class="card-header bg-light">
+                Tamkeeners
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>DOB</th>
+                            <th>Gender</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          {% for u in users %}
+                          <tr>
+                              <td>{{u.id}}</td>
+                              <td class="text-nowrap">{{u.first_name}}</td>
+                              <td>{{u.last_name}}</td>
+                              <td>{{u.dob}}</td>
+                              <td>{{u.gender}}</td>
+                          </tr>
+                          {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

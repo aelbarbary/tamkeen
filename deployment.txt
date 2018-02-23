@@ -15,6 +15,8 @@ cd tamkeen
 
 pip install -r requirements.txt
 
+install SSL certificate
+https://www.digitalocean.com/community/tutorials/how-to-set-up-let-s-encrypt-with-nginx-server-blocks-on-ubuntu-16-04
 ---------------------------------------------
 sudo dockerd # to start docker demon
 incase demon not starting
