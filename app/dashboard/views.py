@@ -83,6 +83,11 @@ def people(request):
     context = { 'users':users}
     return render(request, 'people.html', context)
 
+staff_member_required
+def calendar(request):
+    context = { }
+    return render(request, 'calendar.html', context)
+
 @staff_member_required
 def absent(request, period_in_days):
     context = {}
