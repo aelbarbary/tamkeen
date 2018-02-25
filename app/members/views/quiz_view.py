@@ -35,7 +35,15 @@ def quiz(request):
         questions = quiz.questions.all()
         for q in questions:
             answer_text =  request.POST.get('answer-' + str(q.id))
-            answer = Answer(text=answer_text, date_time = datetime.now(), score = 0, question_id = q.id, user_id = user_id )
+            print(request.POST.get('share-with-others-' + str(q.id)))
+            share_with_others = request.POST.get('share-with-others-' + str(q.id)) == 'on'
+            print("share_with_others : %s" % share_with_others)
+            answer = Answer(text=answer_text,
+                            date_time = datetime.now(),
+                            score = 0,
+                            question_id = q.id,
+                            user_id = user_id,
+                            share_with_others = share_with_others )
             answer.save()
 
         return render(request, 'quiz-thanks.html')
@@ -86,6 +94,7 @@ def quiz_details(request, id):
                     a.date_time answer_date_time,
                     a.text answer,
                     a.score,
+                    a.share_with_others,
                     p.first_name || ' ' || p.last_name user_name
                 from members_quiz quiz
                 join members_question q

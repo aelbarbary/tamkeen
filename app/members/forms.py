@@ -22,7 +22,6 @@ class AnswerForm(forms.ModelForm):
         exclude = []
         widgets = {
             'answer': forms.Textarea()
-
         }
 
 class ProfileForm(forms.ModelForm):

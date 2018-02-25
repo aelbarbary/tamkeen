@@ -53,12 +53,16 @@
                       </a>
                     </p>
                     {% endif %}
-                    <div>
-                      <font style="font-size:10pt; color: gray">{{question.date_time}}</font>
-                    </div>
 
                     </div>
                     <textarea name="answer-{{question.id}}" id="answer-{{question.id}}" class="field-long field-textarea" style="width:100%" ></textarea>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="share-with-others-{{question.id}}" name="share-with-others-{{question.id}}" style="width:20px; display: inline;">
+                      <label class="form-check-label" for="defaultCheck1">
+                        Share your answer with others
+                      </label>
+                    </div>
+
               </div>
             {% endfor %}
           <div style="text-align:center;">

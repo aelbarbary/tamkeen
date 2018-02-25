@@ -24,7 +24,7 @@
             api.column(0, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr style="background-color:#ccfed0"><td colspan="5">'+group+'</td></tr>'
+                        '<tr style="background-color:#d6d6d6; font-size:20px; font-weight:bold;"><td colspan="5">'+group+'</td></tr>'
                     );
 
                     last = group;
@@ -43,17 +43,24 @@
                   <th>Question</th>
                   <th>User</th>
                   <th>Answer</th>
-                  <th>Date</th>
+                  <th style="width:15%">Date</th>
+                  <th>Share With Others</th>
               </tr>
           </thead>
           <tbody>
           {% for r in results %}
-            <tr>
-              <td>{{r.question}}</td>
-              <td>{{r.user_name}}</td>
-              <td>{{r.answer}}</td>
-              <td>{{r.answer_date_time}}</td>
+            {% if r.share_with_others %}
+              <tr style="background-color:#d8ffd4">
+            {% else %}
+              <tr>
+            {% endif %}
+            <td>{{r.question}}</td>
+            <td>{{r.user_name}}</td>
+            <td>{{r.answer}}</td>
+            <td>{{r.answer_date_time}}</td>
+            <td>{{r.share_with_others}}</td>
             </tr>
+
           {%endfor%}
           </tbody>
 

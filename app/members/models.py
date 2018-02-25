@@ -99,6 +99,7 @@ class Answer(models.Model):
     score = models.IntegerField(default=0)
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    share_with_others = models.BooleanField(default=False)
 
 class Book(models.Model):
     name = models.CharField(max_length=200, blank=False)
