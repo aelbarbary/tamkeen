@@ -1,30 +1,13 @@
+{% extends 'base.html' %}
 {% load static %}
 {% if GOOGLE_ANALYTICS_PROPERTY_ID %}
   {% include "ga.html" %}
 {% endif %}
-<link rel="stylesheet" href="{% static "css/product-lists/product-list-basic.css" %}">
-<link href="{% static "vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="{% static "css/user-profiles-lists/user-profiles-list-small.css" %}">
-<link href="{% static "/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
-
-<!-- Theme CSS -->
-<link href="{% static "css/styles.css" %}"  rel="stylesheet">
+{% block content %}
 <link href="{% static "css/question.css" %}"  rel="stylesheet">
 
-<section style="padding:20px">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-
-                <img src="{% static "/images/quiz.png" %}"/>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-<form action="." method="post">
-<section id="questions" style="background-color:rgb(212, 245, 255)">
+<form action="." method="post" style="margin-top:100px;">
+  <section id="questions">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -76,10 +59,8 @@
             {% endif %}
             <input class="btn btn-danger" type="submit" value="Submit"  />
           </div>
-
     </div>
 </section>
 </form>
 
-<script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
-<script src="{% static "vendor/bootstrap/js/bootstrap.min.js" %}"></script>
+{% endblock %}
