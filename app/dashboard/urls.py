@@ -11,6 +11,10 @@ urlpatterns = [
     url(r'^people/$', people, name='people'),
     url(r'^calendar/$', calendar, name='calendar'),
     url(r'^people/absent/(?P<period_in_days>\d+)/$', absent, name='absent'),
+    url(r'^people/(?P<user_id>\d+)/$', user_profile, name='user_profile'),
     url(r'^rest/attendancetrend/$', rest_attendance_trend, name='rest_attendance_trend'),
     url(r'^rest/attendancetrend/$', rest_attendance_trend, name='rest_attendance_trend'),
+    url(r'^quiz/history$', quiz_history, name='quiz_history'),
+    url(r'^quiz/(?P<id>\d+)/$', quiz_details, name='quiz_details'),
+
    ]

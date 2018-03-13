@@ -4,7 +4,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.db import connection
 import json
 from django.http import HttpResponseRedirect, HttpResponse
-
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 @staff_member_required
 def index(request):
     total_users = Profile.objects.all().count()
@@ -48,12 +49,49 @@ def index(request):
         cursor.execute(query)
         missing_for_6_month = cursor.fetchone()
 
+        # Quiz answers
+        query = "select count(1) " \
+                +"from members_answer "\
+                +"where date_time > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
+
+        cursor.execute(query)
+        quiz_answers = cursor.fetchone()
+
+        # New Members
+        query = "select count(1) " \
+                +"from members_profile "\
+                +"where date_joined > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
+
+        cursor.execute(query)
+        new_members = cursor.fetchone()
+
+        # Books checkouts
+        query = "select count(1) " \
+                +"from members_bookreserve "\
+                +"where date_time > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
+
+        cursor.execute(query)
+        book_checkouts = cursor.fetchone()
+
+        # Open your heart
+        query = "select count(1) " \
+                +"from members_inquiry "\
+                +"where date_time > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
+
+        cursor.execute(query)
+        open_your_heart = cursor.fetchone()
+
     context = { 'total_users':total_users,
                 'missing_for_a_month':missing_for_a_month[0],
                 'missing_for_2_weeks': missing_for_2_weeks[0],
                 'missing_for_6_month': missing_for_6_month[0],
                 'total_males': total_males,
-                'total_females' : total_females}
+                'total_females' : total_females,
+                'quiz_answers' : quiz_answers[0],
+                'book_checkouts' : book_checkouts[0],
+                'new_members' : new_members[0],
+                'open_your_heart' : open_your_heart[0],
+                }
 
     return render(request, 'dashboard_index.html', context)
 
@@ -110,7 +148,87 @@ def absent(request, period_in_days):
 
     return render(request, 'people.html', context)
 
+@csrf_exempt
+@login_required
+def quiz_history(request):
+    with connection.cursor() as cursor:
+        result = []
+        query = """select
+                quiz.id,
+                quiz.name,
+                quiz.date_time,
+                (select count(1) from members_question where quiz_id = quiz.id) question_count  ,
+                (select count(1) from members_question q join members_answer a on a.question_id = q.id where quiz_id = quiz.id) answer_count
+                FROM members_quiz quiz
+                ORDER BY date_time DESC"""
 
+        cursor.execute(query)
+        rows = dictfetchall(cursor)
+        context = { 'results': rows  }
+
+    return render(request, 'quiz_history.html', context)
+
+
+def quiz_details(request, id):
+    with connection.cursor() as cursor:
+        result = []
+        query = """
+                select
+                    quiz.name,
+                    q.id question_id,
+                    q.text question,
+                    q.image question_image,
+                    a.id answer_id,
+                    a.date_time answer_date_time,
+                    a.text answer,
+                    a.score,
+                    a.share_with_others,
+                    p.first_name || ' ' || p.last_name user_name
+                from members_quiz quiz
+                join members_question q
+                	on q.quiz_id = quiz.id
+                left join members_answer a
+                	on a.question_id = q.id
+                left join members_profile p
+                	on p.id = a.user_id
+                where quiz_id = %s
+                order by q.id, p.first_name
+        """ % id
+
+        cursor.execute(query, [date,date])
+        rows = dictfetchall(cursor)
+        context = { 'results': rows  }
+
+    return render(request, 'quiz_details.html', context)
+
+@csrf_exempt
+@login_required
+def user_profile(request, user_id):
+    with connection.cursor() as cursor:
+        result = []
+        query = """select
+                *
+                FROM members_attendance att
+                WHERE user_id = %s
+                ORDER BY date_time""" % user_id
+
+        cursor.execute(query)
+        attendance = dictfetchall(cursor)
+
+        query = """select
+                *
+                FROM members_question q
+                JOIN members_answer a
+                    ON q.id = a.question_id
+                WHERE user_id = %s
+                ORDER BY date_time""" % user_id
+
+        cursor.execute(query)
+        attendance = dictfetchall(cursor)
+
+        context = { 'attendance': attendance  }
+
+    return render(request, 'user_profile.html', context)
 def dictfetchall(cursor):
     columns = [col[0] for col in cursor.description]
     return [

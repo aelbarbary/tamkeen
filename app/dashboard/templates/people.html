@@ -25,7 +25,7 @@
                         <tbody>
                           {% for u in users %}
                           <tr>
-                              <td>{{u.id}}</td>
+                              <td><a href="/dashboard/people/{{u.id}}">{{u.id}}</a></td>
                               <td class="text-nowrap">{{u.first_name}}</td>
                               <td>{{u.last_name}}</td>
                               <td>{{u.dob}}</td>
