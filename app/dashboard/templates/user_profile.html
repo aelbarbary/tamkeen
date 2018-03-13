@@ -5,7 +5,7 @@
 
 
 
-<table id="example" class="display" cellspacing="0" width="100%">
+<table id="attendance" class="display" cellspacing="0" width="100%">
           <thead>
               <tr>
                   <th>Attendance</th>
@@ -18,16 +18,42 @@
             </tr>
           {%endfor%}
           </tbody>
-      </table>
+ </table>
+
+ <table id="answers" class="display" cellspacing="0" width="100%">
+           <thead>
+               <tr>
+                   <th>DateTime</th>
+                   <th>Question</th>
+                   <th>Answer</th>
+               </tr>
+           </thead>
+           <tbody>
+           {% for a in answers %}
+             <tr>
+               <td>{{a.date_time}}</td>
+               <td>{{a.question}}</td>
+               <td>{{a.answer}}</td>
+             </tr>
+           {%endfor%}
+           </tbody>
+  </table>
 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
   <script data-cfasync="false" type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
   <script>
   $(document).ready(function() {
-    var t = $('#example').DataTable({
+    var attendacneTable = $('#attendance').DataTable({
       paging: false,
-      order: []
+      order: [],
+      searching: false,
+    });
+
+    var answersTable  = $('#answers').DataTable({
+      paging: false,
+      order: [],
+      searching: false,
     });
   });
   </script>

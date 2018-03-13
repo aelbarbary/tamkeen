@@ -216,7 +216,9 @@ def user_profile(request, user_id):
         attendance = dictfetchall(cursor)
 
         query = """select
-                *
+                q.text question,
+                a.text answer,
+                a.date_time
                 FROM members_question q
                 JOIN members_answer a
                     ON q.id = a.question_id
@@ -224,9 +226,9 @@ def user_profile(request, user_id):
                 ORDER BY date_time""" % user_id
 
         cursor.execute(query)
-        attendance = dictfetchall(cursor)
+        answers = dictfetchall(cursor)
 
-        context = { 'attendance': attendance  }
+        context = { 'attendance': attendance , 'answers': answers }
 
     return render(request, 'user_profile.html', context)
 def dictfetchall(cursor):
