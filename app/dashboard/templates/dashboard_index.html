@@ -1,232 +1,348 @@
-{% extends 'dashboard_base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'dashboard_base.html' %} {% load static %} {% block content %}
 
 <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                              <a href="people/">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card p-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <a href="people/">
+            <div>
+              <span class="h4 d-block font-weight-normal mb-2">{{total_users  }}</span>
+              <span class="font-weight-light">Total Users</span>
+            </div>
+          </a>
+          <div class="h2 text-muted">
+            <i class="icon icon-people"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card p-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <a href="people/absent/180">
+            <div>
+              <span class="h4 d-block font-weight-normal mb-2">{{missing_for_6_month}}</span>
+              <span class="font-weight-light">Missing for 6 month</span>
+            </div>
+          </a>
+          <div class="h2 text-muted">
+            <i class="icon icon-people" style="color: red;"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card p-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <a href="people/absent/30">
+            <div>
+              <span class="h4 d-block font-weight-normal mb-2">{{missing_for_a_month}}</span>
+              <span class="font-weight-light">Missing for a month</span>
+            </div>
+          </a>
+          <div class="h2 text-muted">
+            <i class="icon icon-people" style="color:orange"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card p-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <a href="people/absent/14">
+            <div>
+              <span class="h4 d-block font-weight-normal mb-2">{{missing_for_2_weeks}}</span>
+              <span class="font-weight-light">Missing for 2 weeks</span>
+            </div>
+          </a>
+          <div class="h2 text-muted">
+            <i class="icon icon-people" style="color:green;"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row ">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          Attendance {{attendance}}
+        </div>
+
+        <div class="card-body p-0">
+          <div class="p-4">
+            <canvas id="line-chart" width="100%" height="20"></canvas>
+          </div>
+
+          <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
+            <div class="text-center">
+              <div class="text-muted small">Total Males</div>
+              <div>{{total_males}}</div>
+            </div>
+
+            <div class="text-center">
+              <div class="text-muted small">Total Females</div>
+              <div>{{total_females}}</div>
+            </div>
+
+            <div class="text-center hidden">
+              <div class="text-muted small">Page Views</div>
+              <div>957,565 Pages (50%)</div>
+            </div>
+
+            <div class="text-center hidden">
+              <div class="text-muted small">Total Downloads</div>
+              <div>957,565 Files (100 TB)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card p-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <button class="btn" data-toggle="modal" data-target="#new_users_modal">
                                 <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">{{total_users  }}</span>
-                                    <span class="font-weight-light">Total Users</span>
-                                </div>
-                              </a>
-                                <div class="h2 text-muted">
-                                    <i class="icon icon-people"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <a href="people/absent/180">
-                                  <div>
-                                      <span class="h4 d-block font-weight-normal mb-2">{{missing_for_6_month}}</span>
-                                      <span class="font-weight-light">Missing for 6 month</span>
-                                  </div>
-                                </a>
-                                <div class="h2 text-muted">
-                                    <i class="icon icon-people" style="color: red;"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                              <a href="people/absent/30">
-                                <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">{{missing_for_a_month}}</span>
-                                    <span class="font-weight-light">Missing for a month</span>
-                                </div>
-                              </a>
-                                <div class="h2 text-muted">
-                                    <i class="icon icon-people" style="color:orange"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                              <a href="people/absent/14">
-                                <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">{{missing_for_2_weeks}}</span>
-                                    <span class="font-weight-light">Missing for 2 weeks</span>
-                                </div>
-                              </a>
-                                <div class="h2 text-muted">
-                                    <i class="icon icon-people" style="color:green;"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row ">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                Attendance
-                                {{attendance}}
-                            </div>
-
-                            <div class="card-body p-0">
-                                <div class="p-4">
-                                    <canvas id="line-chart" width="100%" height="20"></canvas>
-                                </div>
-
-                                <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                    <div class="text-center">
-                                        <div class="text-muted small">Total Males</div>
-                                        <div>{{total_males}}</div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <div class="text-muted small">Total Females</div>
-                                        <div>{{total_females}}</div>
-                                    </div>
-
-                                    <div class="text-center hidden">
-                                        <div class="text-muted small">Page Views</div>
-                                        <div>957,565 Pages (50%)</div>
-                                    </div>
-
-                                    <div class="text-center hidden" >
-                                        <div class="text-muted small">Total Downloads</div>
-                                        <div>957,565 Files (100 TB)</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                              <a href="#">
-                                <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">{{new_members}}</span>
+                                    <span class="h4 d-block font-weight-normal mb-2">{{new_members|length}}</span>
                                     <span class="font-weight-light">New Members</span>
                                 </div>
-                              </a>
-                                <div class="h2 text-muted">
-                                    <i class="fas fa-user-plus"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                              </button>
+          <div class="h2 text-muted">
+            <i class="fas fa-user-plus"></i>
+          </div>
+        </div>
+      </div>
+    </div>
 
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <a href="#">
+    <div class="col-md-3">
+      <div class="card p-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <button class="btn" data-toggle="modal" data-target="#quiz_answers_modal">
                                   <div>
-                                      <span class="h4 d-block font-weight-normal mb-2">{{quiz_answers}}</span>
+                                      <span class="h4 d-block font-weight-normal mb-2">{{quiz_answers|length}}</span>
                                       <span class="font-weight-light">Quiz Answers</span>
                                   </div>
-                                </a>
-                                <div class="h2 text-muted">
-                                    <i class="icon icon-question" style="color: red;"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                </button>
+          <div class="h2 text-muted">
+            <i class="icon icon-question" style="color: red;"></i>
+          </div>
+        </div>
+      </div>
+    </div>
 
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                              <a href="#">
+    <div class="col-md-3">
+      <div class="card p-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <button class="btn" data-toggle="modal" data-target="#open_your_heart_modal">
                                 <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">{{open_your_heart}}</span>
+                                    <span class="h4 d-block font-weight-normal mb-2">{{open_your_heart|length}}</span>
                                     <span class="font-weight-light">Open Your Heart</span>
                                 </div>
-                              </a>
-                                <div class="h2 text-muted">
-                                    <i class="icon icon-heart" style="color:orange"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                              </button>
+          <div class="h2 text-muted">
+            <i class="icon icon-heart" style="color:orange"></i>
+          </div>
+        </div>
+      </div>
+    </div>
 
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                              <a href="#">
+    <div class="col-md-3">
+      <div class="card p-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <button class="btn" data-toggle="modal" >
                                 <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">{{book_checkouts}}</span>
+                                    <span class="h4 d-block font-weight-normal mb-2">{{book_checkouts|length}}</span>
                                     <span class="font-weight-light">Library Requests</span>
                                 </div>
-                              </a>
-                                <div class="h2 text-muted">
-                                    <i class="fa fa-book" style="color:orange"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                              </button>
+          <div class="h2 text-muted">
+            <i class="fa fa-book" style="color:orange"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="modal fade" id="new_users_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">New members this week</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+        </div>
 
-                </div>
-            </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>DOB</th>
+              <th>Gender</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for u in new_members %}
+            <tr>
+              <td><a href="/dashboard/people/{{u.id}}">{{u.id}}</a></td>
+              <td class="text-nowrap">{{u.first_name}}</td>
+              <td>{{u.last_name}}</td>
+              <td>{{u.dob}}</td>
+              <td>{{u.gender}}</td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="quiz_answers_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Quiz Answers this week</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+        </div>
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Answer</th>
+              <th>DateTime</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for u in quiz_answers %}
+            <tr>
+              <td><a href="/dashboard/people/{{u.id}}">{{u.id}}</a></td>
+              <td class="text-nowrap">{{u.first_name}}</td>
+              <td>{{u.last_name}}</td>
+              <td>{{u.dob}}</td>
+              <td>{{u.gender}}</td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="open_your_heart_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Open Your Heart this week</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+        </div>
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>DateTime</th>
+              <th>Inquiry</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for o in open_your_heart %}
+            <tr>
+              <td>{{o.name}}</td>
+              <td>{{o.date_time}}</td>
+              <td>{{o.text}}</td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 <script>
-$(document).ready(function () {
-  var labels = new Array();
-  var count = new Array();
-  $.ajax({
-           type: "GET",
-           dataType: "json",
-           url: "/dashboard/rest/attendancetrend/",
-           success: function(data){
-              data.attendance.forEach( function(entry){
-                console.log(entry.date);
-                labels.push(entry.date);
-                count.push(entry.total_count);
-              });
+  $(document).ready(function() {
+    var labels = new Array();
+    var count = new Array();
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      url: "/dashboard/rest/attendancetrend/",
+      success: function(data) {
+        data.attendance.forEach(function(entry) {
+          console.log(entry.date);
+          labels.push(entry.date);
+          count.push(entry.total_count);
+        });
 
-              var lineChart = $('#line-chart');
-              var attendance = "{{attendance}}"
-              //var attendance =  JSON.parse("{{attendance}}".replace("&#39;", "\""));
-              console.log(labels);
-              if (lineChart.length > 0) {
-                  // for (var i = 0; i < attendance.length; i++) {
-                  //  console.log(attendance[i]);
-                  // }
-                  new Chart(lineChart, {
-                      type: 'line',
-                      data: {
-                          labels: labels,
-                          datasets: [{
-                              label: 'Users',
-                              data: count,
-                              backgroundColor: 'rgba(66, 165, 245, 0.5)',
-                              borderColor: '#2196F3',
-                              borderWidth: 1
-                          }]
-                      },
-                      options: {
-                          legend: {
-                              display: false
-                          },
-                          scales: {
-                              yAxes: [{
-                                  ticks: {
-                                      beginAtZero: true
-                                  }
-                              }]
-                          }
-                      }
-                  });
+        var lineChart = $('#line-chart');
+        var attendance = "{{attendance}}"
+        //var attendance =  JSON.parse("{{attendance}}".replace("&#39;", "\""));
+        console.log(labels);
+        if (lineChart.length > 0) {
+          // for (var i = 0; i < attendance.length; i++) {
+          //  console.log(attendance[i]);
+          // }
+          new Chart(lineChart, {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'Users',
+                data: count,
+                backgroundColor: 'rgba(66, 165, 245, 0.5)',
+                borderColor: '#2196F3',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              legend: {
+                display: false
+              },
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }]
               }
             }
           });
+        }
+      }
+    });
 
   });
 </script>

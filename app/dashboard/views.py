@@ -50,36 +50,38 @@ def index(request):
         missing_for_6_month = cursor.fetchone()
 
         # Quiz answers
-        query = "select count(1) " \
-                +"from members_answer "\
-                +"where date_time > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
+        query = """select a.text answer, q.text question, a.date_time
+                from members_answer a
+                join members_question q
+                    on a.question_id = q.id
+                where date_time > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"""
 
         cursor.execute(query)
-        quiz_answers = cursor.fetchone()
+        quiz_answers = dictfetchall(cursor)
 
         # New Members
-        query = "select count(1) " \
+        query = "select * " \
                 +"from members_profile "\
                 +"where date_joined > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
 
         cursor.execute(query)
-        new_members = cursor.fetchone()
+        new_members = dictfetchall(cursor)
 
         # Books checkouts
-        query = "select count(1) " \
+        query = "select * " \
                 +"from members_bookreserve "\
                 +"where date_time > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
 
         cursor.execute(query)
-        book_checkouts = cursor.fetchone()
+        book_checkouts = dictfetchall(cursor)
 
         # Open your heart
-        query = "select count(1) " \
+        query = "select * " \
                 +"from members_inquiry "\
                 +"where date_time > NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7"
 
         cursor.execute(query)
-        open_your_heart = cursor.fetchone()
+        open_your_heart = dictfetchall(cursor)
 
     context = { 'total_users':total_users,
                 'missing_for_a_month':missing_for_a_month[0],
@@ -87,10 +89,10 @@ def index(request):
                 'missing_for_6_month': missing_for_6_month[0],
                 'total_males': total_males,
                 'total_females' : total_females,
-                'quiz_answers' : quiz_answers[0],
-                'book_checkouts' : book_checkouts[0],
-                'new_members' : new_members[0],
-                'open_your_heart' : open_your_heart[0],
+                'quiz_answers' : quiz_answers,
+                'book_checkouts' : book_checkouts,
+                'new_members' : new_members,
+                'open_your_heart' : open_your_heart,
                 }
 
     return render(request, 'dashboard_index.html', context)
