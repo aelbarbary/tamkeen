@@ -98,7 +98,7 @@ def index(request):
     return render(request, 'dashboard_index.html', context)
 
 @staff_member_required
-def rest_attendance_trend(request):
+def api_attendance_trend(request):
     result = []
     with connection.cursor() as cursor:
         query = """
@@ -207,13 +207,14 @@ def quiz_details(request, id):
 @csrf_exempt
 @login_required
 def user_profile(request, user_id):
+    user = Profile.objects.get(pk = user_id)
     with connection.cursor() as cursor:
         result = []
         query = """select
-                *
+                to_char(date_time, 'MM-DD-YYYY') date_time
                 FROM members_attendance att
                 WHERE user_id = %s
-                ORDER BY date_time""" % user_id
+                ORDER BY att.date_time""" % user_id
 
         cursor.execute(query)
         attendance = dictfetchall(cursor)
@@ -221,7 +222,7 @@ def user_profile(request, user_id):
         query = """select
                 q.text question,
                 a.text answer,
-                a.date_time
+                to_char(a.date_time, 'MM-DD-YYYY') date_time
                 FROM members_question q
                 JOIN members_answer a
                     ON q.id = a.question_id
@@ -231,7 +232,7 @@ def user_profile(request, user_id):
         cursor.execute(query)
         answers = dictfetchall(cursor)
 
-        context = { 'attendance': attendance , 'answers': answers }
+        context = {'user': user, 'attendance': attendance , 'answers': answers }
 
     return render(request, 'user_profile.html', context)
 def dictfetchall(cursor):

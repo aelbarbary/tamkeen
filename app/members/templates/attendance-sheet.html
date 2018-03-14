@@ -14,7 +14,7 @@
 $(document).ready(function() {
   var today = moment().format('YYYYMMDD');
 
-  url = "/rest/members/attendance/" + today
+  url = "/api/attendance/" + today
   var t = $('#example').DataTable({
     paging: false,
     ajax: "",
@@ -61,7 +61,7 @@ function saveAttendance(user_id)
   data = { userId: user_id, checked: checked_in, date: date }
   $.ajax({
       type: "POST",
-      url: "/rest/members/attendance/checkin",
+      url: "/api/attendance/checkin",
       data: JSON.stringify(data),
       success: function(result) {
            // Show checkout button if checked_in
@@ -86,7 +86,7 @@ function checkout(user_id, element)
   data = { userId: user_id, date: date }
   $.ajax({
       type: "POST",
-      url: "/rest/members/attendance/checkout",
+      url: "/api/attendance/checkout",
       data: JSON.stringify(data),
       success: function(result) {
         var tr = $(element).closest('tr');
@@ -105,7 +105,7 @@ function getAttendanceSheet(table, sheet_date)
   $.ajax({
              type: "GET",
              dataType: "json",
-             url: "/rest/members/attendance/"+ sheet_date,
+             url: "/api/attendance/"+ sheet_date,
              success: function(data){
                $('.progress-bar').css('width', data.attendance_perc+'%').attr('aria-valuenow', data.attendance_perc);
                $('.progress-bar').text('Attendance: '+data.attendance_perc + '%')

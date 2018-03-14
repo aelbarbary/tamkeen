@@ -3,41 +3,135 @@
 {% block content %}
 <link href ="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 
+<a href="/dashboard/people"><input type='button' value='Back' class='btn btn-primary checkout'/></a>
+
+<div class="row">
+    <div class="col-md">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="card-header bg-light">
+                          Basic Info
+                      </div>
+
+                      <div class="card-body">
+                          <div class="row">
+                              <div class="col-md-4">
+                                  <div class="form-group">
+                                      <label for="read-only" class="form-control-label">First Name</label>
+                                      <input id="read-only" class="form-control" value="{{user.first_name}}" readonly>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-4">
+                                  <div class="form-group">
+                                      <label for="read-only" class="form-control-label">Last Name</label>
+                                      <input id="read-only" class="form-control" value="{{user.last_name}}" readonly>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-4">
+                                  <div class="form-group">
+                                      <label for="read-only" class="form-control-label">Gender</label>
+                                      <input id="read-only" class="form-control" value="{{user.gender}}" readonly>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="read-only" class="form-control-label">Phone</label>
+                                    <input id="read-only" class="form-control" value="{{user.phone}}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="read-only" class="form-control-label">Email</label>
+                                    <input id="read-only" class="form-control" value="{{user.email}}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="read-only" class="form-control-label">User Name</label>
+                                    <input id="read-only" class="form-control" value="{{user.username}}" readonly>
+                                </div>
+                            </div>
+
+                          </div>
 
 
-<table id="attendance" class="display" cellspacing="0" width="100%">
-          <thead>
-              <tr>
-                  <th>Attendance</th>
-              </tr>
-          </thead>
-          <tbody>
-          {% for a in attendance %}
-            <tr>
-              <td>{{a.date_time}}</td>
-            </tr>
-          {%endfor%}
-          </tbody>
- </table>
 
- <table id="answers" class="display" cellspacing="0" width="100%">
-           <thead>
-               <tr>
-                   <th>DateTime</th>
-                   <th>Question</th>
-                   <th>Answer</th>
-               </tr>
-           </thead>
-           <tbody>
-           {% for a in answers %}
-             <tr>
-               <td>{{a.date_time}}</td>
-               <td>{{a.question}}</td>
-               <td>{{a.answer}}</td>
-             </tr>
-           {%endfor%}
-           </tbody>
-  </table>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="row mt-12">
+              <div class="col-md-4">
+                  <div class="card">
+                      <div class="card-header bg-light">
+                          Attendacne
+                      </div>
+
+                      <div class="card-body">
+                        <table id="attendance" class="display" cellspacing="0" width="100%">
+                                  <thead>
+                                      <tr>
+                                          <th>DateTime</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                  {% for a in attendance %}
+                                    <tr>
+                                      <td>{{a.date_time}}</td>
+                                    </tr>
+                                  {%endfor%}
+                                  </tbody>
+                         </table>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-md-8">
+                  <div class="card">
+                      <div class="card-header bg-light">
+                          Quiz Answers
+                      </div>
+
+                      <div class="card-body">
+                        <table id="answers" class="display" cellspacing="0" width="100%">
+                                  <thead>
+                                      <tr>
+                                          <th>DateTime</th>
+                                          <th>Question</th>
+                                          <th>Answer</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                  {% for a in answers %}
+                                    <tr>
+                                      <td>{{a.date_time}}</td>
+                                      <td>{{a.question}}</td>
+                                      <td>{{a.answer}}</td>
+                                    </tr>
+                                  {%endfor%}
+                                  </tbody>
+                         </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+</div>
+
+
+
+
+
 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>

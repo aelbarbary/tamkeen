@@ -111,7 +111,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/rest/video/play/",
+                url: "/api/video/play/",
                 data: JSON.stringify(data),
                 error: function(xhr, status, error) {
                   console.log(xhr.responseText);

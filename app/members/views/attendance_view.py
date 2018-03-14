@@ -26,7 +26,7 @@ from django.db import connection
 from .common_view import *
 
 @staff_member_required
-def rest_attendance_sheet(request, date):
+def api_attendance_sheet(request, date):
     result = []
     with connection.cursor() as cursor:
         query = "select p.id, p.first_name, p.last_name, p.gender, a.date_time checkin_time, ch.date_time checkout_time "\
@@ -101,7 +101,7 @@ def attendance_sheet(request):
 
 @csrf_exempt
 @login_required
-def rest_checkin(request):
+def api_checkin(request):
     if request.method == "POST":
         json_data = json.loads(request.body.decode('utf-8'))
         print(json_data)
@@ -124,7 +124,7 @@ def rest_checkin(request):
 
 @csrf_exempt
 @login_required
-def rest_checkout(request):
+def api_checkout(request):
     if request.method == "POST":
         json_data = json.loads(request.body.decode('utf-8'))
         user_id = json_data["userId"]

@@ -299,7 +299,7 @@
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: "/dashboard/rest/attendancetrend/",
+      url: "/dashboard/api/attendancetrend/",
       success: function(data) {
         data.attendance.forEach(function(entry) {
           console.log(entry.date);

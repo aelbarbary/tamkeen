@@ -26,7 +26,7 @@ $(document).ready(function() {
   $.ajax({
              type: "GET",
              dataType: "json",
-             url: "/rest/members",
+             url: "/api/members",
              success: function(data){
                data.forEach(function(entry) {
                  uw_waiver = entry["uw_waiver"]

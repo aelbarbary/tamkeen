@@ -130,7 +130,7 @@ $(document).ready(function() {
   $.ajax({
              type: "GET",
              dataType: "json",
-             url: "/rest/books",
+             url: "/api/books",
              success: function(data){
                var items = [];
                $("#bookTemplate").tmpl(data).appendTo("#list");
@@ -153,7 +153,7 @@ function reserveBook(book_id){
     }
     $.ajax({
         type: "POST",
-        url: "/rest/books/" + book_id  + "/reserve/",
+        url: "/api/books/" + book_id  + "/reserve/",
         data: JSON.stringify(data),
         success: function(result) {
           $("#alert"+ book_id).removeClass("hidden");
