@@ -139,9 +139,10 @@ def absent(request, period_in_days):
             left  join members_attendance a
              on a.user_id = p.id
              and a.date_time >= NOW() - interval '%s day'
+             and p.date_joined >= NOW() - interval '%s day'
             where a.date_time is null
             ORDER BY first_name, last_name
-        """ % period_in_days
+        """ % ( period_in_days, period_in_days)
 
         cursor.execute(query)
         users = dictfetchall(cursor)
