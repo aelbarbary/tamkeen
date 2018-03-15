@@ -19,7 +19,7 @@ def index(request):
             left  join members_attendance a
              on a.user_id = p.id
              and a.date_time >= NOW() - interval '30 day'
-             and p.date_joined >= NOW() - interval '30 day'
+             and p.date_joined <= NOW() - interval '30 day'
             where a.date_time is null
         """
 
@@ -32,7 +32,7 @@ def index(request):
             left  join members_attendance a
              on a.user_id = p.id
              and a.date_time >= NOW() - interval '14 day'
-             and p.date_joined >= NOW() - interval '14 day'
+             and p.date_joined <= NOW() - interval '14 day'
             where a.date_time is null
         """
 
@@ -45,7 +45,7 @@ def index(request):
             left  join members_attendance a
              on a.user_id = p.id
               and a.date_time >= NOW() - interval '180 day'
-              and p.date_joined >= NOW() - interval '180 day'
+              and p.date_joined <= NOW() - interval '180 day'
             where a.date_time is null
         """
 
