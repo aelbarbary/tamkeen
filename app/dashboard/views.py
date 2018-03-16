@@ -11,44 +11,30 @@ def index(request):
     total_users = Profile.objects.all().count()
     total_males = Profile.objects.all().filter(gender='M').count()
     total_females = Profile.objects.all().filter(gender='F').count()
-
+    base_query = """
+        select count(1) from members_profile p
+        left  join members_attendance a
+         on a.user_id = p.id
+         and a.date_time >= NOW() - interval '%(period)d day'
+        where a.date_time is null
+        and p.date_joined <= NOW() - interval '%(period)d day'
+    """
     with connection.cursor() as cursor:
-        # Tamkeeners missing for a month
-        query = """
-            select count(1) from members_profile p
-            left  join members_attendance a
-             on a.user_id = p.id
-             and a.date_time >= NOW() - interval '30 day'
-             and p.date_joined <= NOW() - interval '30 day'
-            where a.date_time is null
-        """
-
-        cursor.execute(query)
-        missing_for_a_month = cursor.fetchone()
-
         # missing for 2 weeks answers
-        query = """
-            select count(1) from members_profile p
-            left  join members_attendance a
-             on a.user_id = p.id
-             and a.date_time >= NOW() - interval '14 day'
-             and p.date_joined <= NOW() - interval '14 day'
-            where a.date_time is null
-        """
-
+        params = { 'period' : 14 }
+        query = base_query % params
         cursor.execute(query)
         missing_for_2_weeks = cursor.fetchone()
 
-        # never showed up
-        query = """
-            select count(1) from members_profile p
-            left  join members_attendance a
-             on a.user_id = p.id
-              and a.date_time >= NOW() - interval '180 day'
-              and p.date_joined <= NOW() - interval '180 day'
-            where a.date_time is null
-        """
+        # missing for a month
+        params = { 'period' : 30 }
+        query = base_query % params
+        cursor.execute(query)
+        missing_for_a_month = cursor.fetchone()
 
+        # missing for 6 month
+        params = { 'period' : 180 }
+        query = base_query % params
         cursor.execute(query)
         missing_for_6_month = cursor.fetchone()
 
@@ -142,8 +128,8 @@ def absent(request, period_in_days):
             left  join members_attendance a
              on a.user_id = p.id
              and a.date_time >= NOW() - interval '%s day'
-             and p.date_joined >= NOW() - interval '%s day'
             where a.date_time is null
+            and p.date_joined <= NOW() - interval '%s day'
             ORDER BY first_name, last_name
         """ % ( period_in_days, period_in_days)
 
