@@ -20,6 +20,7 @@
                             <th>Last Name</th>
                             <th>DOB</th>
                             <th>Gender</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -30,6 +31,7 @@
                               <td>{{u.last_name}}</td>
                               <td>{{u.dob}}</td>
                               <td>{{u.gender}}</td>
+                              <td><a href="http://tamkeen.us/admin/members/profile/{{u.id}}/change/" target="_blank"><i class="fa fa-edit"></i></a></td>
                           </tr>
                           {%endfor%}
                         </tbody>
