@@ -63,7 +63,7 @@ $(document).ready(function() {
             console.log(data);
             if ( data[1] != 'None') { // if checked-out
               $(row).css("background-color", "#d5f49e");
-              $(row).find("input,button,textarea,select").attr("disabled", "disabled");
+              $(row).find("i").attr("class", "fa fa-times");
             }
         }
   });
@@ -71,20 +71,35 @@ $(document).ready(function() {
 
 function carpool(passenger_id, element)
 {
-  data = { passengerId: passenger_id }
+  var tr = $(element).closest('tr');
+  var driver_td = $("#driver-" + passenger_id);
+  var i = tr.find("i");
+  console.log(i);
+  var operation = "checkin";
+  if (i.hasClass("fa-times"))
+  {
+    operation = "checkout";
+  }
+  data = { passengerId: passenger_id , operation: operation }
   $.ajax({
       type: "POST",
       url: "/dashboard/api/carpool/",
       data: JSON.stringify(data),
       success: function(result) {
-        console.log(result);
-        var driver_td = $(element).closest('#driver_td');
-        driver_td = $("#driver-" + passenger_id);
-        console.log(driver_td);
-        driver_td.html(result.driver);
-        var tr = $(element).closest('tr');
-        tr.css("background-color", "#d5f49e");
-        tr.find("input,button,textarea,select").attr("disabled", "disabled");
+
+        if (i.hasClass("fa-check"))
+        {
+          driver_td.html(result.driver);
+          tr.css("background-color", "#d5f49e");
+          tr.find("i").attr("class", "fa fa-times");
+        }
+        else {
+          driver_td.html("");
+          tr.css("background-color", "#FFFFFF");
+          tr.find("i").attr("class", "fa fa-check");
+        }
+
+
       },
       error: function(xhr, status, error) {
         console.log(error);

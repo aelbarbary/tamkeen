@@ -270,15 +270,18 @@ def api_carpool_checkin(request):
         json_data = json.loads(request.body.decode('utf-8'))
         print(json_data)
         passenger_id = json_data["passengerId"]
+        operation = json_data["operation"]
+
         driver_id = request.user.id;
-        print(driver_id)
-        date = datetime.now().date()
-        print(date)
-        # date = datetime.strptime(date,'%Y%m%d %H:%M:%S')
+        date = datetime.today().date()
+
         driver = Profile.objects.get(pk=driver_id)
-        print(driver)
-        carpool = Carpool(driver_id=driver_id, passenger_id = passenger_id, date_time = date )
-        carpool.save()
+
+        if operation == "checkin":
+            carpool = Carpool(driver_id=driver_id, passenger_id = passenger_id, date_time = date )
+            carpool.save()
+        else:
+            Carpool.objects.filter(driver_id=driver_id, passenger_id = passenger_id, date_time__date = date).delete()
 
         context = { 'driver': "%s %s" % (driver.first_name, driver.last_name) }
 
