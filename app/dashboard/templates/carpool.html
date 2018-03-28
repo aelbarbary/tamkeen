@@ -13,6 +13,11 @@
             </div>
 
             <div class="card-body">
+              <div class="alert alert-success" id="success-alert">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Success! </strong>
+                Drive safe my brother :-)
+            </div>
               <button type="button" class="btn btn-warning"
                 style="width:100%" id="drive-button" onclick='drive()'>
                   <i class="fa fa-car"></i>&nbsp; Drive
@@ -21,10 +26,7 @@
                     <table class="table table-striped" id="passengers_table">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Gender</th>
+                            <th>Name</th>
                             <th>Driver</th>
                             <th></th>
                         </tr>
@@ -32,13 +34,15 @@
                         <tbody>
                           {% for p in passengers %}
                           <tr>
-                              <td><a href="/dashboard/people/{{u.id}}">{{p.id}}</a></td>
-                              <td class="text-nowrap">{{p.passenger_first_name}}</td>
-                              <td>{{p.passenger_last_name}}</td>
-                              <td>{{p.gender}}</td>
+                              <td class="text-nowrap">{{p.passenger_name}}</td>
                               <td id="driver-{{p.id}}">{{p.driver_name}}</td>
                               <!-- <td><a href="http://tamkeen.us/admin/members/profile/{{.id}}/change/"><i class="fa fa-car"></i></a></td> -->
-                              <td><input id='btn_carpool_{{p.id}}' type='button' value="carpool" onclick='carpool({{p.id}}, this)' />  </td>
+                              <td>
+                                <button type="button" class="btn btn-secondary"
+                                      onclick='carpool({{p.id}}, this)'>
+                                    <i class="fa fa-check"></i>
+                                </button>
+                              </td>
                           </tr>
                           {%endfor%}
                         </tbody>
@@ -50,21 +54,17 @@
 </div>
 <script>
 $(document).ready(function() {
+  $("#success-alert").hide();
 
   var t = $('#passengers_table').DataTable({
     paging: false,
     ajax: "",
     createdRow: function ( row, data, index ) {
             console.log(data);
-            if ( data[4] != 'None') { // if checked-out
+            if ( data[1] != 'None') { // if checked-out
               $(row).css("background-color", "#d5f49e");
               $(row).find("input,button,textarea,select").attr("disabled", "disabled");
             }
-            // if (data[6]){ // if checkedin
-            //   $(row).find(".checkout").show();
-            // }else{
-            //   $(row).find(".checkout").hide();
-            // }
         }
   });
 });
@@ -97,18 +97,11 @@ function drive()
   $.ajax({
       type: "POST",
       url: "/dashboard/api/carpool/drive",
-      // data: JSON.stringify(data),
       success: function(result) {
-        console.log(result);
-        // var driver_td = $(element).closest('#driver_td');
-        // driver_td = $("#driver-" + passenger_id);
-        // console.log(driver_td);
-        // driver_td.html(result.driver);
-        // var tr = $(element).closest('tr');
-        // tr.css("background-color", "#d5f49e");
-        // tr.find("input,button,textarea,select").attr("disabled", "disabled");
         $("#drive-button").attr("disabled", "disabled");
-
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+          $("#success-alert").slideUp(500);
+        });
       },
       error: function(xhr, status, error) {
         console.log(error);

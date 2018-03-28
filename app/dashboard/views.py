@@ -238,8 +238,7 @@ def carpool(request):
         result = []
         query = """select
                 distinct p.id,
-                        p.first_name passenger_first_name,
-                        p.last_name passenger_last_name,
+                        p.first_name || ' ' || p.last_name as passenger_name,
                         driver.first_name || ' ' || driver.last_name driver_name
                 FROM members_attendance att
                 JOIN members_profile p
@@ -252,7 +251,7 @@ def carpool(request):
                     on cp.driver_id = driver.id
                 WHERE  att.date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD'))
                 and att.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)
-                order by p.first_name, p.last_name
+                order by p.first_name || ' ' || p.last_name
 
                 """
 
