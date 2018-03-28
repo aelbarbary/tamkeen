@@ -333,7 +333,7 @@ def api_carpool_drive(request):
                     and cp.date_time < date_trunc('day', current_date + 1)
                 WHERE  att.date_time >= date_trunc('day', current_date)
                 and att.date_time < date_trunc('day', current_date + 1)
-                and p.is_staff
+                and p.is_staff = false
                 and cp.id IS NULL
                 """
 
