@@ -341,24 +341,40 @@ def api_carpool_drive(request):
             cursor.execute(query)
             result = cursor.fetchone()
             left_out_kids = result[0]
-            print(left_out_kids)
 
-        client = boto3.client(
-            "sns",
-            aws_access_key_id= settings.AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-            region_name="us-west-2"
-        )
         driver_name = driver.first_name + ' ' + driver.last_name
-        # passengers =
-        client.publish(
-            PhoneNumber="+12065568092",
-            Message="Driver %s has just picked up %s ... there are %s kids are left out!"
-                    % ( driver_name, passengers_list, left_out_kids )
-        )
+        # send message to carpool ADMINS
+        send_sms_to_admins(driver_name, passengers_list, left_out_kids)
+
         return HttpResponse('Ok')
     else:
         return HttpResponse()
+
+def send_sms_to_admins(driver_name, passengers_list, left_out_kids):
+    # Create an SNS client
+    client = boto3.client(
+        "sns",
+        aws_access_key_id= settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        region_name="us-west-2"
+    )
+
+    # Create the topic if it doesn't exist (this is idempotent)
+    topic = client.create_topic(Name="notifications")
+    topic_arn = topic['TopicArn']  # get its Amazon Resource Name
+
+    # Add SMS Subscribers
+    for number in settings.CARPOOL_ADMINS:
+        client.subscribe(
+            TopicArn=topic_arn,
+            Protocol='sms',
+            Endpoint=number  # <-- number who'll receive an SMS message.
+        )
+
+    # Publish a message.
+    client.publish(Message="Driver %s has just picked up %s ... there are %s kids are left out!"
+                    % ( driver_name, passengers_list, left_out_kids )
+                    , TopicArn=topic_arn)
 
 def dictfetchall(cursor):
     columns = [col[0] for col in cursor.description]
