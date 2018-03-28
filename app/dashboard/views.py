@@ -6,6 +6,10 @@ import json
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from datetime import datetime, date
+import boto3
+from django.conf import settings
+
 @staff_member_required
 def index(request):
     total_users = Profile.objects.all().count()
@@ -224,6 +228,139 @@ def user_profile(request, user_id):
         context = {'user': user, 'attendance': attendance , 'answers': answers }
 
     return render(request, 'user_profile.html', context)
+
+@csrf_exempt
+@login_required
+def carpool(request):
+    today = datetime.now().strftime('%Y%m%d')
+    print(today)
+    with connection.cursor() as cursor:
+        result = []
+        query = """select
+                distinct p.id,
+                        p.first_name passenger_first_name,
+                        p.last_name passenger_last_name,
+                        driver.first_name || ' ' || driver.last_name driver_name
+                FROM members_attendance att
+                JOIN members_profile p
+                    on p.id = att.user_id
+                LEFT JOIN members_carpool cp
+                    on p.id = cp.passenger_id
+                    and cp.date_time>= date_trunc('day', to_date(%s, 'YYYYMMDD'))
+                    and cp.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)
+                LEFT JOIN members_profile driver
+                    on cp.driver_id = driver.id
+                WHERE  att.date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD'))
+                and att.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)
+                order by p.first_name, p.last_name
+
+                """
+
+
+        cursor.execute(query, [today, today, today, today])
+        passengers = dictfetchall(cursor)
+        print(passengers)
+        context = {'passengers': passengers}
+
+    return render(request, 'carpool.html', context)
+
+@csrf_exempt
+@login_required
+def api_carpool_checkin(request):
+    if request.method == "POST":
+
+        json_data = json.loads(request.body.decode('utf-8'))
+        print(json_data)
+        passenger_id = json_data["passengerId"]
+        driver_id = request.user.id;
+        print(driver_id)
+        date = datetime.now().date()
+        print(date)
+        # date = datetime.strptime(date,'%Y%m%d %H:%M:%S')
+        driver = Profile.objects.get(pk=driver_id)
+        print(driver)
+        carpool = Carpool(driver_id=driver_id, passenger_id = passenger_id, date_time = date )
+        carpool.save()
+
+        context = { 'driver': "%s %s" % (driver.first_name, driver.last_name) }
+
+        data = json.dumps(context)
+
+        return HttpResponse(data, content_type='application/json')
+    else:
+        return HttpResponse()
+
+@csrf_exempt
+@login_required
+def api_carpool_drive(request):
+
+    if request.method == "POST":
+        driver_id = request.user.id;
+        # get passengers
+        with connection.cursor() as cursor:
+            result = []
+            query = """select distinct p.first_name || ' ' || p.last_name as name
+                FROM members_profile p
+                JOIN members_carpool cp
+                    on p.id = cp.passenger_id
+                WHERE cp.date_time>= date_trunc('day', current_date)
+                and cp.date_time < date_trunc('day', current_date + 1)
+                and cp.driver_id = %s
+                order by p.first_name || ' ' || p.last_name
+                """ % driver_id
+
+            cursor.execute(query)
+            passengers = cursor.fetchall()
+            p_list = []
+            for p in passengers:
+                # words.append(row['unites_lexicales'])
+                p_list.append(p[0])
+
+            passengers_list = ", ".join(p_list)
+            print(passengers_list)
+
+        #get driver
+        driver = Profile.objects.get(pk=driver_id)
+
+        #get remaining kids
+        with connection.cursor() as cursor:
+            result = []
+            query = """select count(1)
+                FROM members_attendance att
+                JOIN members_profile p
+                    on p.id = att.user_id
+                LEFT JOIN members_carpool cp
+                    on p.id = cp.passenger_id
+                    and cp.date_time>= date_trunc('day', current_date)
+                    and cp.date_time < date_trunc('day', current_date + 1)
+                WHERE  att.date_time >= date_trunc('day', current_date)
+                and att.date_time < date_trunc('day', current_date + 1)
+                and p.is_staff
+                and cp.id IS NULL
+                """
+
+            cursor.execute(query)
+            result = cursor.fetchone()
+            left_out_kids = result[0]
+            print(left_out_kids)
+
+        client = boto3.client(
+            "sns",
+            aws_access_key_id= settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+            region_name="us-west-2"
+        )
+        driver_name = driver.first_name + ' ' + driver.last_name
+        # passengers =
+        client.publish(
+            PhoneNumber="+12065568092",
+            Message="Driver %s has just picked up %s ... there are %s kids are left out!"
+                    % ( driver_name, passengers_list, left_out_kids )
+        )
+        return HttpResponse('Ok')
+    else:
+        return HttpResponse()
+
 def dictfetchall(cursor):
     columns = [col[0] for col in cursor.description]
     return [

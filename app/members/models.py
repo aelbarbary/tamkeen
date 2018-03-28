@@ -18,7 +18,6 @@ class Quiz(models.Model):
     def __str__(self):
         return 'Name: ' + self.name
 
-
 class Question(models.Model):
     text = models.CharField(max_length=2000)
     image = models.ImageField(upload_to = "question", default = 'no-img.jpg')
@@ -227,9 +226,9 @@ class SuggestedVideo(models.Model):
             self.video_id = urlparse.parse_qs(parsed.query)['v'][0]
             super().save(*args, **kwargs)
 
-class Alert(models.Model):
-    user = models.ForeignKey(Profile, related_name='alert_user',on_delete=models.CASCADE,)
-    level = models.CharField(max_length=10, blank=False)
-    text = models.CharField(max_length=1000, blank=False)
+class Carpool(models.Model):
+    driver = models.ForeignKey(Profile, related_name='driver', on_delete=models.CASCADE,)
+    passenger = models.ForeignKey(Profile, related_name='passenger', on_delete=models.CASCADE,)
     date_time = models.DateTimeField()
-    dismissed = models.BooleanField(default=False)
+    def __str__(self):
+         return '%s %s' % (self.driver_id, self.passenger_id)

@@ -14,7 +14,9 @@ urlpatterns = [
     url(r'^people/(?P<user_id>\d+)/$', user_profile, name='user_profile'),
     url(r'^api/attendancetrend/$', api_attendance_trend, name='api_attendance_trend'),
     url(r'^api/attendancetrend/$', api_attendance_trend, name='api_attendance_trend'),
+    url(r'^api/carpool/$', api_carpool_checkin, name='api_carpool_checkin'),
+    url(r'^api/carpool/drive$', api_carpool_drive, name='api_carpool_drive'),
     url(r'^quiz/history$', quiz_history, name='quiz_history'),
     url(r'^quiz/(?P<id>\d+)/$', quiz_details, name='quiz_details'),
-
+    url(r'^carpool/$', carpool, name='carpool'),
    ]

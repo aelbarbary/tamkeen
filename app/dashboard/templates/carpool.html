@@ -1,0 +1,120 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+{% block content %}
+<link href ="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<script data-cfasync="false" type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+<div class="row">
+
+    <div class="col-md">
+        <div class="card">
+            <div class="card-header bg-light">
+                Passengers
+            </div>
+
+            <div class="card-body">
+              <button type="button" class="btn btn-warning"
+                style="width:100%" id="drive-button" onclick='drive()'>
+                  <i class="fa fa-car"></i>&nbsp; Drive
+              </button>
+                <div class="table-responsive">
+                    <table class="table table-striped" id="passengers_table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Gender</th>
+                            <th>Driver</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          {% for p in passengers %}
+                          <tr>
+                              <td><a href="/dashboard/people/{{u.id}}">{{p.id}}</a></td>
+                              <td class="text-nowrap">{{p.passenger_first_name}}</td>
+                              <td>{{p.passenger_last_name}}</td>
+                              <td>{{p.gender}}</td>
+                              <td id="driver-{{p.id}}">{{p.driver_name}}</td>
+                              <!-- <td><a href="http://tamkeen.us/admin/members/profile/{{.id}}/change/"><i class="fa fa-car"></i></a></td> -->
+                              <td><input id='btn_carpool_{{p.id}}' type='button' value="carpool" onclick='carpool({{p.id}}, this)' />  </td>
+                          </tr>
+                          {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+
+  var t = $('#passengers_table').DataTable({
+    paging: false,
+    ajax: "",
+    createdRow: function ( row, data, index ) {
+            console.log(data);
+            if ( data[4] != 'None') { // if checked-out
+              $(row).css("background-color", "#d5f49e");
+              $(row).find("input,button,textarea,select").attr("disabled", "disabled");
+            }
+            // if (data[6]){ // if checkedin
+            //   $(row).find(".checkout").show();
+            // }else{
+            //   $(row).find(".checkout").hide();
+            // }
+        }
+  });
+});
+
+function carpool(passenger_id, element)
+{
+  data = { passengerId: passenger_id }
+  $.ajax({
+      type: "POST",
+      url: "/dashboard/api/carpool/",
+      data: JSON.stringify(data),
+      success: function(result) {
+        console.log(result);
+        var driver_td = $(element).closest('#driver_td');
+        driver_td = $("#driver-" + passenger_id);
+        console.log(driver_td);
+        driver_td.html(result.driver);
+        var tr = $(element).closest('tr');
+        tr.css("background-color", "#d5f49e");
+        tr.find("input,button,textarea,select").attr("disabled", "disabled");
+      },
+      error: function(xhr, status, error) {
+        console.log(error);
+      }
+  });
+}
+
+function drive()
+{
+  $.ajax({
+      type: "POST",
+      url: "/dashboard/api/carpool/drive",
+      // data: JSON.stringify(data),
+      success: function(result) {
+        console.log(result);
+        // var driver_td = $(element).closest('#driver_td');
+        // driver_td = $("#driver-" + passenger_id);
+        // console.log(driver_td);
+        // driver_td.html(result.driver);
+        // var tr = $(element).closest('tr');
+        // tr.css("background-color", "#d5f49e");
+        // tr.find("input,button,textarea,select").attr("disabled", "disabled");
+        $("#drive-button").attr("disabled", "disabled");
+
+      },
+      error: function(xhr, status, error) {
+        console.log(error);
+      }
+  });
+}
+</script>
+
+{% endblock %}
