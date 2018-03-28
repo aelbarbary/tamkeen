@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 from boto3.session import Session
-
+CARPOOL_ADMINS=['+12065568092', '+14252212406']
 ADMINS =(('admin','abdelrahman.elbarbary@gmail.com'),)
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

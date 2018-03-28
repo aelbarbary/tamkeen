@@ -267,7 +267,6 @@ def carpool(request):
 @login_required
 def api_carpool_checkin(request):
     if request.method == "POST":
-
         json_data = json.loads(request.body.decode('utf-8'))
         print(json_data)
         passenger_id = json_data["passengerId"]
