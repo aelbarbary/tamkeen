@@ -19,12 +19,12 @@ $(document).ready(function() {
     paging: false,
     ajax: "",
     createdRow: function ( row, data, index ) {
-
-            if ( data[7]) { // if checked-out
+            console.log(data);
+            if ( data[8]) { // if checked-out
               $(row).css("background-color", "#d5f49e");
               $(row).find("input,button,textarea,select").attr("disabled", "disabled");
             }
-            if (data[6]){ // if checkedin
+            if (data[7]){ // if checkedin
               $(row).find(".checkout").show();
             }else{
               $(row).find(".checkout").hide();
@@ -126,6 +126,7 @@ function getAttendanceSheet(table, sheet_date)
                      entry["last_name"],
                      entry["gender"],
                      entry["checked_in_time"],
+                     entry["checked_out_time"],
                      "<input id='checkoutbtn-" + entry["id"] + "' type='button' value='Check-out' class='btn btn-primary checkout' onclick='checkout(" + entry["id"] + ", this);'/> ",
                      checked_in,
                      checked_out
@@ -195,7 +196,8 @@ function getAttendanceSheet(table, sheet_date)
                   <th>First Name</th>
                   <th>Last Name</th>
                   <th>Gender</th>
-                  <th>Time</th>
+                  <th>Checkin</th>
+                  <th>Checkout</th>
                   <th></th>
               </tr>
           </thead>
@@ -206,7 +208,8 @@ function getAttendanceSheet(table, sheet_date)
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Gender</th>
-                <th>Time</th>
+                <th>Checkin</th>
+                <th>Checkout</th>
                 <th></th>
               </tr>
           </tfoot>

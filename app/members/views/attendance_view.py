@@ -29,17 +29,17 @@ from .common_view import *
 def api_attendance_sheet(request, date):
     result = []
     with connection.cursor() as cursor:
-        query = "select p.id, p.first_name, p.last_name, p.gender, a.date_time checkin_time, ch.date_time checkout_time "\
-                + "from members_profile p "\
-                + "left join members_attendance a "\
-	            + "on p.id = a.user_id " \
-                + "and a.date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD')) "\
-	            + "and a.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1) "\
-                + "left join members_checkout ch "\
-                + "on p.id = ch.user_id " \
-                + "and ch.date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD')) "\
-	            + "and ch.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1) "\
-                + "order by p.first_name"
+        query = """select p.id, p.first_name, p.last_name, p.gender, a.date_time checkin_time, ch.date_time checkout_time
+                from members_profile p
+                left join members_attendance a
+	            on p.id = a.user_id 
+                and a.date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD'))
+	            and a.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)
+                left join members_checkout ch
+                on p.id = ch.user_id
+                and ch.date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD'))
+	            and ch.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)
+                order by p.first_name"""
 
         cursor.execute(query, [date,date, date, date])
 
