@@ -32,7 +32,7 @@ def api_attendance_sheet(request, date):
         query = """select p.id, p.first_name, p.last_name, p.gender, a.date_time checkin_time, ch.date_time checkout_time
                 from members_profile p
                 left join members_attendance a
-	            on p.id = a.user_id 
+	            on p.id = a.user_id
                 and a.date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD'))
 	            and a.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)
                 left join members_checkout ch
@@ -46,15 +46,21 @@ def api_attendance_sheet(request, date):
         for row in cursor.fetchall():
             result.append(json_attendance(row))
 
-        query = "select round((count(*) )::decimal / (select count(*) from members_profile)::decimal * 100,2 ) as f "\
-                + "from members_attendance "\
-                + "where date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD')) "\
-                + "and date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1) "
+        query = """select round((count(*) )::decimal / (select count(*) from members_profile)::decimal * 100,2 ) as f
+                from members_attendance
+                where date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD'))
+                and date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1) """
 
         cursor.execute(query, [date,date])
         row = cursor.fetchone()
+        attendance_perc=  str(row[0])
 
-    context = { 'result': result, 'attendance_perc': str(row[0]) }
+        attendace_stats = get_attendace_stats(date)
+
+    context = { 'result': result
+                ,'attendance_perc': attendance_perc
+                ,'attendance_stats': attendace_stats
+              }
 
     data = json.dumps(context)
 
@@ -158,3 +164,67 @@ def absent(request, period_in_days):
         context = { 'absent': absent, 'absent_days': period_in_days }
 
     return render(request, 'absent.html', context)
+
+def get_attendace_stats(date):
+    result = []
+    with connection.cursor() as cursor:
+        query = """
+                SELECT
+                (   select count(1)
+                    from members_attendance ma
+                    join members_profile mp
+                        on mp.id = ma.user_id
+                    where date_time >= date_trunc('day', to_date('{0}', 'YYYYMMDD'))
+                    and date_time < date_trunc('day', to_date('{0}', 'YYYYMMDD') + 1)
+                )  as total_checkedin,
+                (
+                    select count(1)
+                    from members_attendance ma
+                    join members_profile mp
+                        on mp.id = ma.user_id
+                    where date_time >= date_trunc('day', to_date('{0}', 'YYYYMMDD'))
+                    and date_time < date_trunc('day', to_date('{0}', 'YYYYMMDD') + 1)
+                    and mp.gender = 'M'
+                )  as total_male_checkedin,
+                (
+                    select count(1)
+                    from members_attendance ma
+                    join members_profile mp
+                        on mp.id = ma.user_id
+                    where date_time >= date_trunc('day', to_date('{0}', 'YYYYMMDD'))
+                    and date_time < date_trunc('day', to_date('{0}', 'YYYYMMDD') + 1)
+                    and mp.gender = 'F'
+                )  as total_female_checkedin,
+                (
+                    select count(1)
+                    from members_checkout ma
+                    join members_profile mp
+                        on mp.id = ma.user_id
+                    where date_time >= date_trunc('day', to_date('{0}', 'YYYYMMDD'))
+                    and date_time < date_trunc('day', to_date('{0}', 'YYYYMMDD') + 1)
+                )  as total_checkedout,
+                (
+                    select count(1)
+                    from members_checkout ma
+                    join members_profile mp
+                        on mp.id = ma.user_id
+                    where date_time >= date_trunc('day', to_date('{0}', 'YYYYMMDD'))
+                    and date_time < date_trunc('day', to_date('{0}', 'YYYYMMDD') + 1)
+                    and mp.gender= 'M'
+                )  as total_male_checkedout,
+                (
+                    select count(1)
+                    from members_checkout ma
+                    join members_profile mp
+                        on mp.id = ma.user_id
+                    where date_time >= date_trunc('day', to_date('{0}', 'YYYYMMDD'))
+                    and date_time < date_trunc('day', to_date('{0}', 'YYYYMMDD') + 1)
+                    and mp.gender= 'F'
+                )  as total_female_checkedout
+        """.format(date)
+
+        cursor.execute(query)
+
+        result = dictfetchall(cursor)
+
+        return result[0]
