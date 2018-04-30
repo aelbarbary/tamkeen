@@ -214,6 +214,7 @@ class UserAward(models.Model):
 class SuggestedVideo(models.Model):
     video = models.CharField(max_length=500, blank=False)
     video_id = models.CharField(max_length=12, blank=True, editable=False)
+    description = models.CharField(max_length=8000, blank=True)
     date_time= models.DateTimeField()
     views = models.IntegerField(default=0, editable=False)
     def __str__(self):
