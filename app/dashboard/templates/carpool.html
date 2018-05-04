@@ -39,12 +39,13 @@
                                 <select name="item_id">
                                   <option value=0 selected >Select a driver</option>
                                   {% for d in drivers %}
-                                    <option value="{{ d.driver_id }}" {% if p.driver_name == d.driver_name %} selected {% endif %}>{{ d.driver_name }}</option>
+                                    <option value="{{ d.driver_id }}" {% if p.driver_id == d.driver_id %} selected {% endif %}>{{ d.driver_name }}</option>
                                   {% endfor %}
+
                                  </select>
-                                  {% if p.driver_phone %}
-                                    <a href="tel:{{p.driver_phone}}"><img src="{% static "images/phone.png" %}" width=40px /></a>
-                                  {% endif %}
+                                 {% if p.driver_phone %}
+                                   <a href="tel:{{p.driver_phone}}"><img src="{% static "images/phone.png" %}" width=40px /></a>
+                                 {% endif %}
                               </td>
                           </tr>
                           {%endfor%}
@@ -94,7 +95,10 @@
             $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
               $("#success-alert").slideUp(500);
             });
-            console.log(result);
+            setTimeout(function(){
+              location.reload();
+            }, 2000);
+
           },
           error: function(xhr, status, error) {
             console.log(error);

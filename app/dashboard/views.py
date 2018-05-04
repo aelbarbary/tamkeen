@@ -350,7 +350,7 @@ def send_sms_to_admins( passenger_driver_list, left_out_kids):
         )
 
     # Publish a message.
-    client.publish(Message="Car pool data has been update, there are %s kids are left hebind!"
+    client.publish(Message="Carpool assignments have been updated, there are %s kids left hebind!"
                     % ( left_out_kids )
                     , TopicArn=topic_arn)
 
