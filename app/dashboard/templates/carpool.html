@@ -26,7 +26,6 @@
                     <table class="table table-striped" id="passengers_table">
                         <thead>
                         <tr>
-                            <th>Id</th>
                             <th>Passenger</th>
                             <th>Driver</th>
                             <th>Driver's Phone</th>
@@ -35,7 +34,7 @@
                         <tbody>
                           {% for p in passengers %}
                           <tr>
-                              <td class="text-nowrap" id="passenger_id">{{p.passenger_id}}</td>
+                              <td class="text-nowrap" id="passenger_id" style="display:none;">{{p.passenger_id}}</td>
                               <td class="text-nowrap">{{p.passenger_name}}</td>
                               <td id="driver-{{p.id}}">
                                 <select name="item_id">
