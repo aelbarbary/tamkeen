@@ -251,7 +251,10 @@ def carpool(request):
                     and cp.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)
                 LEFT JOIN members_profile driver
                     on cp.driver_id = driver.id
+                    and driver.is_active = true
                 WHERE  att.date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD'))
+                and p.is_driver = false
+                and p.is_active = true
                 and att.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)
                 order by p.first_name || ' ' || p.last_name
 
@@ -260,7 +263,20 @@ def carpool(request):
         cursor.execute(query, [today, today, today, today])
         passengers = dictfetchall(cursor)
         print(passengers)
-        context = {'passengers': passengers}
+
+        query = """select p.first_name || ' ' || p.last_name as driver_name,
+                          p.id driver_id,
+                          p.phone driver_phone
+                    from members_profile p
+                    where p.is_driver = true
+                    and p.is_active = true
+                    order by p.first_name || ' ' || p.last_name
+                """
+        cursor.execute(query)
+        drivers = dictfetchall(cursor)
+        print(drivers)
+
+        context = {'passengers': passengers, "drivers": drivers}
 
     return render(request, 'carpool.html', context)
 

@@ -39,6 +39,8 @@ def api_attendance_sheet(request, date):
                 on p.id = ch.user_id
                 and ch.date_time >= date_trunc('day', to_date(%s, 'YYYYMMDD'))
 	            and ch.date_time < date_trunc('day', to_date(%s, 'YYYYMMDD') + 1)
+                and p.is_active = true
+                and p.is_parent = false
                 order by p.first_name"""
 
         cursor.execute(query, [date,date, date, date])

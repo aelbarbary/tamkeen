@@ -19,7 +19,7 @@ class Quiz(models.Model):
         return 'Name: ' + self.name
 
 class Question(models.Model):
-    text = models.CharField(max_length=2000)
+    text = models.CharField(max_length=8000)
     image = models.ImageField(upload_to = "question", default = 'no-img.jpg')
     video_link = models.CharField(max_length=2000, blank=True)
     quiz = models.ForeignKey(Quiz, related_name='questions', on_delete=models.CASCADE)
@@ -39,6 +39,9 @@ class Profile(AbstractUser):
     skills = models.TextField(blank=True, null=True)
     notes =  models.TextField(blank=True, null=True)
     title = models.CharField(max_length=100, default='TAMKEENER')
+    is_driver = models.BooleanField(default=False)
+    is_parent = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
 
@@ -93,7 +96,7 @@ def calculate_age(born):
         return 'unknown'
 
 class Answer(models.Model):
-    text = models.CharField(max_length=2000)
+    text = models.CharField(max_length=8000)
     date_time = models.DateTimeField()
     score = models.IntegerField(default=0)
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)

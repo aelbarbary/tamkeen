@@ -28,7 +28,6 @@
                         <tr>
                             <th>Passenger</th>
                             <th>Driver</th>
-                            <th>Driver's Phone</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -39,15 +38,13 @@
                               <td id="driver-{{p.id}}">
                                 <select name="item_id">
                                   <option value=0 selected >Select a driver</option>
-                                  {% for p1 in passengers %}
-                                    <option value="{{ p1.passenger_id }}" {% if p1.passenger_name == p.driver_name %} selected {% endif %}>{{ p1.passenger_name }}</option>
+                                  {% for d in drivers %}
+                                    <option value="{{ d.driver_id }}" {% if p.driver_name == d.driver_name %} selected {% endif %}>{{ d.driver_name }}</option>
                                   {% endfor %}
-                                  </select>
-                              </td>
-                              <td>
-                                {% if p.driver_phone %}
-                                  <a href="tel:{{p.driver_phone}}"><img src="{% static "images/phone.png" %}" width=40px /></a>
-                                {% endif %}
+                                 </select>
+                                  {% if p.driver_phone %}
+                                    <a href="tel:{{p.driver_phone}}"><img src="{% static "images/phone.png" %}" width=40px /></a>
+                                  {% endif %}
                               </td>
                           </tr>
                           {%endfor%}
