@@ -302,7 +302,7 @@
       url: "/dashboard/api/attendancetrend/",
       success: function(data) {
         data.attendance.forEach(function(entry) {
-          console.log(entry.date);
+          
           labels.push(entry.date);
           count.push(entry.total_count);
         });

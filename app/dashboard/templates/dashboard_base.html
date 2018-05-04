@@ -129,7 +129,7 @@ $(document).ready(function () {
            url: "/dashboard/api/attendancetrend/",
            success: function(data){
               data.attendance.forEach( function(entry){
-                console.log(entry.date);
+
                 labels.push(entry.date);
                 count.push(entry.total_count);
               });
@@ -137,7 +137,7 @@ $(document).ready(function () {
               var lineChart = $('#line-chart');
               var attendance = "{{attendance}}"
               //var attendance =  JSON.parse("{{attendance}}".replace("&#39;", "\""));
-              console.log(labels);
+              
               if (lineChart.length > 0) {
                   // for (var i = 0; i < attendance.length; i++) {
                   //  console.log(attendance[i]);

@@ -237,9 +237,11 @@ def carpool(request):
     with connection.cursor() as cursor:
         result = []
         query = """select
-                distinct p.id,
+                distinct p.id passenger_id,
                         p.first_name || ' ' || p.last_name as passenger_name,
-                        driver.first_name || ' ' || driver.last_name driver_name
+                        driver.first_name || ' ' || driver.last_name driver_name,
+                        driver.id driver_id,
+                        driver.phone driver_phone
                 FROM members_attendance att
                 JOIN members_profile p
                     on p.id = att.user_id
@@ -255,7 +257,6 @@ def carpool(request):
 
                 """
 
-
         cursor.execute(query, [today, today, today, today])
         passengers = dictfetchall(cursor)
         print(passengers)
@@ -263,33 +264,6 @@ def carpool(request):
 
     return render(request, 'carpool.html', context)
 
-@csrf_exempt
-@login_required
-def api_carpool_checkin(request):
-    if request.method == "POST":
-        json_data = json.loads(request.body.decode('utf-8'))
-        print(json_data)
-        passenger_id = json_data["passengerId"]
-        operation = json_data["operation"]
-
-        driver_id = request.user.id;
-        date = datetime.today().date()
-
-        driver = Profile.objects.get(pk=driver_id)
-
-        if operation == "checkin":
-            carpool = Carpool(driver_id=driver_id, passenger_id = passenger_id, date_time = date )
-            carpool.save()
-        else:
-            Carpool.objects.filter(driver_id=driver_id, passenger_id = passenger_id, date_time__date = date).delete()
-
-        context = { 'driver': "%s %s" % (driver.first_name, driver.last_name) }
-
-        data = json.dumps(context)
-
-        return HttpResponse(data, content_type='application/json')
-    else:
-        return HttpResponse()
 
 @csrf_exempt
 @login_required
@@ -297,31 +271,17 @@ def api_carpool_drive(request):
 
     if request.method == "POST":
         driver_id = request.user.id;
-        # get passengers
-        with connection.cursor() as cursor:
-            result = []
-            query = """select distinct p.first_name || ' ' || p.last_name as name
-                FROM members_profile p
-                JOIN members_carpool cp
-                    on p.id = cp.passenger_id
-                WHERE cp.date_time>= date_trunc('day', current_date)
-                and cp.date_time < date_trunc('day', current_date + 1)
-                and cp.driver_id = %s
-                order by p.first_name || ' ' || p.last_name
-                """ % driver_id
+        json_data = json.loads(request.body.decode('utf-8'))
+        print(json_data)
+        date = datetime.today().date()
 
-            cursor.execute(query)
-            passengers = cursor.fetchall()
-            p_list = []
-            for p in passengers:
-                # words.append(row['unites_lexicales'])
-                p_list.append(p[0])
-
-            passengers_list = ", ".join(p_list)
-            print(passengers_list)
-
-        #get driver
-        driver = Profile.objects.get(pk=driver_id)
+        Carpool.objects.filter(date_time=date).delete()
+        for d in json_data:
+            passenger_id = d["passenger_id"]
+            driver_id = d["driver_id"]
+            if driver_id != "0":
+                carpool = Carpool(driver_id=driver_id, passenger_id = passenger_id, date_time = date )
+                carpool.save()
 
         #get remaining kids
         with connection.cursor() as cursor:
@@ -343,16 +303,16 @@ def api_carpool_drive(request):
             cursor.execute(query)
             result = cursor.fetchone()
             left_out_kids = result[0]
-
-        driver_name = driver.first_name + ' ' + driver.last_name
+            print(left_out_kids)
+            result = { "left_out_kids": left_out_kids}
         # send message to carpool ADMINS
-        send_sms_to_admins(driver_name, passengers_list, left_out_kids)
+        send_sms_to_admins(json_data, left_out_kids)
 
-        return HttpResponse('Ok')
+        return HttpResponse(json.dumps(result))
     else:
         return HttpResponse()
 
-def send_sms_to_admins(driver_name, passengers_list, left_out_kids):
+def send_sms_to_admins( passenger_driver_list, left_out_kids):
     # Create an SNS client
     client = boto3.client(
         "sns",
@@ -374,8 +334,8 @@ def send_sms_to_admins(driver_name, passengers_list, left_out_kids):
         )
 
     # Publish a message.
-    client.publish(Message="Driver %s has just picked up %s ... there are %s kids are left out!"
-                    % ( driver_name, passengers_list, left_out_kids )
+    client.publish(Message="Car pool data has been update, there are %s kids are left hebind!"
+                    % ( left_out_kids )
                     , TopicArn=topic_arn)
 
 def dictfetchall(cursor):

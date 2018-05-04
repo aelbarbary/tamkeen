@@ -135,7 +135,6 @@ function getAttendanceSheet(table, sheet_date)
                $('.total_male_checkedout').text(data.attendance_stats.total_male_checkedout)
                $('.total_female_checkedout').text(data.attendance_stats.total_female_checkedout)
 
-
                data.result.forEach(function(entry) {
                  uw_waiver = entry["uw_waiver"]
                  photo = entry["photo"]
@@ -262,7 +261,6 @@ function getAttendanceSheet(table, sheet_date)
       </table>
 
   </body>
-
-
+  
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
   <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>

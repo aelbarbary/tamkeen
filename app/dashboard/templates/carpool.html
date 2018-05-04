@@ -26,22 +26,29 @@
                     <table class="table table-striped" id="passengers_table">
                         <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Id</th>
+                            <th>Passenger</th>
                             <th>Driver</th>
-                            <th></th>
+                            <th>Driver's Phone</th>
                         </tr>
                         </thead>
                         <tbody>
                           {% for p in passengers %}
                           <tr>
+                              <td class="text-nowrap" id="passenger_id">{{p.passenger_id}}</td>
                               <td class="text-nowrap">{{p.passenger_name}}</td>
-                              <td id="driver-{{p.id}}">{{p.driver_name}}</td>
-                              <!-- <td><a href="http://tamkeen.us/admin/members/profile/{{.id}}/change/"><i class="fa fa-car"></i></a></td> -->
+                              <td id="driver-{{p.id}}">
+                                <select name="item_id">
+                                  <option value=0 selected >Select a driver</option>
+                                  {% for p1 in passengers %}
+                                    <option value="{{ p1.passenger_id }}" {% if p1.passenger_name == p.driver_name %} selected {% endif %}>{{ p1.passenger_name }}</option>
+                                  {% endfor %}
+                                  </select>
+                              </td>
                               <td>
-                                <button type="button" class="btn btn-secondary"
-                                      onclick='carpool({{p.id}}, this)'>
-                                    <i class="fa fa-check"></i>
-                                </button>
+                                {% if p.driver_phone %}
+                                  <a href="tel:{{p.driver_phone}}"><img src="{% static "images/phone.png" %}" width=40px /></a>
+                                {% endif %}
                               </td>
                           </tr>
                           {%endfor%}
@@ -53,76 +60,51 @@
     </div>
 </div>
 <script>
-$(document).ready(function() {
-  $("#success-alert").hide();
+  $(document).ready(function() {
+    $("#success-alert").hide();
 
-  var t = $('#passengers_table').DataTable({
-    paging: false,
-    ajax: "",
-    createdRow: function ( row, data, index ) {
-            console.log(data);
-            if ( data[1] != 'None') { // if checked-out
-              $(row).css("background-color", "#d5f49e");
-              $(row).find("i").attr("class", "fa fa-times");
-            }
-        }
   });
-});
 
-function carpool(passenger_id, element)
-{
-  var tr = $(element).closest('tr');
-  var driver_td = $("#driver-" + passenger_id);
-  var i = tr.find("i");
-  console.log(i);
-  var operation = "checkin";
-  if (i.hasClass("fa-times"))
+  // $(function(){
+  //     setInterval(refreshCarpoolList, 60000);
+  //   });
+  //
+  //   function refreshCarpoolList() {
+  //     location.reload();
+  //   }
+
+  function drive()
   {
-    operation = "checkout";
+      data= []
+
+      $('#passengers_table tbody tr').each(function (i, row) {
+
+          var driver_id = $(row).find(":selected").val();
+          var passenger_id = $(row).find("#passenger_id").text();
+          data.push(
+            {
+              "passenger_id": passenger_id,
+              "driver_id" : driver_id
+            });
+      });
+      console.log(data);
+
+      $.ajax({
+          type: "POST",
+          url: "/dashboard/api/carpool/drive",
+          data: JSON.stringify(data),
+          success: function(result) {
+
+            $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+              $("#success-alert").slideUp(500);
+            });
+            console.log(result);
+          },
+          error: function(xhr, status, error) {
+            console.log(error);
+          }
+      });
   }
-  data = { passengerId: passenger_id , operation: operation }
-  $.ajax({
-      type: "POST",
-      url: "/dashboard/api/carpool/",
-      data: JSON.stringify(data),
-      success: function(result) {
-
-        if (i.hasClass("fa-check"))
-        {
-          driver_td.html(result.driver);
-          tr.css("background-color", "#d5f49e");
-          tr.find("i").attr("class", "fa fa-times");
-        }
-        else {
-          driver_td.html("");
-          tr.css("background-color", "#FFFFFF");
-          tr.find("i").attr("class", "fa fa-check");
-        }
-
-
-      },
-      error: function(xhr, status, error) {
-        console.log(error);
-      }
-  });
-}
-
-function drive()
-{
-  $.ajax({
-      type: "POST",
-      url: "/dashboard/api/carpool/drive",
-      success: function(result) {
-        $("#drive-button").attr("disabled", "disabled");
-        $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
-          $("#success-alert").slideUp(500);
-        });
-      },
-      error: function(xhr, status, error) {
-        console.log(error);
-      }
-  });
-}
 </script>
 
 {% endblock %}
