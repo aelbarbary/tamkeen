@@ -38,4 +38,5 @@ urlpatterns = [
     url(r'^register/$', user_view.NewMemberRequest.as_view(), name='new_member_request'),
     url(r'^api/members/$', user_view.members, name='members'),
     url(r'^members/$', user_view.show_members, name='show_members'),
+    url('^', include('django.contrib.auth.urls')),
 ]

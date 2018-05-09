@@ -197,6 +197,31 @@ def quiz_details(request, id):
 
     return render(request, 'quiz_details.html', context)
 
+def quiz_email_view(request):
+    with connection.cursor() as cursor:
+        result = []
+        query = """
+                select
+                    a.text answer,
+                    a.share_with_others,
+                    p.first_name || ' ' || p.last_name user_name
+                from members_quiz quiz
+                join members_question q
+                	on q.quiz_id = quiz.id
+                left join members_answer a
+                	on a.question_id = q.id
+                left join members_profile p
+                	on p.id = a.user_id
+                where quiz_id = (select max(id) from members_quiz)
+                order by char_length(a.text)
+        """
+
+        cursor.execute(query)
+        rows = dictfetchall(cursor)
+        context = { 'results': rows  }
+
+    return render(request, 'quiz_email_view.html', context)
+
 @csrf_exempt
 @login_required
 def user_profile(request, user_id):

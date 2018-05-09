@@ -17,5 +17,6 @@ urlpatterns = [
     url(r'^api/carpool/drive$', api_carpool_drive, name='api_carpool_drive'),
     url(r'^quiz/history$', quiz_history, name='quiz_history'),
     url(r'^quiz/(?P<id>\d+)/$', quiz_details, name='quiz_details'),
+    url(r'^quiz/emailview/$', quiz_email_view, name='quiz_email_view'),
     url(r'^carpool/$', carpool, name='carpool'),
    ]
