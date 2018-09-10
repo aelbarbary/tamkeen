@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^password_reset/$', auth_views.password_reset,{'email_template_name':'registration/password_reset_email.txt',
                                                     'subject_template_name':'registration/password_reset_subject.txt',
                                                     'post_reset_redirect':'password_reset_done',
-                                                    'from_email':'abdelrahman.elbarbary@gmail.com',
+                                                    'from_email':'tamkeen.website@gmail.com',
                                                     },name='password_reset'),
     url(r'^password_reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm, {'template_name': 'registration/password_reset_confirm.txt'}, name='password_reset_confirm'),
     url(r'^password_reset/done/$', auth_views.password_reset_done, {'template_name': 'registration/password_reset_done.txt'}, name='password_reset_done'),
