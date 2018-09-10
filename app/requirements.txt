@@ -3,7 +3,7 @@ psycopg2
 Pillow
 django-storages
 boto
-django-registration
+django-registration==2.4.1
 django-sslserver
 boto3
 watchtower
