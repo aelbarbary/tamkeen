@@ -2,7 +2,6 @@ from django import forms
 from django.forms import ModelForm, SelectDateWidget, EmailInput,NumberInput,Select, Textarea, FileInput
 from .models import *
 import datetime
-from registration.forms import RegistrationForm
 from django.forms.models import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.admin.widgets import AdminDateWidget
