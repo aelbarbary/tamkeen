@@ -32,7 +32,7 @@ class Profile(AbstractUser):
         ('F', 'Female'),
     )
     phone = models.CharField(max_length=20, blank=True)
-    dob = models.DateField(max_length=8)
+    dob = models.DateField(max_length=8, null=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
     photo = models.ImageField(upload_to='profile_pics', default = 'profile_pics/default.png' )
     uw_waiver = models.ImageField(upload_to='uw_waivers', default = 'uw_waivers/default.png')
@@ -236,3 +236,14 @@ class Carpool(models.Model):
     date_time = models.DateTimeField()
     def __str__(self):
          return '%s %s' % (self.driver_id, self.passenger_id)
+
+
+class Family(models.Model):
+    last_name = models.CharField(max_length=200, blank=True)
+
+class FamilyMembers(models.Model):
+    family = models.ForeignKey(Family, related_name='family', on_delete=models.CASCADE,)
+    first_name = models.CharField(max_length=200, blank=True)
+    last_name = models.CharField(max_length=200, blank=True)
+    date_of_birth = models.DateTimeField()
+    is_gaurdian = models.BooleanField(default=False)

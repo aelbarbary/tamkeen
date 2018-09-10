@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .  import forms
 from members.views import *
 
+
 app_name = 'members'
 urlpatterns = [
 
@@ -13,6 +14,7 @@ urlpatterns = [
     url(r'^$', main_view.index, name='index'),
     url(r'^openyourheart/$', main_view.InquiryCreate.as_view(), name='new_inquiry'),
     url(r'^videos/$', main_view.get_videos, name='view_videos'),
+    url(r'^logout$', main_view.logout_view, name='logout'),
     url(r'^api/video/play/$', main_view.play_video, name='play_video'),
     #quiz
     url(r'^quiz/$', quiz_view.quiz, name='quiz'),
@@ -35,8 +37,13 @@ urlpatterns = [
     url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^profile/$', user_view.profile, name='profile'),
     url(r'^password/change/$', user_view.change_password, name='change_password'),
+
     url(r'^register/$', user_view.NewMemberRequest.as_view(), name='new_member_request'),
     url(r'^api/members/$', user_view.members, name='members'),
     url(r'^members/$', user_view.show_members, name='show_members'),
-    url('^', include('django.contrib.auth.urls')),
+
+    # url('^', include('django.contrib.auth.urls')),
+
+
+
 ]

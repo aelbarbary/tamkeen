@@ -23,6 +23,7 @@ from members.email import EmailSender
 from datetime import date, datetime, timedelta, time
 from pytz import timezone
 from django.db import connection
+from django.contrib.auth import logout
 
 def index(request):
     video_list = []
@@ -69,3 +70,7 @@ def play_video(request):
         return HttpResponse("done")
     else:
         return HttpResponse()
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
