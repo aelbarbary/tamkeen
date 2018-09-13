@@ -125,17 +125,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Event',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, max_length=200)),
-                ('date_time', models.DateTimeField()),
-                ('fees', models.IntegerField(default=0)),
-                ('location', models.CharField(blank=True, max_length=8000)),
-                ('image', models.ImageField(default='event/default.png', upload_to='events')),
-            ],
-        ),
-        migrations.CreateModel(
             name='Inquiry',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
