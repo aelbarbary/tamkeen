@@ -58,6 +58,11 @@ def get_videos(request):
     context = { 'videos': videos}
     return render(request, 'view-videos.html', context)
 
+def get_events(request):
+    events =   Event.objects.all().order_by('-date_time')
+    context = { 'events': events}
+    return render(request, 'view-events.html', context)
+
 @csrf_exempt
 def play_video(request):
     if request.method == "POST":

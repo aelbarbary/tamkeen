@@ -237,13 +237,9 @@ class Carpool(models.Model):
     def __str__(self):
          return '%s %s' % (self.driver_id, self.passenger_id)
 
-
-class Family(models.Model):
-    last_name = models.CharField(max_length=200, blank=True)
-
-class FamilyMembers(models.Model):
-    family = models.ForeignKey(Family, related_name='family', on_delete=models.CASCADE,)
-    first_name = models.CharField(max_length=200, blank=True)
-    last_name = models.CharField(max_length=200, blank=True)
-    date_of_birth = models.DateTimeField()
-    is_gaurdian = models.BooleanField(default=False)
+class Event(models.Model):
+    name = models.CharField(max_length=200, blank=True)
+    date_time = models.DateTimeField()
+    fees = models.IntegerField(default=0)
+    location = models.CharField(max_length=8000, blank=True)
+    image = models.ImageField(upload_to='events', default = 'event/default.png')
