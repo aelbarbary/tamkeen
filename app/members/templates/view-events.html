@@ -10,13 +10,25 @@
     <meta name="author" content="">
 
     <title>Tamkeen</title>
+    <link rel="shortcut icon" href="{% static "images/favicon.ico" %}" type="image/x-icon">
+    <link rel="icon" href="{% static "images/favicon.ico" %}" type="image/x-icon">
 
     <!-- Bootstrap Core CSS -->
     <link href="{% static "/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "/css/events.css" %}" rel="stylesheet">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!-- Theme CSS -->
+    <link href="{% static "css/styles.css" %}"  rel="stylesheet">
+    <link href="{% static "css/question.css" %}"  rel="stylesheet">
 
+    <link rel="stylesheet" href="{% static "css/product-lists/product-list-vertical.css" %}">
+    <link rel="stylesheet" href="{% static "css/image-lists/image-list-basic.css" %}">
+    <link rel="stylesheet" href="{% static "css/product-lists/product-list-basic.css" %}">
+    <link rel="stylesheet" href="{% static "css/animate.css" %}">
+
+    <!-- Custom Fonts -->
     <link href="{% static "vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
@@ -25,7 +37,6 @@
 <body id="page-top" class="index">
 
     <!-- Navigation -->
-
     <nav class="navbar navbar-default  navbar-custom">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -33,7 +44,7 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="#page-top">Events</a>
+                <a class="navbar-brand" href="#page-top">Tamkeen Library</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -52,59 +63,58 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
-
-    <div class="container">
-        {% for e in events %}
-          <div class="card-media">
-          <!-- media container -->
-          <div class="card-media-object-container">
-            <div class="card-media-object">
-              <img src="{{e.image.url }}" style="max-height: 100%; width: 250; object-fit:cover" />
-            </div>
-            <!-- <span class="card-media-object-tag subtle">Selling Fast</span>
-            <ul class="card-media-object-social-list">
-              <li>
-                <img src="https://s10.postimg.cc/3rjjbzcvd/profile_f.jpg" class="">
-              </li>
-              <li>
-                <img src="https://s16.postimg.cc/b0j0djh79/profile_0_f.jpg" class="">
-              </li>
-              <li class="card-media-object-social-list-item-additional">
-                <span>+2</span>
-              </li>
-            </ul> -->
-          </div>
-          <!-- body container -->
-          <div class="card-media-body">
-            <div class="card-media-body-top">
-              <span class="subtle">{{e.date_time}}</span>
-              <div class="card-media-body-top-icons u-float-right">
-                <!-- <svg fill="#888888" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0 0h24v24H0z" fill="none"/>
-                  <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
-                </svg> -->
-              </div>
-            </div>
-            <span class="card-media-body-heading">{{e.name}}</span>
-            <div class="card-media-body-supporting-bottom">
-              <span class="card-media-body-supporting-bottom-text subtle">{{e.location}}</span>
-              <span class="card-media-body-supporting-bottom-text subtle u-float-right">${{e.fees}}</span>
-            </div>
-            <div class="card-media-body-supporting-bottom card-media-body-supporting-bottom-reveal">
-              <span class="card-media-body-supporting-bottom-text subtle">{{e.tags}}</span>
-              <a href="#/" class="card-media-body-supporting-bottom-text card-media-link u-float-right">BUY TICKETS</a>
-            </div>
-          </div>
-        </div>
-        {%endfor%}
-</div>
-
   </body>
 
 
+<ul id="list" class="product-list-vertical">
+    {% for e in events %}
+    <li>
+     <a href="${cover_page}" class="product-photo">
+         <img src="{{e.image.url}}" height="160" alt="iPhone 6" />
+     </a>
+
+     <div class="product-details">
+
+         <h2>{{e.name}}</h2>
+         <p><h3 style="color:gray; font-size:12PX">{{e.tags}}</h3></p>
+         <p><h7>{{e.date_time}}</h7></p>
+
+         <p><h7>{{e.location}}</h7></p>
+
+         <p><h7>${{e.fees}}</h7></p>
+
+        
+         <p class="product-price">
+           <span style="font-size:10; margin-left:10pt">
+             <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+              <input type="hidden" name="cmd" value="_s-xclick">
+              <input type="hidden" name="amount" value="{{e.fees}}">
+              <input type="hidden" name="item_name" value="{{e.name}}">
+              <input type="hidden" name="hosted_button_id" value="PGHVZ2DWQNMAW">
+              <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+              <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+
+
+           </span>
+
+        </p>
+
+     </div>
+
+     </li>
+     {%endfor%}
+
+
+</ul>
+
 <!-- jQuery -->
 <script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
-
-<!-- Plugin JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+<!-- Bootstrap Core JavaScript -->
 <script src="{% static "vendor/bootstrap/js/bootstrap.min.js" %}"></script>
+
+
+
+<!-- Theme JavaScript -->
+<script src="{% static "js/main.js" %}"></script>

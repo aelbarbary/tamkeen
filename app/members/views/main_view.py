@@ -63,6 +63,11 @@ def get_events(request):
     context = { 'events': events}
     return render(request, 'view-events.html', context)
 
+def events_thank_you(request):
+
+    context = {  }
+    return render(request, 'events-thank-you.html', context)
+
 @csrf_exempt
 def play_video(request):
     if request.method == "POST":
