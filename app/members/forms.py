@@ -52,4 +52,5 @@ class NewMemberRequestForm(forms.ModelForm):
             'phone': 'Phone'
         }
 
+
 MAX_CHILDREN = 5

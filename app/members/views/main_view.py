@@ -63,10 +63,25 @@ def get_events(request):
     context = { 'events': events}
     return render(request, 'view-events.html', context)
 
-def events_thank_you(request):
+class EventRegistration(CreateView):
+    success_url = '/'
+    template_name = 'events-thank-you.html'
+    model = EventRegistration
+    fields = ['full_name', 'number_of_tickets']
+    def form_valid(self, form):
+        form.instance.event = Event.objects.get(pk=self.kwargs['id'])
+        response = super(EventRegistration, self).form_valid(form)
+        instance = self.object
 
-    context = {  }
-    return render(request, 'events-thank-you.html', context)
+        subject = 'Open Your Heart: New Message'
+        recepients = [ 'tamkeen.moderator@gmail.com']
+        name = "Anonymous"
+        if instance.full_name:
+            name = instance.full_name
+        message = "Name: %s\n" % (name)
+
+        EmailSender(instance, subject, message, recepients).start()
+        return render_to_response( 'thanks.html')
 
 @csrf_exempt
 def play_video(request):
