@@ -67,7 +67,7 @@ class EventRegistration(CreateView):
     success_url = '/'
     template_name = 'events-thank-you.html'
     model = EventRegistration
-    fields = ['full_name', 'number_of_tickets']
+    fields = ['full_name', 'number_of_tickets', 'event']
     def form_valid(self, form):
         response = super(EventRegistration, self).form_valid(form)
         instance = self.object

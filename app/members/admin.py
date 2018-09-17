@@ -53,7 +53,13 @@ class AwardAdmin(admin.ModelAdmin):
 class SuggestedVideoAdmin(admin.ModelAdmin):
     model = SuggestedVideo
 
+class EventRegistrationInline(admin.TabularInline):
+        model = EventRegistration
+        form = EventRegistrationForm
+        show_change_link = True
+
 class EventAdmin(admin.ModelAdmin):
+    inlines = [EventRegistrationInline]
     model = Event
 
 class CheckoutAdmin(admin.ModelAdmin):

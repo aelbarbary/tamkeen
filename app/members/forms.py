@@ -52,5 +52,9 @@ class NewMemberRequestForm(forms.ModelForm):
             'phone': 'Phone'
         }
 
+class EventRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = EventRegistration
+        exclude = []
 
 MAX_CHILDREN = 5

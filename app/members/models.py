@@ -245,8 +245,9 @@ class Event(models.Model):
     image = models.ImageField(upload_to='events', default = 'event/default.png')
 
     def __str__(self):
-         return '%s %s' % (self.name)
+         return '%s' % (self.name)
 
 class EventRegistration(models.Model):
     full_name = models.CharField(max_length=200, blank=True)
     number_of_tickets = models.IntegerField()
+    event = models.ForeignKey(Event, related_name='event', on_delete=models.CASCADE,)
