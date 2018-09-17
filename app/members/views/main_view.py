@@ -69,19 +69,18 @@ class EventRegistration(CreateView):
     model = EventRegistration
     fields = ['full_name', 'number_of_tickets']
     def form_valid(self, form):
-        form.instance.event = Event.objects.get(pk=self.kwargs['id'])
         response = super(EventRegistration, self).form_valid(form)
         instance = self.object
 
-        subject = 'Open Your Heart: New Message'
-        recepients = [ 'tamkeen.moderator@gmail.com']
+        subject = 'Event Registration'
+        recepients = [ 'abdelrahman.elbarbary@gmail.com']
         name = "Anonymous"
         if instance.full_name:
             name = instance.full_name
         message = "Name: %s\n" % (name)
 
         EmailSender(instance, subject, message, recepients).start()
-        return render_to_response( 'thanks.html')
+        return render_to_response( 'event-thanks2.html')
 
 @csrf_exempt
 def play_video(request):

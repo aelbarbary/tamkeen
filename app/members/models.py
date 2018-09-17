@@ -250,4 +250,3 @@ class Event(models.Model):
 class EventRegistration(models.Model):
     full_name = models.CharField(max_length=200, blank=True)
     number_of_tickets = models.IntegerField()
-    event = models.ForeignKey(Event, related_name='event', on_delete=models.CASCADE,)
