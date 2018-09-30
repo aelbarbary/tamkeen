@@ -24,6 +24,7 @@ from datetime import date, datetime, timedelta, time
 from pytz import timezone
 from django.db import connection
 from django.contrib.auth import logout
+from django.db import transaction
 
 def index(request):
     video_list = []
@@ -60,6 +61,7 @@ def get_videos(request):
 
 def get_events(request):
     events =   Event.objects.all().order_by('-date_time')
+    request.session['fav_color'] = 'green'
     context = { 'events': events}
     return render(request, 'view-events.html', context)
 
@@ -67,19 +69,43 @@ class EventRegistration(CreateView):
     success_url = '/'
     template_name = 'events-thank-you.html'
     model = EventRegistration
-    fields = ['full_name', 'number_of_tickets', 'event']
+    fields = ['family_id', 'family_name', 'event']
+
+
+    def get_context_data(self, **kwargs):
+        data = super(EventRegistration, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['eventparticipants'] = EventParticipantsFormSet(self.request.POST)
+        else:
+            data['eventparticipants'] = EventParticipantsFormSet()
+        return data
+
+
     def form_valid(self, form):
+
+        context = self.get_context_data()
+        
+        eventparticipants = context['eventparticipants']
+        print("eventparticipants %s:" % eventparticipants )
+        with transaction.atomic():
+            self.object = form.save()
+            print("is valid %s: " % eventparticipants.is_valid())
+            if eventparticipants.is_valid():
+                print("is valid")
+                eventparticipants.instance = self.object
+                eventparticipants.save()
+
         response = super(EventRegistration, self).form_valid(form)
         instance = self.object
-
         subject = 'Event Registration'
         recepients = [ 'abdelrahman.elbarbary@gmail.com']
         name = "Anonymous"
-        if instance.full_name:
-            name = instance.full_name
+        if instance.family_name:
+            name = instance.family_name
         message = "Name: %s\n" % (name)
-
         EmailSender(instance, subject, message, recepients).start()
+
+
         return render_to_response( 'event-thanks2.html')
 
 @csrf_exempt

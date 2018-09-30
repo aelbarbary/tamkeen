@@ -248,6 +248,12 @@ class Event(models.Model):
          return '%s' % (self.name)
 
 class EventRegistration(models.Model):
-    full_name = models.CharField(max_length=200, blank=True)
-    number_of_tickets = models.IntegerField()
+    family_id = models.IntegerField(default=0, blank=True)
+    family_name = models.CharField(max_length=200, blank=True)
     event = models.ForeignKey(Event, related_name='event', on_delete=models.CASCADE,)
+
+class EventParticipant(models.Model):
+    EventRegistration = models.ForeignKey(EventRegistration, on_delete=models.CASCADE,)
+    name = models.CharField(max_length=200)
+    age = models.IntegerField(default=0)
+    gender = models.CharField(max_length=6)

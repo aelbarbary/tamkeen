@@ -15,6 +15,9 @@ class QuestionForm(forms.ModelForm):
 class QuizForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput({'size': '40'}))
 
+class EventForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput({'size': '40'}))
+
 class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
@@ -56,5 +59,14 @@ class EventRegistrationForm(forms.ModelForm):
     class Meta:
         model = EventRegistration
         exclude = []
+
+class EventParticipantForm(ModelForm):
+
+    class Meta:
+        model = EventParticipant
+        exclude = []
+
+
+EventParticipantsFormSet = inlineformset_factory(EventRegistration, EventParticipant, form=EventParticipantForm, extra=6)
 
 MAX_CHILDREN = 5

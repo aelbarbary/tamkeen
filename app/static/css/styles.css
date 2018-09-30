@@ -843,7 +843,6 @@ input, textarea, select {
   font-family: inherit;
   text-transform: inherit;
   font-size: inherit;
-
   display: block;
   width: 262px;
   padding: .4em;
