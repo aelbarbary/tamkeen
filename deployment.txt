@@ -1,12 +1,11 @@
-create ec2
-login
+Setup on ubuntu server
+
 sudo apt-get update
 sudo apt-get install nano
 sudo apt-get install git
 sudo apt-get install docker
 sudo apt-get install python3-setuptools
 sudo easy_install3 pip
-
 pip3 install psycopg2
 pip3 install Pillow
 
@@ -14,25 +13,6 @@ git clone https://github.com/aelbarbary/tamkeen.git
 cd tamkeen
 
 pip install -r requirements.txt
-
-install SSL certificate
-https://www.digitalocean.com/community/tutorials/how-to-set-up-let-s-encrypt-with-nginx-server-blocks-on-ubuntu-16-04
----------------------------------------------
-sudo dockerd # to start docker demon
-incase demon not starting
-ps axf | grep docker | grep -v grep | awk '{print "kill -9 " $1}' | sudo sh
-
-build: docker build .
-run: docker run -i -t image# /bin/bash
-docker run -p 127.0.0.1:80:8080 ubuntu /bin/bash
-
-get bash: docker exec -it <containerIdOrName> bash
--------------------------------------------------
-
-apt-get update
-apt-get install nano
-nano settings.db
-change db settings
 
 python manage.py make migrations
 python manage.py migrate
@@ -48,13 +28,10 @@ sudo nano /etc/rc.local
 python3 /home/ubuntu/tamkeen/tamkeen/manage.py runserver 0.0.0.0:8080
 
 
-continous deployment
-
+Continuous deployment
+----------------------
 https://www.swapps.io/blog/setting-a-testingdeployment-pipeline-for-your-django-app-using-codeship-and-aws-codedeploy/
 
 wget https://aws-codedeploy-us-west-2.s3.amazonaws.com/latest/install
 
 code deploy role ar=  arn:aws:iam::623470192157:role/CodeDeployServiceRole
-
-AKIAISJNSUCGROPSNUTA
-0ClIOUKUa+dGVYvMG+/qrL4MEury9+TY/CI26u50
