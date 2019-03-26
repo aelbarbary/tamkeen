@@ -1,9 +1,11 @@
+```
 cd app
 pip install -r requirements.txt
 
 vim ~/.bash_profile
 
- <!-- paste the following -->
+# paste the following 
+
 export TAMKEEN_EMAIL=youremail@tamkee.us
 export TAMKEEN_PASSWORD=anypassword
 export ACCESS_KEY=access_key
@@ -19,3 +21,4 @@ source ~/.bash_profile
 
 python3 manage.py make migrations
 python3 manege.py runserver 0.0.0.0:8080
+```
