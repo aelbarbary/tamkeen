@@ -87,8 +87,7 @@ INSTALLED_APPS = [
     'members',
     'dashboard',
     'storages',
-    'sslserver',
-    'social_django'
+    'sslserver'
 ]
 
 MIDDLEWARE = [
@@ -98,8 +97,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'tamkeen.urls'
@@ -117,22 +115,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
-                'members.context_processors.google_analytics',
-                'social_django.context_processors.backends',  # <--
-                'social_django.context_processors.login_redirect'# <--
-
+                'members.context_processors.google_analytics'
             ],
         },
     },
 ]
-
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.github.GithubOAuth2',
-    'social_core.backends.twitter.TwitterOAuth',
-    'social_core.backends.facebook.FacebookOAuth2',
-
-    'django.contrib.auth.backends.ModelBackend',
-)
 
 
 WSGI_APPLICATION = 'tamkeen.wsgi.application'
@@ -140,7 +127,7 @@ WSGI_APPLICATION = 'tamkeen.wsgi.application'
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'tamkeen',
+         'NAME': 'tamkeen-test',
          'HOST': os.environ['TAMKEEN_DB_HOST'],
          'USER': os.environ['TAMKEEN_DB_USER'],
          'PASSWORD': os.environ['TAMKEEN_DB_PASSWORD']
@@ -215,9 +202,9 @@ LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not
 GOOGLE_ANALYTICS_PROPERTY_ID = os.environ['GA_TRACKING_ID']
 GOOGLE_ANALYTICS_DOMAIN = 'tamkeen.us'
 
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = '/'
-
-SOCIAL_AUTH_FACEBOOK_KEY = os.environ['SOCIAL_AUTH_FACEBOOK_KEY']
-SOCIAL_AUTH_FACEBOOK_SECRET =  os.environ['SOCIAL_AUTH_FACEBOOK_SECRET']
+# LOGIN_URL = 'login'
+# LOGOUT_URL = 'logout'
+# LOGIN_REDIRECT_URL = '/'
+#
+# SOCIAL_AUTH_FACEBOOK_KEY = os.environ['SOCIAL_AUTH_FACEBOOK_KEY']
+# SOCIAL_AUTH_FACEBOOK_SECRET =  os.environ['SOCIAL_AUTH_FACEBOOK_SECRET']
