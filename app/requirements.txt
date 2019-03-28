@@ -7,3 +7,4 @@ django-registration==2.4.1
 django-sslserver
 boto3
 watchtower
+social-auth-app-django
