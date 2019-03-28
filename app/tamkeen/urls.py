@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^password_reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm, {'template_name': 'registration/password_reset_confirm.txt'}, name='password_reset_confirm'),
     url(r'^password_reset/done/$', auth_views.password_reset_done, {'template_name': 'registration/password_reset_done.txt'}, name='password_reset_done'),
     url(r'^password_reset/complete/$', auth_views.password_reset_complete, name='password_reset_complete'),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
