@@ -2,7 +2,11 @@
     background-color: #000;
     margin-bottom: 30px;
     position: relative;
-    padding-top: 56.25%;
+    margin: 30px auto 5px auto;
+    /* padding-top: 23%; */
+    min-height: 200px;
+    max-height: 400px;
+    max-width: 400px;
     overflow: hidden;
     cursor: pointer;
 }
