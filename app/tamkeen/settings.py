@@ -70,7 +70,7 @@ print("BASE_DIR:" + BASE_DIR)
 SECRET_KEY = 'kva1tbcca-76u$4@dd#1)!f3tr%a1j3n)e6^8a5exa()+2oo0r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [ '*']
 
