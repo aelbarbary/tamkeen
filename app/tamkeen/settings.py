@@ -127,7 +127,7 @@ WSGI_APPLICATION = 'tamkeen.wsgi.application'
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'tamkeen-test',
+         'NAME': 'tamkeen',
          'HOST': os.environ['TAMKEEN_DB_HOST'],
          'USER': os.environ['TAMKEEN_DB_USER'],
          'PASSWORD': os.environ['TAMKEEN_DB_PASSWORD']
