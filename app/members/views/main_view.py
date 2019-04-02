@@ -28,7 +28,7 @@ from django.db import transaction
 
 def index(request):
     video_list = []
-    videos =   SuggestedVideo.objects.all().order_by('-date_time')[0:2]
+    videos = SuggestedVideo.objects.all().order_by('-date_time')[0:2]
 
     context = { 'user_text': request.user if request.user.is_authenticated else 'login', 'videos': videos}
     return render(request, 'index.html', context)
@@ -60,7 +60,7 @@ def get_videos(request):
     return render(request, 'view-videos.html', context)
 
 def get_events(request):
-    events =   Event.objects.all().order_by('-date_time')
+    events = Event.objects.all().order_by('-date_time')
     request.session['fav_color'] = 'green'
     context = { 'events': events}
     return render(request, 'view-events.html', context)
