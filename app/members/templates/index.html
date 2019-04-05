@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-    <header>
+    <header class="parallax">
       <div class="cycle-slideshow bg"  data-cycle-speed=1000>
         <img src="{% static 'images/khalidibnwaleedpichalaqa.jpg' %}">
         <img src="{% static 'images/bg.jpg' %}">
@@ -40,16 +40,20 @@
  <section id="mailingList" class="white">
   <div class="container">
 
-    <p class="text-center" style="font-size:20px">Want to stay up to date, Join our mailing lists</p>
+    <h3 class="text-center">Want to stay up to date, Join our mailing lists</h3>
+    <hr class="star-primary">
     <div class="row">
       <div class="col-md-4 text-center">
-        <a href="https://groups.google.com/forum/#!forum/tamkeen-boys/join" class="btn btn-info register hvr-pop" role="button" target="_blank">Tamkeen Boys</a>
+        <!-- <a href="https://groups.google.com/forum/#!forum/tamkeen-boys/join" class="btn-hover color-6 register hvr-pop" role="button" target="_blank">Tamkeen Boys</a> -->
+        <a href="https://groups.google.com/forum/#!forum/tamkeen-boys/join" target="_blank"><button class="btn-hover color-1 hvr-push">Tamkeen Boys</button></a>
       </div>
       <div class="col-md-4 text-center">
-        <a href="https://groups.google.com/forum/#!forum/tamkeen-girls/join" class="btn btn-custom register hvr-pop" role="button" target="_blank">Tamkeen Girls</a>
+        <!-- <a href="https://groups.google.com/forum/#!forum/tamkeen-girls/join" class="btn btn-custom register hvr-pop" role="button" target="_blank">Tamkeen Girls</a> -->
+        <a href="https://groups.google.com/forum/#!forum/tamkeen-girls/join" target="_blank"><button class="btn-hover color-10 hvr-push">Tamkeen Girls</button></a>
       </div>
       <div class="col-md-4 text-center">
-        <a href="https://groups.google.com/forum/#!forum/tamkeen-parents/join" class="btn btn-danger register hvr-pop" role="button" target="_blank">Tamkeen Parents</a>
+        <!-- <a href="https://groups.google.com/forum/#!forum/tamkeen-parents/join" class="btn btn-danger register hvr-pop" role="button" target="_blank">Tamkeen Parents</a> -->
+        <a href="https://groups.google.com/forum/#!forum/tamkeen-parents/join" target="_blank"><button class="btn-hover color-2 hvr-push">Tamkeen Parents</button></a>
       </div>
     </div>
   </div>
@@ -58,6 +62,7 @@
 <section id="suggestedVideo" class="blue">
   <div class="container">
     <h2 class="text-center">Suggested Videos</h2>
+    <hr class="star-primary">
     <div class="row">
       <div class="col-sm text-center">
       {% for v in videos %}
@@ -194,7 +199,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2>Our Partners</h2>
-                    <hr class="star-light">
+                    <hr class="star-primary">
                 </div>
             </div>
             <div class="row">
