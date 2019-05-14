@@ -1,0 +1,28 @@
+h1, h3, h2, h5, h6 {
+    color: white;
+}
+a {
+    margin: 10px 0px 0px 10px;
+}
+p {
+    color: white;
+}
+img {
+    width: 550px;
+    height: 300px;
+    border-radius: 15px;
+    margin: 10px auto;
+    display: block;
+}
+ol li {
+    color: white;
+    padding: 10px 10px;
+}
+
+@media only screen and (max-width: 430px) {
+    img {
+        width: 100%;
+        height: 100%;
+        padding: 0 20px;
+    }
+}

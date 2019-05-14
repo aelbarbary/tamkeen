@@ -44,6 +44,7 @@ urlpatterns = [
     url(r'^events/$', main_view.get_events, name='get_events'),
     url(r'^events/thank-you/$', main_view.EventRegistration.as_view(), name='events_thank_you'),
     # url('^', include('django.contrib.auth.urls')),
+    url(r'^competition/$', main_view.competition, name='competition'),
 
 
 

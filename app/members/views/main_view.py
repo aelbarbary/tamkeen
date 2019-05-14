@@ -124,3 +124,6 @@ def play_video(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+def competition(request):
+    return render(request, "competition.html")
