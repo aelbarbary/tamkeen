@@ -33,6 +33,14 @@ def index(request):
     context = { 'user_text': request.user if request.user.is_authenticated else 'login', 'videos': videos}
     return render(request, 'index.html', context)
 
+def adminportal(request):
+    context = { }
+    return render(request, 'adminportal.html', context)
+
+def parentportal(request):
+    context = { }
+    return render(request, 'parentportal.html', context)
+
 class InquiryCreate(CreateView):
     success_url = '/'
     template_name = 'open-your-heart.html'
@@ -84,7 +92,7 @@ class EventRegistration(CreateView):
     def form_valid(self, form):
 
         context = self.get_context_data()
-        
+
         eventparticipants = context['eventparticipants']
         print("eventparticipants %s:" % eventparticipants )
         with transaction.atomic():

@@ -11,6 +11,11 @@ urlpatterns = [
 
     #main
     url(r'^$', main_view.index, name='index'),
+
+    url(r'^adminportal$', main_view.adminportal, name='adminportal'),
+    url(r'^parentportal$', main_view.parentportal, name='parentportal'),
+
+    url(r'^$', main_view.index, name='index'),
     url(r'^openyourheart/$', main_view.InquiryCreate.as_view(), name='new_inquiry'),
     url(r'^videos/$', main_view.get_videos, name='view_videos'),
     url(r'^logout$', main_view.logout_view, name='logout'),
